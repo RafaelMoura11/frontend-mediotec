@@ -1,50 +1,49 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.container {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .container {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 500px;
-}
-
-h1 {
+  }
+  
+  h1 {
     text-align: center;
     color: #6a1b9a;
     margin-bottom: 20px;
-}
-
-.profile-picture {
+  }
+  
+  .profile-picture {
     text-align: center;
     position: relative;
-}
-
-.profile-picture img {
+  }
+  
+  .profile-picture img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-}
-
-.edit-icon {
+  }
+  
+  .edit-icon {
     position: absolute;
     top: 70px;
     right: calc(50% - 20px);
@@ -53,76 +52,98 @@ h1 {
     padding: 5px;
     border-radius: 50%;
     cursor: pointer;
-}
-
-.form-group {
+  }
+  
+  .form-user {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-group {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 15px;
-}
-
-label {
+  }
+  
+  .input-item {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .input-item:last-child {
+    margin-right: 0; /* Remove a margem do último item */
+  }
+  
+  label {
     display: block;
     color: #6a1b9a;
     font-weight: bold;
     margin-bottom: 5px;
-}
-
-input, select {
-    width: 100%;
+  }
+  
+  input, select {
+    width: 100%; /* Faz com que os inputs ocupem toda a largura do contêiner */
     padding: 10px;
     border: 2px solid #6a1b9a;
     border-radius: 5px;
     font-size: 16px;
     color: #333;
-}
-
-input::placeholder {
+  }
+  
+  input::placeholder {
     color: #bbb;
-}
-
-.buttons {
+  }
+  
+  .buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-}
-
-button {
+  }
+  
+  button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-}
-
-.btn-cancelar {
+  }
+  
+  .btn-cancelar {
     background-color: #e0e0e0;
     color: #333;
-}
-
-.btn-salvar {
+  }
+  
+  .btn-salvar {
     background-color: #4caf50;
     color: white;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
     .container {
-        padding: 15px;
+      padding: 15px;
     }
-
-    .form-group {
-        margin-bottom: 10px;
+  
+    .input-group {
+      flex-direction: column; /* Ajusta a direção dos inputs em telas pequenas */
     }
-
+  
+    .input-item {
+      margin-right: 0; /* Remove margem em telas pequenas */
+      margin-bottom: 10px; /* Adiciona espaço entre os inputs */
+    }
+  
     .buttons {
-        flex-direction: column;
+      flex-direction: column;
     }
-
+  
     .buttons button {
-        width: 100%;
-        margin-bottom: 10px;
+      width: 100%;
+      margin-bottom: 10px;
     }
-
+  
     .btn-cancelar {
-        margin-bottom: 10px;
+      margin-bottom: 10px;
     }
-}
+  }
+  
