@@ -13,6 +13,7 @@ export default function CreatePage() {
         affiliation: '',
         password: '',
         confirmPassword: '',
+        image: ''
     });
 
     const handleChange = (e) => {
@@ -25,7 +26,29 @@ export default function CreatePage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Implementação da requisição...
+
+        try {
+            const formattedDate = new Date(formData.dateOfBirth).toISOString();
+            const allFields = {...formData, dateOfBirth: formattedDate};
+            const { confirmPassword, ...postBody } = allFields;
+            const response = await fetch('https://api-mediotec.onrender.com/mediotec/usuarios', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postBody),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro na requisição: ' + response.statusText);
+            }
+
+            const data = await response.json();
+            console.log('Usuário criado com sucesso:', data);
+            // Aqui você pode redirecionar ou limpar o formulário, se necessário
+        } catch (error) {
+            console.error(formData);
+        }
     };
 
     return (
