@@ -26,15 +26,24 @@ body {
     width: 100%;
   }
   
-  h1 {
-    text-align: center;
-    color: #6a1b9a;
-    margin-bottom: 20px;
-  }
-  
+
+  .title {
+    background: linear-gradient(90deg, #E33BD0 0%, #9747FF 87%); /* Cor de fundo da caixa */
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    text-align: justify;
+    width: 650px;
+    margin: 20px auto;
+    padding: 0 0 0 10px; /* Ordem: cima, direita, baixo, esquerda */
+    }
+             
   .profile-picture {
+    display: flex;
+    flex-direction: row;
     text-align: center;
     position: relative;
+    gap: 10px
   }
   
   .profile-picture img {
@@ -46,7 +55,7 @@ body {
   .edit-icon {
     position: absolute;
     top: 70px;
-    right: calc(50% - 20px);
+    right: 90%;
     font-size: 18px;
     background-color: white;
     padding: 5px;
@@ -67,6 +76,7 @@ body {
   
   .input-item {
     flex: 1;
+    text-align: justify;
     margin-right: 10px;
   }
   
@@ -76,7 +86,7 @@ body {
   
   label {
     display: block;
-    color: #6a1b9a;
+    color: #666666;
     font-weight: bold;
     margin-bottom: 5px;
   }
@@ -84,8 +94,9 @@ body {
   input, select {
     width: 100%; /* Faz com que os inputs ocupem toda a largura do contêiner */
     padding: 10px;
-    border: 2px solid #6a1b9a;
-    border-radius: 5px;
+    border: 1px solid;
+    border-image: linear-gradient(90deg, #E33BD0 0%, #9747FF 87%) 1;
+    border-radius: 8px;
     font-size: 16px;
     color: #333;
   }
@@ -96,14 +107,16 @@ body {
   
   .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: row;
     margin-top: 20px;
+    margin-left: 440px;
+    gap: 20px;
   }
   
   button {
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
   }
