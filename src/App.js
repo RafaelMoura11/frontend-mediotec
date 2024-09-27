@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CreatePage from './pages/CreatePage';
+import CreatePage from './components/CreateUser';
 import UserManagement from './pages/user-management/UserManagement';
 
 
