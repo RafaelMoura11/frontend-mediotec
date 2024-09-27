@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../user-management/userManagement.css'; 
 import {
   Button,
@@ -15,6 +15,8 @@ import {
   TableRow,
   TextField,
 } from '@mui/material';
+import usersApi from '../../api';
+import { formatDate, formatPhone } from '../../utils/formatFields';
 
 // Componente principal
 function UserManagement() {
@@ -27,10 +29,19 @@ function UserManagement() {
   const [selectedOption2, setSelectedOption2] = useState('');
   const [searchText, setSearchText] = useState('');
   const [selectedRows, setSelectedRows] = useState([]);
-  const [dataSource, setDataSource] = useState([
-    { nome: 'John Doe', email: 'john@example.com', telefone: '(81) 99999-9999', dataContratacao: '10/10/2022' },
-    { nome: 'Jane Smith', email: 'jane@example.com', telefone: '(81) 99999-9999', dataContratacao: '02/10/2022' },
-  ]);
+  // const [dataSource, setDataSource] = useState([
+  //   { nome: 'John Doe', email: 'john@example.com', telefone: '(81) 99999-9999', dataContratacao: '10/10/2022' },
+  //   { nome: 'Jane Smith', email: 'jane@example.com', telefone: '(81) 99999-9999', dataContratacao: '02/10/2022' },
+  // ]);
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { data } = await usersApi.get('/mediotec/usuarios/');
+      setDataSource(data);
+    }
+    fetchUsers();
+  }, [])
 
   // Funções para manipular os eventos
   const adicionarUsuario = () => {
@@ -64,9 +75,9 @@ function UserManagement() {
 
   // Filtrar usuários com base no texto de pesquisa
   const filteredUsers = dataSource.filter((user) =>
-    user.nome.toLowerCase().includes(searchText.toLowerCase()) ||
+    user.name.toLowerCase().includes(searchText.toLowerCase()) ||
     user.email.toLowerCase().includes(searchText.toLowerCase()) ||
-    user.telefone.includes(searchText)
+    user.phone.includes(searchText)
   );
 
   return (
@@ -142,17 +153,17 @@ function UserManagement() {
           </TableHead>
           <TableBody>
             {filteredUsers.map((row) => (
-              <TableRow key={row.nome}>
+              <TableRow key={row.name}>
                 <TableCell padding="checkbox">
                   <Checkbox
                     checked={isSelected(row)}
                     onChange={() => handleRowToggle(row)}
                   />
                 </TableCell>
-                <TableCell>{row.nome}</TableCell>
+                <TableCell>{row.name}</TableCell>
                 <TableCell>{row.email}</TableCell>
-                <TableCell>{row.telefone}</TableCell>
-                <TableCell>{row.dataContratacao}</TableCell>
+                <TableCell>{formatPhone(row.phone)}</TableCell>
+                <TableCell>{formatDate(row.createdAt)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
