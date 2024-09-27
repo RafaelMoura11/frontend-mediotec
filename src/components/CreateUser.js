@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function CreatePage() {
+export default function CreateUser({ handleClose }) {
     const [formData, setFormData] = useState({
         name: '',
         role: '',
@@ -45,11 +45,15 @@ export default function CreatePage() {
 
             const data = await response.json();
             console.log('Usuário criado com sucesso:', data);
-            // Aqui você pode redirecionar ou limpar o formulário, se necessário
+            handleClose();
         } catch (error) {
             console.error(formData);
         }
     };
+
+    const cancelHandle = () => {
+        handleClose();
+    }
 
     return (
         <div className="container">
@@ -130,7 +134,7 @@ export default function CreatePage() {
                 </div>
 
                 <div className="buttons">
-                    <button type="button" className="btn-cancelar">Cancelar</button>
+                    <button type="button" className="btn-cancelar" onClick={cancelHandle}>Cancelar</button>
                     <button type="submit" className="btn-salvar">Salvar</button>
                 </div>
             </form>

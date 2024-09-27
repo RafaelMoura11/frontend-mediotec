@@ -14,9 +14,12 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Dialog,
+  DialogContent,
 } from '@mui/material';
 import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
+import CreatePage from '../../components/CreateUser';
 
 // Componente principal
 function UserManagement() {
@@ -29,11 +32,8 @@ function UserManagement() {
   const [selectedOption2, setSelectedOption2] = useState('');
   const [searchText, setSearchText] = useState('');
   const [selectedRows, setSelectedRows] = useState([]);
-  // const [dataSource, setDataSource] = useState([
-  //   { nome: 'John Doe', email: 'john@example.com', telefone: '(81) 99999-9999', dataContratacao: '10/10/2022' },
-  //   { nome: 'Jane Smith', email: 'jane@example.com', telefone: '(81) 99999-9999', dataContratacao: '02/10/2022' },
-  // ]);
   const [dataSource, setDataSource] = useState([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -43,11 +43,19 @@ function UserManagement() {
     fetchUsers();
   }, [])
 
-  // Funções para manipular os eventos
-  const adicionarUsuario = () => {
-    console.log('Adicionar usuário');
-    // Lógica para adicionar um novo usuário pode ser implementada aqui
+  const handleClickOpen = () => {
+    setOpen(true);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // Funções para manipular os eventos
+  // const adicionarUsuario = () => {
+  //   console.log('Adicionar usuário');
+  //   // Lógica para adicionar um novo usuário pode ser implementada aqui
+  // };
 
   const excluirUsuarios = () => {
     setDataSource((prev) => prev.filter((user) => !selectedRows.includes(user)));
@@ -85,7 +93,9 @@ function UserManagement() {
       <h1 className='titulo'>Gerenciamento de Usuários</h1>
       
       <div className="button-row">
-        <Button className='botao1' variant="outlined" onClick={adicionarUsuario}>Adicionar usuário</Button>
+        <Button className='botao1' variant="outlined" onClick={handleClickOpen}>
+          Adicionar usuário
+        </Button>
         <Button className='botao2' variant="outlined" onClick={excluirUsuarios}>Excluir</Button>
         <Button className='botao3' variant="outlined" onClick={exportarUsuarios}>Exportar</Button>
       </div>
@@ -169,6 +179,12 @@ function UserManagement() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Dialog open={open} fullWidth>
+        <DialogContent>
+          <CreatePage handleClose={handleClose} />
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }
