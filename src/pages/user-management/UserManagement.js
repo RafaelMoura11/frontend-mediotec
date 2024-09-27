@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../user-management/userManagement.css'; 
 import {
   Button,
   FormControl,
@@ -17,55 +18,38 @@ import {
 
 // Componente principal
 function UserManagement() {
-  const [options] = useState([
-    { value: 'opcao1', viewValue: 'Opção 1' },
-    { value: 'opcao2', viewValue: 'Opção 2' },
-    { value: 'opcao3', viewValue: 'Opção 3' },
+  const [filteredOptions] = useState([
+    { value: 'coordenador', viewValue: 'Coordenador' },
+    { value: 'professor', viewValue: 'Professor' },
+    { value: 'aluno', viewValue: 'Aluno' },
   ]);
-
-  const [filteredOptions, setFilteredOptions] = useState(options);
   const [selectedOption1, setSelectedOption1] = useState('');
   const [selectedOption2, setSelectedOption2] = useState('');
   const [searchText, setSearchText] = useState('');
   const [selectedRows, setSelectedRows] = useState([]);
   const [dataSource, setDataSource] = useState([
-    { nome: 'John Doe', email: 'john@example.com', telefone: '123-456', dataContratacao: '2021-01-01' },
-    { nome: 'Jane Smith', email: 'jane@example.com', telefone: '789-012', dataContratacao: '2022-02-02' },
+    { nome: 'John Doe', email: 'john@example.com', telefone: '(81) 99999-9999', dataContratacao: '10/10/2022' },
+    { nome: 'Jane Smith', email: 'jane@example.com', telefone: '(81) 99999-9999', dataContratacao: '02/10/2022' },
   ]);
 
   // Funções para manipular os eventos
   const adicionarUsuario = () => {
-    const novoUsuario = {
-      nome: 'Novo Usuário',
-      email: 'novo@example.com',
-      telefone: '999-888',
-      dataContratacao: '2024-01-01',
-    };
-    setDataSource((prevData) => [...prevData, novoUsuario]);
+    console.log('Adicionar usuário');
+    // Lógica para adicionar um novo usuário pode ser implementada aqui
   };
 
   const excluirUsuarios = () => {
-    const updatedDataSource = dataSource.filter(
-      (row) => !selectedRows.includes(row)
-    );
-    setDataSource(updatedDataSource);
+    setDataSource((prev) => prev.filter((user) => !selectedRows.includes(user)));
     setSelectedRows([]);
   };
 
   const exportarUsuarios = () => {
-    console.log('Exportar usuários:', dataSource);
+    console.log('Exportar usuários');
+    // Lógica para exportar os usuários pode ser implementada aqui
   };
 
-  // Função para manipular a pesquisa
   const handleSearchChange = (event) => {
-    const searchValue = event.target.value.toLowerCase();
-    setSearchText(searchValue);
-
-    const filtered = options.filter((option) =>
-      option.viewValue.toLowerCase().includes(searchValue)
-    );
-
-    setFilteredOptions(filtered);
+    setSearchText(event.target.value);
   };
 
   const handleRowToggle = (row) => {
@@ -78,24 +62,25 @@ function UserManagement() {
 
   const isSelected = (row) => selectedRows.includes(row);
 
+  // Filtrar usuários com base no texto de pesquisa
+  const filteredUsers = dataSource.filter((user) =>
+    user.nome.toLowerCase().includes(searchText.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchText.toLowerCase()) ||
+    user.telefone.includes(searchText)
+  );
+
   return (
     <main>
-      <h1>Gerenciamento de Usuários</h1>
-
+      <h1 className='titulo'>Gerenciamento de Usuários</h1>
+      
       <div className="button-row">
-        <Button variant="outlined" onClick={adicionarUsuario}>
-          Adicionar usuário
-        </Button>
-        <Button variant="outlined" onClick={excluirUsuarios}>
-          Excluir
-        </Button>
-        <Button variant="outlined" onClick={exportarUsuarios}>
-          Exportar
-        </Button>
+        <Button className='botao1' variant="outlined" onClick={adicionarUsuario}>Adicionar usuário</Button>
+        <Button className='botao2' variant="outlined" onClick={excluirUsuarios}>Excluir</Button>
+        <Button className='botao3' variant="outlined" onClick={exportarUsuarios}>Exportar</Button>
       </div>
 
       <div className="selecao">
-        <FormControl>
+        <FormControl className='selecao_opcao'>
           <InputLabel>Selecione uma opção</InputLabel>
           <Select
             value={selectedOption1}
@@ -112,7 +97,7 @@ function UserManagement() {
           </Select>
         </FormControl>
 
-        <FormControl>
+        <FormControl className='selecao_opcao'>
           <InputLabel>Selecione uma opção</InputLabel>
           <Select
             value={selectedOption2}
@@ -129,7 +114,7 @@ function UserManagement() {
           </Select>
         </FormControl>
 
-        <TextField
+        <TextField className='selecao_barra'
           label="Pesquisar"
           variant="outlined"
           value={searchText}
@@ -139,20 +124,14 @@ function UserManagement() {
       </div>
 
       <TableContainer>
-        <Table>
-          <TableHead>
+        <Table className='table'>
+          <TableHead className='tabela_topo'>
             <TableRow>
               <TableCell padding="checkbox">
                 <Checkbox
-                  indeterminate={
-                    selectedRows.length > 0 && selectedRows.length < dataSource.length
-                  }
-                  checked={
-                    dataSource.length > 0 && selectedRows.length === dataSource.length
-                  }
-                  onChange={(e) =>
-                    setSelectedRows(e.target.checked ? dataSource : [])
-                  }
+                  indeterminate={selectedRows.length > 0 && selectedRows.length < dataSource.length}
+                  checked={dataSource.length > 0 && selectedRows.length === dataSource.length}
+                  onChange={(e) => setSelectedRows(e.target.checked ? dataSource : [])}
                 />
               </TableCell>
               <TableCell>Nome</TableCell>
@@ -162,7 +141,7 @@ function UserManagement() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataSource.map((row) => (
+            {filteredUsers.map((row) => (
               <TableRow key={row.nome}>
                 <TableCell padding="checkbox">
                   <Checkbox
