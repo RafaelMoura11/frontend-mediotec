@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import usersApi from '../api';
 
-export default function CreateUser({ handleClose }) {
+export default function CreateUser({ handleClose, user }) {
     const [formData, setFormData] = useState({
         name: '',
         role: '',
@@ -16,6 +17,12 @@ export default function CreateUser({ handleClose }) {
         image: ''
     });
 
+    useEffect(() => {
+        if (user) {
+            setFormData({ ...user, confirmPassword: user.confirmPassword })
+        }
+    }, [])
+
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData({
@@ -30,21 +37,15 @@ export default function CreateUser({ handleClose }) {
         try {
             const formattedDate = new Date(formData.dateOfBirth).toISOString();
             const allFields = {...formData, dateOfBirth: formattedDate};
-            const { confirmPassword, ...postBody } = allFields;
-            const response = await fetch('https://api-mediotec.onrender.com/mediotec/usuarios', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postBody),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erro na requisição: ' + response.statusText);
+            const { confirmPassword, ...reqBody } = allFields;
+            if (user) {
+                const response = await usersApi.put(`/mediotec/usuarios/${user.userId}`, reqBody);
+                console.log('Usuário criado com sucesso:', response.data);
+            } else {
+                const response = await usersApi.post('/mediotec/usuarios', reqBody)
+                console.log('Usuário criado com sucesso:', response.data);
             }
 
-            const data = await response.json();
-            console.log('Usuário criado com sucesso:', data);
             handleClose();
         } catch (error) {
             console.error(formData);
