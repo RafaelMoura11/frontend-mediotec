@@ -58,7 +58,17 @@ function UserManagement() {
   // };
 
   const excluirUsuarios = () => {
-    setDataSource((prev) => prev.filter((user) => !selectedRows.includes(user)));
+    selectedRows.forEach(async (user) => {
+      try {
+        await usersApi.delete(`/mediotec/usuarios/delete/${user.userId}`);
+        console.log(user.userId);
+      } catch (e) {
+        console.log(e);
+      }
+    })
+    setDataSource((prev) => prev.filter((user) => {
+      return !selectedRows.includes(user)
+    }));
     setSelectedRows([]);
   };
 
