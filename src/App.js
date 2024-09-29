@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CreatePage from './components/CreateUser';
 import UserManagement from './pages/user-management/UserManagement';
 
 
@@ -25,7 +24,6 @@ function App() {
         {/* Página principal */}
         <Route path="/" element={<h1>Bem-vindo à Página Principal!</h1>} />
         {/* Rota para a CreatePage */}
-        <Route path="/create" element={<CreatePage />} />
         {/* Rota para a UserManagement */}
         <Route path="/user-management" element={<UserManagement />} />
       </Routes>
