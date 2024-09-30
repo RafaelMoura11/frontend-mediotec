@@ -11,3 +11,20 @@ img{
 .navbar-collapse{
     justify-content: center
 }
+
+.navbar .nav-link {
+    color: #ffffff;
+    font-weight: normal;
+    transition: color 0.3s ease;
+}
+
+/* Mudar a cor do link quando o mouse passa por cima */
+.navbar .nav-link:hover {
+    color: #64D0EA;
+}
+
+/* Destaque o link ativo */
+.navbar .nav-link.active-link {
+    color: #E33BD0 !important;
+    font-weight: bold;
+}

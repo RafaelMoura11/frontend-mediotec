@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import '../navbar/navBar-style.css';
@@ -10,10 +10,10 @@ function Navbar() {
     <div className="Navbar">
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <img src={logo} alt="Mediotec" width="30" height="24"/>
-          </Link>
-          
+          <NavLink className="navbar-brand" to="/">
+            <img src={logo} alt="Mediotec" width="30" height="24" />
+          </NavLink>
+
           <button
             className="navbar-toggler"
             type="button"
@@ -29,19 +29,29 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+                <NavLink className="nav-link" exact to="/" activeClassName="active-link">
+                  Home
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/features">Disciplinas</Link>
+                <NavLink className="nav-link" to="/course-management" activeClassName="active-link">
+                  Disciplinas
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/pricing">Turmas</Link>
+                <NavLink className="nav-link" to="/class-management" activeClassName="active-link">
+                  Turmas
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/user-management">Usuários</Link>
+                <NavLink className="nav-link" to="/user-management" activeClassName="active-link">
+                  Usuários
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/pricing">Comunicados</Link>
+                <NavLink className="nav-link" to="/notification-management" activeClassName="active-link">
+                  Comunicados
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -50,5 +60,4 @@ function Navbar() {
     </div>
   );
 }
-
 export default Navbar;
