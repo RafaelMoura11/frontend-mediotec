@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../createUser/createUser-style.css'
 
 export default function CreateUser({ handleClose }) {
     const [formData, setFormData] = useState({
