@@ -1,0 +1,13 @@
+img{
+    width: 100px;
+    height: auto;
+}
+
+.navbar{
+    background-color: #7326BF !important;
+}
+
+
+.navbar-collapse{
+    justify-content: center
+}

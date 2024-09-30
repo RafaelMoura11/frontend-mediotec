@@ -1,7 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import UserManagement from './pages/user-management/UserManagement';
 
+import UserManagement from './pages/user-management/UserManagement';
+import HomePage from './pages/home/HomePage'
+
+import Navbar from './components/navbar/navBar';
 
 function App() {
   return (
@@ -21,10 +24,7 @@ function App() {
       </nav>   */}
 
       <Routes>
-        {/* Página principal */}
-        <Route path="/" element={<h1>Bem-vindo à Página Principal!</h1>} />
-        {/* Rota para a CreatePage */}
-        {/* Rota para a UserManagement */}
+        <Route path="/" element={<HomePage></HomePage>} />
         <Route path="/user-management" element={<UserManagement />} />
       </Routes>
     </Router>

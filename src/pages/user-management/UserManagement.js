@@ -19,7 +19,9 @@ import {
 } from '@mui/material';
 import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
+
 import CreatePage from '../../components/CreateUser';
+import Navbar from '../../components/navbar/navBar'
 
 // Componente principal
 function UserManagement() {
@@ -100,101 +102,107 @@ function UserManagement() {
 
   return (
     <main>
-      <h1 className='titulo'>Gerenciamento de Usuários</h1>
+
+      <Navbar></Navbar>
       
-      <div className="button-row">
-        <Button className='botao1' variant="outlined" onClick={handleClickOpen}>
-          Adicionar usuário
-        </Button>
-        <Button className='botao2' variant="outlined" onClick={excluirUsuarios}>Excluir</Button>
-        <Button className='botao3' variant="outlined" onClick={exportarUsuarios}>Exportar</Button>
-      </div>
+      <div className='container'>
+        <h1 className='titulo'>Gerenciamento de Usuários</h1>
+        
+        <div className="button-row">
+          <Button className='botao1' variant="outlined" onClick={handleClickOpen}>
+            Adicionar usuário
+          </Button>
+          <Button className='botao2' variant="outlined" onClick={excluirUsuarios}>Excluir</Button>
+          <Button className='botao3' variant="outlined" onClick={exportarUsuarios}>Exportar</Button>
+        </div>
 
-      <div className="selecao">
-        <FormControl className='selecao_opcao'>
-          <InputLabel>Selecione uma opção</InputLabel>
-          <Select
-            value={selectedOption1}
-            onChange={(e) => setSelectedOption1(e.target.value)}
-          >
-            <MenuItem value="" disabled>
-              Selecione uma opção
-            </MenuItem>
-            {filteredOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.viewValue}
+        <div className="selecao">
+          <FormControl className='selecao_opcao'>
+            <InputLabel>Selecione uma opção</InputLabel>
+            <Select
+              value={selectedOption1}
+              onChange={(e) => setSelectedOption1(e.target.value)}
+            >
+              <MenuItem value="" disabled>
+                Selecione uma opção
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {filteredOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.viewValue}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <FormControl className='selecao_opcao'>
-          <InputLabel>Selecione uma opção</InputLabel>
-          <Select
-            value={selectedOption2}
-            onChange={(e) => setSelectedOption2(e.target.value)}
-          >
-            <MenuItem value="" disabled>
-              Selecione uma opção
-            </MenuItem>
-            {filteredOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.viewValue}
+          <FormControl className='selecao_opcao'>
+            <InputLabel>Selecione uma opção</InputLabel>
+            <Select
+              value={selectedOption2}
+              onChange={(e) => setSelectedOption2(e.target.value)}
+            >
+              <MenuItem value="" disabled>
+                Selecione uma opção
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {filteredOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.viewValue}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <TextField className='selecao_barra'
-          label="Pesquisar"
-          variant="outlined"
-          value={searchText}
-          onChange={handleSearchChange}
-          placeholder="Digite para pesquisar..."
-        />
-      </div>
+          <TextField className='selecao_barra'
+            label="Pesquisar"
+            variant="outlined"
+            value={searchText}
+            onChange={handleSearchChange}
+            placeholder="Digite para pesquisar..."
+          />
+        </div>
 
-      <TableContainer>
-        <Table className='table'>
-          <TableHead className='tabela_topo'>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  indeterminate={selectedRows.length > 0 && selectedRows.length < dataSource.length}
-                  checked={dataSource.length > 0 && selectedRows.length === dataSource.length}
-                  onChange={(e) => setSelectedRows(e.target.checked ? dataSource : [])}
-                />
-              </TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Telefone</TableCell>
-              <TableCell>Data de Contratação</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredUsers.map((row) => (
-              <TableRow key={row.name}>
+        <TableContainer>
+          <Table className='table'>
+            <TableHead className='tabela_topo'>
+              <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={isSelected(row)}
-                    onChange={() => handleRowToggle(row)}
+                    indeterminate={selectedRows.length > 0 && selectedRows.length < dataSource.length}
+                    checked={dataSource.length > 0 && selectedRows.length === dataSource.length}
+                    onChange={(e) => setSelectedRows(e.target.checked ? dataSource : [])}
                   />
                 </TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{formatPhone(row.phone)}</TableCell>
-                <TableCell>{formatDate(row.createdAt)}</TableCell>
+                <TableCell>Nome</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Telefone</TableCell>
+                <TableCell>Data de Contratação</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {filteredUsers.map((row) => (
+                <TableRow key={row.name}>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={isSelected(row)}
+                      onChange={() => handleRowToggle(row)}
+                    />
+                  </TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.email}</TableCell>
+                  <TableCell>{formatPhone(row.phone)}</TableCell>
+                  <TableCell>{formatDate(row.createdAt)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      <Dialog open={open} fullWidth>
-        <DialogContent>
-          <CreatePage handleClose={handleClose} />
-        </DialogContent>
-      </Dialog>
+        <Dialog open={open} fullWidth>
+          <DialogContent>
+            <CreatePage handleClose={handleClose} />
+          </DialogContent>
+        </Dialog>
+
+      </div>
     </main>
   );
 }
