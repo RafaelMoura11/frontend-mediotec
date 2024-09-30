@@ -19,8 +19,9 @@ import {
 } from '@mui/material';
 import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import CreatePage from '../../components/CreateUser';
+import CreatePage from '../../components/createUser/CreateUser';
 import Navbar from '../../components/navbar/navBar'
 
 // Componente principal
@@ -108,14 +109,19 @@ function UserManagement() {
       <div className='container'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
         
+        
         <div className="button-row">
-          <Button className='botao1' variant="outlined" onClick={handleClickOpen}>
-            Adicionar usuário
-          </Button>
-          <Button className='botao2' variant="outlined" onClick={excluirUsuarios}>Excluir</Button>
-          <Button className='botao3' variant="outlined" onClick={exportarUsuarios}>Exportar</Button>
+          <div className='button-crud'>
+            <button type="button" className="btn btn-success" onClick={handleClickOpen}>Adicionar Usuário</button>
+            <button type="button" className="btn btn-danger" onClick={excluirUsuarios}>Excluir</button>
+          </div>
+
+          <div className='button-export'>
+            <button type="button" className="btn btn-secondary" onClick={exportarUsuarios}>Exportar</button>
+          </div>
         </div>
 
+        <div className='container-table'>
         <div className="selecao">
           <FormControl className='selecao_opcao'>
             <InputLabel>Selecione uma opção</InputLabel>
@@ -202,6 +208,7 @@ function UserManagement() {
           </DialogContent>
         </Dialog>
 
+        </div>
       </div>
     </main>
   );
