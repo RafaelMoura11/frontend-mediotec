@@ -75,6 +75,11 @@ function UserManagement() {
     setSelectedRows([]);
   };
 
+  const atualizarUsuarios = () => {
+    console.log(selectedRows[0].userId);
+    
+  };
+
   const exportarUsuarios = () => {
     console.log('Exportar usuários');
     // Lógica para exportar os usuários pode ser implementada aqui
@@ -105,7 +110,6 @@ function UserManagement() {
     <main>
 
       <Navbar></Navbar>
-      
       <div className='container'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
         
@@ -113,6 +117,7 @@ function UserManagement() {
         <div className="button-row">
           <div className='button-crud'>
             <button type="button" className="btn btn-success" onClick={handleClickOpen}>Adicionar Usuário</button>
+            <button className='btn btn-primary' disabled={!(selectedRows.length === 1)} variant="outlined" onClick={handleClickOpen}>Atualizar</button>
             <button type="button" className="btn btn-danger" onClick={excluirUsuarios}>Excluir</button>
           </div>
 
@@ -201,13 +206,11 @@ function UserManagement() {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <Dialog open={open} fullWidth>
-          <DialogContent>
-            <CreatePage handleClose={handleClose} />
-          </DialogContent>
-        </Dialog>
-
+      <Dialog open={open} fullWidth>
+        <DialogContent>
+          <CreatePage handleClose={handleClose} user={selectedRows[0]} />
+        </DialogContent>
+      </Dialog>
         </div>
       </div>
     </main>
