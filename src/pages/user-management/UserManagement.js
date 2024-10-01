@@ -19,7 +19,10 @@ import {
 } from '@mui/material';
 import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
-import CreatePage from '../../components/CreateUser';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import CreatePage from '../../components/createUser/CreateUser';
+import Navbar from '../../components/navbar/navBar'
 
 // Componente principal
 function UserManagement() {
@@ -105,102 +108,111 @@ function UserManagement() {
 
   return (
     <main>
-      <h1 className='titulo'>Gerenciamento de Usuários</h1>
-      
-      <div className="button-row">
-        <Button className='botao1' variant="outlined" onClick={handleClickOpen}>
-          Adicionar usuário
-        </Button>
-        <Button className='botao2' disabled={!(selectedRows.length === 1)} variant="outlined" onClick={handleClickOpen}>Atualizar</Button>
-        <Button className='botao3' variant="outlined" onClick={excluirUsuarios}>Excluir</Button>
-        <Button className='botao4' variant="outlined" onClick={exportarUsuarios}>Exportar</Button>
-      </div>
 
-      <div className="selecao">
-        <FormControl className='selecao_opcao'>
-          <InputLabel>Selecione uma opção</InputLabel>
-          <Select
-            value={selectedOption1}
-            onChange={(e) => setSelectedOption1(e.target.value)}
-          >
-            <MenuItem value="" disabled>
-              Selecione uma opção
-            </MenuItem>
-            {filteredOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.viewValue}
+      <Navbar></Navbar>
+      <div className='container'>
+        <h1 className='titulo'>Gerenciamento de Usuários</h1>
+        
+        
+        <div className="button-row">
+          <div className='button-crud'>
+            <button type="button" className="btn btn-success" onClick={handleClickOpen}>Adicionar Usuário</button>
+            <button className='btn btn-primary' disabled={!(selectedRows.length === 1)} variant="outlined" onClick={handleClickOpen}>Atualizar</button>
+            <button type="button" className="btn btn-danger" onClick={excluirUsuarios}>Excluir</button>
+          </div>
+
+          <div className='button-export'>
+            <button type="button" className="btn btn-secondary" onClick={exportarUsuarios}>Exportar</button>
+          </div>
+        </div>
+
+        <div className='container-table'>
+        <div className="selecao">
+          <FormControl className='selecao_opcao'>
+            <InputLabel>Selecione uma opção</InputLabel>
+            <Select
+              value={selectedOption1}
+              onChange={(e) => setSelectedOption1(e.target.value)}
+            >
+              <MenuItem value="" disabled>
+                Selecione uma opção
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {filteredOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.viewValue}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <FormControl className='selecao_opcao'>
-          <InputLabel>Selecione uma opção</InputLabel>
-          <Select
-            value={selectedOption2}
-            onChange={(e) => setSelectedOption2(e.target.value)}
-          >
-            <MenuItem value="" disabled>
-              Selecione uma opção
-            </MenuItem>
-            {filteredOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.viewValue}
+          <FormControl className='selecao_opcao'>
+            <InputLabel>Selecione uma opção</InputLabel>
+            <Select
+              value={selectedOption2}
+              onChange={(e) => setSelectedOption2(e.target.value)}
+            >
+              <MenuItem value="" disabled>
+                Selecione uma opção
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {filteredOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.viewValue}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <TextField className='selecao_barra'
-          label="Pesquisar"
-          variant="outlined"
-          value={searchText}
-          onChange={handleSearchChange}
-          placeholder="Digite para pesquisar..."
-        />
-      </div>
+          <TextField className='selecao_barra'
+            label="Pesquisar"
+            variant="outlined"
+            value={searchText}
+            onChange={handleSearchChange}
+            placeholder="Digite para pesquisar..."
+          />
+        </div>
 
-      <TableContainer>
-        <Table className='table'>
-          <TableHead className='tabela_topo'>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  indeterminate={selectedRows.length > 0 && selectedRows.length < dataSource.length}
-                  checked={dataSource.length > 0 && selectedRows.length === dataSource.length}
-                  onChange={(e) => setSelectedRows(e.target.checked ? dataSource : [])}
-                />
-              </TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Telefone</TableCell>
-              <TableCell>Data de Contratação</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredUsers.map((row) => (
-              <TableRow key={row.name}>
+        <TableContainer>
+          <Table className='table'>
+            <TableHead className='tabela_topo'>
+              <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={isSelected(row)}
-                    onChange={() => handleRowToggle(row)}
+                    indeterminate={selectedRows.length > 0 && selectedRows.length < dataSource.length}
+                    checked={dataSource.length > 0 && selectedRows.length === dataSource.length}
+                    onChange={(e) => setSelectedRows(e.target.checked ? dataSource : [])}
                   />
                 </TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{formatPhone(row.phone)}</TableCell>
-                <TableCell>{formatDate(row.createdAt)}</TableCell>
+                <TableCell>Nome</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Telefone</TableCell>
+                <TableCell>Data de Contratação</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
+            </TableHead>
+            <TableBody>
+              {filteredUsers.map((row) => (
+                <TableRow key={row.name}>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={isSelected(row)}
+                      onChange={() => handleRowToggle(row)}
+                    />
+                  </TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.email}</TableCell>
+                  <TableCell>{formatPhone(row.phone)}</TableCell>
+                  <TableCell>{formatDate(row.createdAt)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       <Dialog open={open} fullWidth>
         <DialogContent>
           <CreatePage handleClose={handleClose} user={selectedRows[0]} />
         </DialogContent>
       </Dialog>
+        </div>
+      </div>
     </main>
   );
 }
