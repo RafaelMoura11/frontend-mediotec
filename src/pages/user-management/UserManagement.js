@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../user-management/userManagement.css'; 
 import {
-  Button,
   FormControl,
   InputLabel,
   Select,
@@ -73,11 +72,6 @@ function UserManagement() {
       return !selectedRows.includes(user)
     }));
     setSelectedRows([]);
-  };
-
-  const atualizarUsuarios = () => {
-    console.log(selectedRows[0].userId);
-    
   };
 
   const exportarUsuarios = () => {

@@ -22,7 +22,7 @@ export default function CreateUser({ handleClose, user }) {
         if (user) {
             setFormData({ ...user, confirmPassword: user.confirmPassword })
         }
-    }, [])
+    }, [user])
 
     const handleChange = (e) => {
         const { id, value } = e.target;
