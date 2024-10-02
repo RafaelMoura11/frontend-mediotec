@@ -1,16 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CreatePage from './components/CreateUser';
 import UserManagement from './pages/user-management/UserManagement';
 import UserProfile from './pages/user-profile/user-profile';
 import ModalClass from './pages/modal-class-list/modalClass';
 import ClassManagement from './pages/class-management/classManagement';
-
-
 import Login from './pages/login/Login';
-import UserManagement from './pages/user-management/UserManagement';
 import HomePage from './pages/home/HomePage'
 import CourseManagement from './pages/course-menagement/CourseMenagement';
 
