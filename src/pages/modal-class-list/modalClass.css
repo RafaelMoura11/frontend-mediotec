@@ -1,0 +1,22 @@
+.custom-modal-title {
+    background-color: #7326BF; /* Cor de fundo */
+    color: #FFFFFF; /* Cor da fonte */
+    padding: 10px; /* Adiciona um pouco de espaço interno */    
+  }
+    
+  .custom-close-button {
+    color: #FFFFFF; /* Cor da fonte do botão de fechar */
+  }
+
+  .custom-save-button {
+    background-color: #00CD0F; /* Cor de fundo do botão Salvar */
+    color: #FFFFFF; /* Cor da fonte */
+    border: none; /* Remove a borda padrão */
+  }
+  
+  .custom-cancel-button {
+    background-color: #808080; /* Cor de fundo do botão Cancelar (grays/gray) */
+    color: #FFFFFF; /* Cor da fonte */
+    border: none; /* Remove a borda padrão */
+  }
+  
