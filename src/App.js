@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreatePage from './components/CreateUser';
 import UserManagement from './pages/user-management/UserManagement';
@@ -7,6 +8,11 @@ import UserProfile from './pages/user-profile/user-profile';
 import ModalClass from './pages/modal-class-list/modalClass';
 import ClassManagement from './pages/class-management/classManagement';
 
+
+import Login from './pages/login/Login';
+import UserManagement from './pages/user-management/UserManagement';
+import HomePage from './pages/home/HomePage'
+import CourseManagement from './pages/course-menagement/CourseMenagement';
 
 function App() {
   return (
@@ -26,18 +32,17 @@ function App() {
       </nav>   */}
 
       <Routes>
-        {/* Página principal */}
-        <Route path="/" element={<h1>Bem-vindo à Página Principal!</h1>} />
-        {/* Rota para a CreatePage */}
-        <Route path="/create" element={<CreatePage />} />
-        {/* Rota para a UserManagement */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/user-management" element={<UserManagement />} />
+
         {/* Rota para a UserProfile */}
         <Route path="/user-profile" element={<UserProfile />} />
         {/* Rota para a ClassManagement. */}
         <Route path="/class" element={<ClassManagement />} />
         {/* Rota para a ModalClass */}
         <Route path="/modal-class" element={<ModalClass />} />
+        <Route path="/course-management" element={<CourseManagement />} />
       </Routes>
     </Router>
   );
