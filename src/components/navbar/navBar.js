@@ -39,7 +39,7 @@ function Navbar() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/class-management" activeClassName="active-link">
+                <NavLink className="nav-link" to="/class" activeClassName="active-link">
                   Turmas
                 </NavLink>
               </li>
