@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import '../navbar/navBar-style.css';
 import logo from '../../images/logo-mediotec.png';
 
 function Navbar() {
@@ -39,7 +38,7 @@ function Navbar() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/class" activeClassName="active-link">
+                <NavLink className="nav-link" to="/class-management" activeClassName="active-link">
                   Turmas
                 </NavLink>
               </li>
