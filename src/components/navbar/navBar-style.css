@@ -5,8 +5,6 @@ img{
 
 .navbar{
     background-color: #7326BF !important;
-    position: fixed; /* Fixa a navbar no lugar */
-    top: 0;
 }
 
 
