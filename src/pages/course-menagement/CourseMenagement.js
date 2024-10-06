@@ -124,23 +124,26 @@ function CourseManagement() {
 
       <div className='container-fluid bg-white mt-5'>
         <h1 className='display-6 text-center'>Gerenciamento de Disciplinas</h1>
-        <li>
-                <Link className="nav-link" to='/detalhes' activeClassName="active-link">
-                Detalhes
-                </Link>
-                </li>
+       
         <div className='row mt-4'>
           <div className='col-12 d-flex justify-content-between'>
             <div>
               <button className='btn btn-success me-2' onClick={handleOpenModal}>
                 Adicionar Disciplina
               </button>
+              <div>
+            <Link to='/detalhes'>
+            <button>Adicionar disciplina à turma</button>
+            </Link>
+          </div>
               <button className='btn btn-danger' onClick={excluirDisciplina}>
                 Excluir
               </button>
+              
             </div>
             <button className='btn btn-primary' onClick={handleExportPDF}>Exportar</button>
           </div>
+         
         </div>
 
         <div className='row mt-3'>
