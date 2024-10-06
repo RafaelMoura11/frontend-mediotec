@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import '../user-management/userManagement.css'; 
 import { Link, useNavigate } from 'react-router-dom';
+=======
+>>>>>>> d1cc664e115b03a29b8575f1e00963b5361ff200
 import {
   FormControl,
   InputLabel,
@@ -21,8 +24,8 @@ import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import CreatePage from '../../components/createUser/CreateUser';
-import Navbar from '../../components/navbar/navBar'
+import CreatePage from '../../components/CreateUser';
+import Navbar from '../../components/navBar'
 
 // Componente principal
 function UserManagement() {

@@ -6,7 +6,7 @@ import courses from '../../images/courses.png'; // Importando a imagem como vari
 import users from '../../images/users2.png';
 import classes from '../../images/classes.png';
 import conceitos from '../../images/conceito.png';
-import Navbar from '../../components/navbar/navBar';
+import Navbar from '../../components/navBar';
 import { Link } from 'react-router-dom';
 import notificationApi from '../../api';
 import calendario from '../../images/calendario.png';
@@ -21,15 +21,15 @@ function HomePage() {
   const fetchComunicados = async () => {
     try {
       const { data } = await notificationApi.get('/mediotec/notificacoes/');
-      setDataSource(data); // Atualiza o estado com os dados recebidos.
+      setDataSource(data);
     } catch (error) {
       console.error('Erro ao buscar comunicados:', error);
     }
   };
 
-  // UseEffect para chamar a função quando o componente é montado
+  // UseEffect para buscar os dados ao montar o componente
   useEffect(() => {
-    fetchComunicados(); // Chama a função ao montar o componente
+    fetchComunicados();
   }, []);
 
   // Função para abrir o modal com o comunicado selecionado

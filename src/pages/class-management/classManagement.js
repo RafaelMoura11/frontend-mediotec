@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import "./classManagement.css";
 import classApi from '../../api';
 import ClassesModal from '../../components/ClassesModal';
+import Navbar from '../../components/navBar';
 
 
 const ClassManagement = () => {

@@ -1,7 +1,0 @@
-.container {
-    height: 500px; /* Define a altura fixa do container */
-    padding: 2rem; /* Aumenta o padding */
-    width: 1200px; /* Define uma largura fixa */
-    margin: 0 auto; /* Centraliza o container na página */
-    border: 1px solid #ddd; /* Opcional: adiciona uma borda para visualização */
-}
