@@ -40,6 +40,7 @@ function App() {
         <Route path="/modal-class" element={<ModalClass />} />
         <Route path="/course-management" element={<CourseManagement />} />
         <Route path="/detalhes/id/:courseId" element={<DisciplinaPage/>} />
+        
       </Routes>
     </Router>
   );

@@ -5,8 +5,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import "./classManagement.css";
-import api from '../../api';
+import classApi from '../../api';
 import ClassesModal from '../../components/ClassesModal';
+
 
 const ClassManagement = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -15,33 +16,48 @@ const ClassManagement = () => {
     const [open, setOpen] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null);
 
+    // Abre o modal para adicionar ou editar uma turma
     const handleClickOpen = (cls) => {
-        setSelectedClass(cls);  // Set the class to be edited
+        setSelectedClass(cls);  // Define a turma que será editada
         setOpen(true);
     };
 
+    // Fecha o modal
     const handleClose = () => {
         setOpen(false);
-        setSelectedClass(null);  // Reset after closing modal
+        setSelectedClass(null);  // Reseta a turma selecionada
     };
 
+    // Função para excluir a turma
     const handleDelete = async (classId) => {
+        const confirmed = window.confirm("Tem certeza que deseja excluir esta turma?");
+        if (!confirmed) return;
+
         try {
-            await api.delete(`/mediotec/turmas/${classId}`);
-            setClasses(classes.filter(cls => cls.classId !== classId)); // Update UI after deletion
+            // Faz a requisição DELETE para a API
+            await classApi.delete(`/mediotec/turmas/${classId}`);
+
+            // Atualiza a lista de turmas removendo a turma deletada
+            setClasses(classes.filter(cls => cls.classId !== classId));
+
+            // Feedback para o usuário
+            alert('Turma excluída com sucesso!');
         } catch (error) {
             console.error('Erro ao excluir turma:', error);
+            alert('Erro ao excluir turma. Tente novamente.');
         }
     };
 
+    // Carrega as turmas ao montar o componente
     useEffect(() => {
         const fetchClasses = async () => {
-            const { data } = await api.get('/mediotec/turmas/');
+            const { data } = await classApi.get('/mediotec/turmas/');
             setClasses(data);
         };
         fetchClasses();
     }, []);
 
+    // Filtra as turmas de acordo com o termo de pesquisa e ano selecionado
     const filteredClasses = classes.filter(cls =>
         cls.className.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedType ? cls.year === Number(selectedType) : true)
@@ -110,7 +126,7 @@ const ClassManagement = () => {
                 ))}
             </Row>
 
-            {/* Modal for Adding/Editing Classes */}
+            {/* Modal para Adicionar/Editar Turmas */}
             <Dialog open={open} fullWidth onClose={handleClose}>
                 <DialogContent>
                     <ClassesModal classData={selectedClass} handleClose={handleClose} />

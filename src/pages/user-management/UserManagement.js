@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../user-management/userManagement.css'; 
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FormControl,
   InputLabel,
@@ -207,6 +208,9 @@ function UserManagement() {
       </Dialog>
         </div>
       </div>
+      <div><Link to="/user-profile">
+      <button>detalhes </button>
+      </Link></div>
     </main>
   );
 }

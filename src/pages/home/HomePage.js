@@ -64,7 +64,7 @@ function HomePage() {
                 </Link>
               </div>
               <div className='col-lg-4 background-roxo d-flex flex-column align-items-center'>
-                <Link className="text-white" to="/course-management">
+                <Link className="text-white" to="/class">
                   <img src={classes} alt="turmas" className='img-fluid' />
                   <h5 className='mt-2 text-uppercase'>Turmas</h5>
                 </Link>
