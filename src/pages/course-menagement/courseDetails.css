@@ -1,0 +1,56 @@
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h2 {
+    color: #6c63ff;
+}
+
+.edit-btn {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background-color: #ddd;
+}
+
+.form-actions {
+    text-align: right;
+}
+
+.btn-primary {
+    background-color: #6c63ff;
+}
+
+.btn-primary:hover {
+    background-color: #574fcc;
+}
+
+.roxo{
+   background-color: #ffffff;
+    border: 1px solid #7326BF;
+}
+.bg-roxo{
+    background-color:#9747FF;
+    display: inline-block; /* Para que o elemento se comporte como um bloco */
+    padding: 0.5rem 1rem; /* Espaçamento interno */
+    border-radius: 0.9rem; /* Bordas completamente arredondadas */
+    border: 1px solid transparent; /* Borda opcional */
+
+}
+.botao-ementa:hover{
+    background-color: #c09ce5;
+    color:#ffffff
+
+
+}
+
+.modal-tamanho{
+height: 80vh;
+width: 100vh;
+}
