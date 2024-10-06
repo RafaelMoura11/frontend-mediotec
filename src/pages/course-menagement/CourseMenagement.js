@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import '../course-menagement/courseMenagement.css';
-import '../../components/navbar/navBar';
-import Navbar from '../../components/navbar/navBar';
+import Navbar from '../../components/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import courseApi from '../../api';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import html2pdf from 'html2pdf.js'; // Importação da biblioteca html2pdf
 import { Link } from 'react-router-dom';
+import courseApi from '../../api';
+import DisciplinaPage from './courseDetails';
+
 
 function CourseManagement() {
   const [dataSource, setDataSource] = useState([]);

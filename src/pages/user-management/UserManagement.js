@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../user-management/userManagement.css'; 
 import {
   FormControl,
   InputLabel,
@@ -20,8 +19,8 @@ import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import CreatePage from '../../components/createUser/CreateUser';
-import Navbar from '../../components/navbar/navBar'
+import CreatePage from '../../components/CreateUser';
+import Navbar from '../../components/navBar'
 
 // Componente principal
 function UserManagement() {
