@@ -13,6 +13,8 @@ const courseApi = axios.create({
 const notificationApi = axios.create({
   baseURL: "https://api-mediotec.onrender.com/"
 })
+
+
 courseApi.interceptors.response.use(
   response => response,
   error => {

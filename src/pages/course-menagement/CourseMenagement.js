@@ -5,13 +5,13 @@ import Navbar from '../../components/navbar/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import courseApi from '../../api';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { Link, NavLink } from 'react-router-dom';
-import DisciplinaPage from './courseDetails';
 import html2pdf from 'html2pdf.js'; // Importação da biblioteca html2pdf
+import { Link } from 'react-router-dom';
 
 function CourseManagement() {
   const [dataSource, setDataSource] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false); // Novo estado para o modal de detalhes
   const [isEditing, setIsEditing] = useState(false);
   const [currentCourseId, setCurrentCourseId] = useState(null);
   const [newCourse, setNewCourse] = useState({
@@ -20,6 +20,7 @@ function CourseManagement() {
     description: '',
   });
   const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null); // Novo estado para os detalhes da disciplina
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -30,6 +31,11 @@ function CourseManagement() {
   const handleCloseModal = () => {
     setShowModal(false);
     setNewCourse({ courseName: '', workload: '', description: '' });
+  };
+
+  const handleCloseDetailModal = () => {
+    setShowDetailModal(false);
+    setSelectedCourse(null);
   };
 
   const fetchCourses = async () => {
@@ -60,7 +66,7 @@ function CourseManagement() {
       console.error('Erro ao editar curso:', error);
     }
   };
-  
+
   const handleEditClick = (course) => {
     setIsEditing(true);
     setCurrentCourseId(course.courseId);
@@ -70,6 +76,11 @@ function CourseManagement() {
       description: course.description,
     });
     setShowModal(true);
+  };
+
+  const handleViewDetails = (course) => {
+    setSelectedCourse(course);
+    setShowDetailModal(true); // Abre o modal de detalhes
   };
 
   useEffect(() => {
@@ -98,11 +109,11 @@ function CourseManagement() {
   const handleExportPDF = () => {
     const element = document.getElementById('exportTable'); // Seleciona o conteúdo que será exportado
     const opt = {
-      margin:       0.5,
-      filename:     'disciplinas.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      margin: 0.5,
+      filename: 'disciplinas.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
     html2pdf().from(element).set(opt).save(); // Gera o PDF a partir do conteúdo
   };
@@ -110,12 +121,17 @@ function CourseManagement() {
   return (
     <main>
       <Navbar />
+
       <div className='container-fluid bg-white mt-5'>
         <h1 className='display-6 text-center'>Gerenciamento de Disciplinas</h1>
+        <li>
+                <Link className="nav-link" to='/detalhes' activeClassName="active-link">
+                Detalhes
+                </Link>
+                </li>
         <div className='row mt-4'>
           <div className='col-12 d-flex justify-content-between'>
             <div>
-              <Link to={DisciplinaPage}>Detalhes</Link>
               <button className='btn btn-success me-2' onClick={handleOpenModal}>
                 Adicionar Disciplina
               </button>
@@ -163,7 +179,9 @@ function CourseManagement() {
                           onChange={() => handleCheckboxChange(course.courseId)}
                         />
                       </td>
-                      <td>{course.courseName}</td>
+                      <td onClick={() => handleViewDetails(course)} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
+                        {course.courseName}
+                      </td>
                       <td>{course.className || 'Turma não definida'}</td>
                       <td>{course.workload}</td>
                       <td>
@@ -216,6 +234,32 @@ function CourseManagement() {
                 <button className="btn btn-primary" onClick={isEditing ? handleEditCourse : handleAddCourse}>
                   {isEditing ? 'Salvar Alterações' : 'Adicionar'}
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDetailModal && selectedCourse && ( // Modal para exibir detalhes da disciplina
+        <div className="modal show " style={{ display: 'block' }}>
+          <div className="modal-dialog">
+            <div className="modal-content  modal-tamanho">
+              <div className="modal-header">
+                <h5 className="modal-title">Detalhes da Disciplina</h5>
+                
+                <button type="button" className="btn-close" onClick={handleCloseDetailModal}></button>
+              </div>
+              <div className="modal-body">
+        
+                <h5 className='fw-bold'>Nome da Disciplina: {selectedCourse.courseName}</h5>
+                <h5>Carga Horária:  {selectedCourse.workload}</h5>
+                <h6 className='fw-bold'>Ementa:</h6>
+                <p>{selectedCourse.description}</p>
+                <h6>Turma: {selectedCourse.className || 'Turma não definida'}</h6>
+              </div>
+              <div className="modal-footer">
+              <button className='btn roxo botao-ementa'>Cadastrar Conceitos</button>
+                <button className="btn roxo botao-ementa" onClick={handleCloseDetailModal}>Fechar</button>
               </div>
             </div>
           </div>
