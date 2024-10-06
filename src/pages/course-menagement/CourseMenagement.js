@@ -5,6 +5,8 @@ import Navbar from '../../components/navbar/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import courseApi from '../../api';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Link, NavLink } from 'react-router-dom';
+import DisciplinaPage from './courseDetails';
 import html2pdf from 'html2pdf.js'; // Importação da biblioteca html2pdf
 
 function CourseManagement() {
@@ -58,7 +60,7 @@ function CourseManagement() {
       console.error('Erro ao editar curso:', error);
     }
   };
-
+  
   const handleEditClick = (course) => {
     setIsEditing(true);
     setCurrentCourseId(course.courseId);
@@ -113,6 +115,7 @@ function CourseManagement() {
         <div className='row mt-4'>
           <div className='col-12 d-flex justify-content-between'>
             <div>
+              <Link to={DisciplinaPage}>Detalhes</Link>
               <button className='btn btn-success me-2' onClick={handleOpenModal}>
                 Adicionar Disciplina
               </button>
