@@ -1,0 +1,74 @@
+.container.background-principal{
+    background-color: #ffffff;
+}
+
+.background-roxo {
+    background-color: #6a1b9a; /* Cor roxa */
+    width: 40vh;  /* Ajuste o valor conforme necessário */
+    height: 30vh; /* Ajuste o valor conforme necessário */
+    border-radius: 5vh 0 5vh 0; /* Raio nos cantos superior esquerdo e inferior direito */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.background-roxo-quadrado{
+    background-color: #6a1b9a;
+    width: 35vh;  /* Ajuste o valor conforme necessário */
+    height: 12vh; /* Ajuste o valor conforme necessário */
+}
+
+.comunicados{
+   
+    width: 45vh;
+    height:100vh
+    
+}
+
+.calendario{
+    height: 40vh;
+    width: 70vh;
+}
+.container-calendario{
+    width: 100vh;
+    height: 60vh;
+    margin-top: 15vh;
+    margin-right: 10vh;
+    border-radius: 5vh 0 5vh 0;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-around;
+}
+.quadrados{
+    display: flex;
+    justify-content: space-around;
+    align-items: space-around;
+    gap:15px;
+}
+.fonte-calendario{
+    color: #6a1b9a;
+    text-align: center;
+    padding: 15px;
+  
+}
+.back-branco{
+    background-color: #ffffff;
+    border-radius: 1vh 1vh;
+}
+
+.back-roxo{
+    background-color: #AF52DE;
+    border-radius: 2vh 2vh;
+}
+.btn-roxo{
+background-color: #AF52DE;
+color: #ffffff;
+}
+
+.btn-roxo:hover{
+    background-color:#6a1b9a;
+    color: #ffffff;
+    }
