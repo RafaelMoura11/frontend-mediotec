@@ -4,10 +4,8 @@ import { Dialog, DialogContent, DialogActions, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-import "./classManagement.css";
 import api from '../../api';
 import ClassesModal from '../../components/ClassesModal';
-import Navbar from '../../components/navBar';
 
 const ClassManagement = () => {
     const [searchTerm, setSearchTerm] = useState('');
