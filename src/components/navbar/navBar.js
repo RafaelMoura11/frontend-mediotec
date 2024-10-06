@@ -51,6 +51,9 @@ function Navbar() {
                 <NavLink className="nav-link" to="/notification-management" activeClassName="active-link">
                   Comunicados
                 </NavLink>
+               
+              
+              
               </li>
             </ul>
           </div>
