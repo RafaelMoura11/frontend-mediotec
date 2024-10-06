@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import usersApi from '../api';
-import './createUser/createUser-style.css';
 
 export default function ClassesModal({ handleClose, user }) {
     const [formData, setFormData] = useState({

@@ -1,15 +1,15 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import logo from '../../images/logo-mediotec.png';
+import logo from '../images/logo-mediotec.png';
 
 function Navbar() {
   return (
     <div className="Navbar">
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <NavLink className="navbar-brand" to="/">
+          <NavLink className="navbar-brand" to="/login">
             <img src={logo} alt="Mediotec" width="30" height="24" />
           </NavLink>
 
@@ -38,7 +38,7 @@ function Navbar() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/class-management" activeClassName="active-link">
+                <NavLink className="nav-link" to="/class" activeClassName="active-link">
                   Turmas
                 </NavLink>
               </li>
@@ -51,13 +51,6 @@ function Navbar() {
                 <NavLink className="nav-link" to="/notification-management" activeClassName="active-link">
                   Comunicados
                 </NavLink>
-                <li>
-                <NavLink className="nav-link" to='/detalhes' activeClassName="active-link">
-                Detalhes
-                </NavLink>
-                </li>
-              
-              
               </li>
             </ul>
           </div>

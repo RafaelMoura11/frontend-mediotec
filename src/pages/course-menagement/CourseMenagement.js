@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import '../course-menagement/CourseMenagement.css';
-import '../../components/navbar/navBar';
-import Navbar from '../../components/navbar/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import courseApi from '../../api';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { Link, NavLink } from 'react-router-dom';
+import courseApi from '../../api';
+import { Link } from 'react-router-dom';
 import DisciplinaPage from './courseDetails';
-import html2pdf from 'html2pdf.js'; // Importação da biblioteca html2pdf
+import html2pdf from 'html2pdf.js';
+
+import Navbar from '../../components/navBar';
 
 function CourseManagement() {
   const [dataSource, setDataSource] = useState([]);
@@ -60,7 +59,7 @@ function CourseManagement() {
       console.error('Erro ao editar curso:', error);
     }
   };
-  
+
   const handleEditClick = (course) => {
     setIsEditing(true);
     setCurrentCourseId(course.courseId);
@@ -98,11 +97,11 @@ function CourseManagement() {
   const handleExportPDF = () => {
     const element = document.getElementById('exportTable'); // Seleciona o conteúdo que será exportado
     const opt = {
-      margin:       0.5,
-      filename:     'disciplinas.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      margin: 0.5,
+      filename: 'disciplinas.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
     html2pdf().from(element).set(opt).save(); // Gera o PDF a partir do conteúdo
   };
