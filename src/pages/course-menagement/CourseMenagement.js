@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import courseApi from '../../api';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import html2pdf from 'html2pdf.js'; // Importação da biblioteca html2pdf
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function CourseManagement() {
   const [dataSource, setDataSource] = useState([]);
@@ -21,7 +21,7 @@ function CourseManagement() {
   });
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null); // Novo estado para os detalhes da disciplina
-
+  const navigate = useNavigate()
   const handleOpenModal = () => {
     setShowModal(true);
     setIsEditing(false);
@@ -80,7 +80,8 @@ function CourseManagement() {
 
   const handleViewDetails = (course) => {
     setSelectedCourse(course);
-    setShowDetailModal(true); // Abre o modal de detalhes
+    navigate(`/detalhes/id/${course.courseId}`)
+ 
   };
 
   useEffect(() => {
@@ -243,31 +244,7 @@ function CourseManagement() {
         </div>
       )}
 
-      {showDetailModal && selectedCourse && ( // Modal para exibir detalhes da disciplina
-        <div className="modal show " style={{ display: 'block' }}>
-          <div className="modal-dialog">
-            <div className="modal-content  modal-tamanho">
-              <div className="modal-header">
-                <h5 className="modal-title">Detalhes da Disciplina</h5>
-                
-                <button type="button" className="btn-close" onClick={handleCloseDetailModal}></button>
-              </div>
-              <div className="modal-body">
-        
-                <h5 className='fw-bold'>Nome da Disciplina: {selectedCourse.courseName}</h5>
-                <h5>Carga Horária:  {selectedCourse.workload}</h5>
-                <h6 className='fw-bold'>Ementa:</h6>
-                <p>{selectedCourse.description}</p>
-                <h6>Turma: {selectedCourse.className || 'Turma não definida'}</h6>
-              </div>
-              <div className="modal-footer">
-              <button className='btn roxo botao-ementa'>Cadastrar Conceitos</button>
-                <button className="btn roxo botao-ementa" onClick={handleCloseDetailModal}>Fechar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+   
     </main>
   );
 }

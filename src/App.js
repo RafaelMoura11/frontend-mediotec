@@ -39,7 +39,7 @@ function App() {
         {/* Rota para a ModalClass */}
         <Route path="/modal-class" element={<ModalClass />} />
         <Route path="/course-management" element={<CourseManagement />} />
-        <Route path="/detalhes" element={<DisciplinaPage/>} />
+        <Route path="/detalhes/id/:courseId" element={<DisciplinaPage/>} />
       </Routes>
     </Router>
   );
