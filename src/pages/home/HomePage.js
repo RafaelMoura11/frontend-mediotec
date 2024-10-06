@@ -36,29 +36,30 @@ function HomePage() {
          <Navbar />
       <div className='container-fluid bg-white'>
         <div className='row'>
-          <div className='col-lg-9'> {/* Mantendo col-lg-9 */}
-            <div className='row'>
-              <div className='col-lg-4 me-5 background-roxo d-flex flex-column align-items-center mt-5'> {/* Ajustado para col-lg-4 */}
+          <div className='col-lg-8 d-flex'> {/* Mantendo col-lg-9 */}
+            <div className='row quadrados'>
+              <div></div>
+              <div className='col-lg-4  background-roxo d-flex flex-column align-items-center me-2 '> {/* Ajustado para col-lg-4 */}
                 <Link className='text-white' to="/user-management" >
                 <img src={users} alt="usuarios" className='img-fluid' /> {/* Adicionando a classe img-fluid */}
                 <h5 className='mt-2 text-uppercase'>Usuarios</h5>
                 </Link>
               </div>
-              <div className='col-lg-4 background-roxo d-flex flex-column align-items-center mt-5'> {/* Ajustado para col-lg-4 */}
+              <div className='col-lg-4 background-roxo d-flex flex-column align-items-center me-2'> {/* Ajustado para col-lg-4 */}
                 <Link className='text-white'to="/course-management">
                 <img src={courses} alt="disciplinas" className='img-fluid' /> {/* Adicionando a classe img-fluid */}
                 <h5 className='mt-2 text-uppercase'>Disciplinas</h5>
                 </Link>
               </div>
-            </div>
-            <div className='row'>
-              <div className='col-lg-4 me-5 background-roxo d-flex flex-column align-items-center mt-5'> {/* Ajustado para col-lg-4 */}
+           
+          
+              <div className='col-lg-4 background-roxo d-flex flex-column align-items-center '> {/* Ajustado para col-lg-4 */}
                 <Link className="text-white "to="/course-management">
                 <img src={classes} alt="turmas" className='img-fluid' /> {/* Adicionando a classe img-fluid */}
                 <h5 className='mt-2 text-uppercase'>Turmas</h5>
                 </Link  >
               </div>
-              <div className='col-lg-4 background-roxo d-flex flex-column align-items-center mt-5'> {/* Ajustado para col-lg-4 */}
+              <div className='col-lg-4 background-roxo d-flex flex-column align-items-center'> {/* Ajustado para col-lg-4 */}
                 <Link className='text-white'>
                 <img src={conceitos} alt="conceitos" className='img-fluid' /> {/* Adicionando a classe img-fluid */}
                 <h5 className='mt-2 text-uppercase'>Conceitos</h5>

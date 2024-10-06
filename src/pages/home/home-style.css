@@ -36,3 +36,9 @@ body {
     width: 100vh;
     height: 50vh;
 }
+.quadrados{
+    display: flex;
+    justify-content: space-around;
+    align-items: space-around;
+    gap:15px;
+}
