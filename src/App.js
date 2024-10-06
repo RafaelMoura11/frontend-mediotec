@@ -32,14 +32,12 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/user-management" element={<UserManagement />} />
 
-        {/* Rota para a UserProfile */}
         <Route path="/user-profile" element={<UserProfile />} />
-        {/* Rota para a ClassManagement. */}
         <Route path="/class" element={<ClassManagement />} />
-        {/* Rota para a ModalClass */}
         <Route path="/modal-class" element={<ModalClass />} />
         <Route path="/course-management" element={<CourseManagement />} />
         <Route path="/detalhes/id/:courseId" element={<DisciplinaPage/>} />
+
       </Routes>
     </Router>
   );

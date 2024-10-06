@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import "./modalClass.css"
 
 function ModalClass() {
   const [show, setShow] = useState(false);

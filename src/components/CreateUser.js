@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import usersApi from '../../api';
-import './createUser-style.css';
+import usersApi from '../api';
+
 
 export default function CreateUser({ handleClose, user }) {
     const [formData, setFormData] = useState({
