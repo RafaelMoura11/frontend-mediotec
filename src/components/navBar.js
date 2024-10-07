@@ -2,11 +2,19 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import profilePic from '../images/profile.png';
 import logo from '../images/logo-mediotec.png';
 
 function Navbar() {
+
+  const user = {
+    name: 'João Silva',
+    role: 'Coordenador',
+    profilePic: profilePic
+  };
+
   return (
-    <div className="Navbar">
+    <div className="Navbar navbar-expand-lg">
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <NavLink className="navbar-brand" to="/login">
@@ -54,9 +62,24 @@ function Navbar() {
               </li>
             </ul>
           </div>
+          {/* Ícone do usuário à direita */}
+          <div className="navbar-user d-flex align-items-center">
+            <img
+              src={user.profilePic}
+              alt="User Profile"
+              className="rounded-circle"
+              width="40"
+              height="40"
+            />
+            <div className="user-info ms-2">
+              <span className="d-block">{user.name}</span>
+              <small className="tipo-usuario">{user.role}</small>
+            </div>
+          </div>
         </div>
       </nav>
     </div>
+
   );
 }
 export default Navbar;

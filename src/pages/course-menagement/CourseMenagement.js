@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import '../course-menagement/courseMenagement.css';
+import Navbar from '../../components/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import html2pdf from 'html2pdf.js'; // Importação da biblioteca html2pdf
+import { Link, useNavigate } from 'react-router-dom';
 import courseApi from '../../api';
-import { Link } from 'react-router-dom';
 import DisciplinaPage from './courseDetails';
-import html2pdf from 'html2pdf.js';
-
-import Navbar from '../../components/navBar';
 
 function CourseManagement() {
   const [dataSource, setDataSource] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false); // Novo estado para o modal de detalhes
   const [isEditing, setIsEditing] = useState(false);
   const [currentCourseId, setCurrentCourseId] = useState(null);
   const [newCourse, setNewCourse] = useState({
@@ -19,7 +20,8 @@ function CourseManagement() {
     description: '',
   });
   const [selectedRows, setSelectedRows] = useState([]);
-
+  const [selectedCourse, setSelectedCourse] = useState(null); // Novo estado para os detalhes da disciplina
+  const navigate = useNavigate()
   const handleOpenModal = () => {
     setShowModal(true);
     setIsEditing(false);
@@ -29,6 +31,11 @@ function CourseManagement() {
   const handleCloseModal = () => {
     setShowModal(false);
     setNewCourse({ courseName: '', workload: '', description: '' });
+  };
+
+  const handleCloseDetailModal = () => {
+    setShowDetailModal(false);
+    setSelectedCourse(null);
   };
 
   const fetchCourses = async () => {
@@ -71,6 +78,12 @@ function CourseManagement() {
     setShowModal(true);
   };
 
+  const handleViewDetails = (course) => {
+    setSelectedCourse(course);
+    navigate(`/detalhes/id/${course.courseId}`)
+ 
+  };
+
   useEffect(() => {
     fetchCourses();
   }, []);
@@ -109,21 +122,29 @@ function CourseManagement() {
   return (
     <main>
       <Navbar />
-      <div className='container-fluid bg-white mt-5'>
+
+      <div className='container-fluid bg-white mt-5 coursePage'>
         <h1 className='display-6 text-center'>Gerenciamento de Disciplinas</h1>
+       
         <div className='row mt-4'>
           <div className='col-12 d-flex justify-content-between'>
             <div>
-              <Link to={DisciplinaPage}>Detalhes</Link>
               <button className='btn btn-success me-2' onClick={handleOpenModal}>
                 Adicionar Disciplina
               </button>
+              <div>
+            <Link to='/detalhes'>
+            <button>Adicionar disciplina à turma</button>
+            </Link>
+          </div>
               <button className='btn btn-danger' onClick={excluirDisciplina}>
                 Excluir
               </button>
+              
             </div>
             <button className='btn btn-primary' onClick={handleExportPDF}>Exportar</button>
           </div>
+         
         </div>
 
         <div className='row mt-3'>
@@ -162,7 +183,9 @@ function CourseManagement() {
                           onChange={() => handleCheckboxChange(course.courseId)}
                         />
                       </td>
-                      <td>{course.courseName}</td>
+                      <td onClick={() => handleViewDetails(course)} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
+                        {course.courseName}
+                      </td>
                       <td>{course.className || 'Turma não definida'}</td>
                       <td>{course.workload}</td>
                       <td>
@@ -220,6 +243,8 @@ function CourseManagement() {
           </div>
         </div>
       )}
+
+   
     </main>
   );
 }
