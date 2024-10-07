@@ -1,0 +1,53 @@
+* {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+h1 {
+    font-weight: bold;
+    margin-left: 60px;
+
+}
+
+.titulo {
+    margin-left: 65px;
+    text-align: left    ;
+}
+
+.legenda {
+    float: right;
+    font-size: small;
+    margin-left: 850px;
+    gap: 3px;
+}
+
+p { 
+    margin: 0;
+}
+
+.tabela {
+    width: 90%;  
+    margin: 20px auto;
+}
+
+.botao {
+    display: flex;
+    flex-direction: row;
+    width: 100px;
+    float: right;
+    margin-right: 45px;
+    gap: 10px;
+    
+
+}
+
+.botao-salvar {
+    background-color: #00CD0F;
+    color: #fff;
+}
+
+.botao-voltar {
+    background-color: #9747FF;
+    color: #fff;
+}

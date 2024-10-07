@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../course-menagement/CourseMenagement.css';
+import './courseManagement.css';
 import '../../components/navbar/navBar';
 import Navbar from '../../components/navbar/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';

@@ -1,0 +1,42 @@
+    h2 {
+    font-weight: bold;
+}
+
+.mb-3 {
+width: 135%;
+
+}
+
+.procurar-mb-3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.procurar-barra {
+    width: 300px;
+}
+
+.checkbox {
+    width: 50px;
+}
+
+.tabela-horario {
+    width: 200px
+}
+
+.botao-adicionar {
+    background-color: #00CD0F;
+}
+
+.botao-excluir {
+    background-color: #FF3232;
+
+}
+
+.botao-voltar {
+    float: right;
+    color: #000;
+    background-color: #CFA8FF;
+}
