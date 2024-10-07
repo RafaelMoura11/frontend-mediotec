@@ -88,3 +88,17 @@ Contribuições são bem-vindas! Se você tiver sugestões de melhoria, correç�
    git push origin feature/nome-da-feature
    ```
 5. Abra um **Pull Request**.
+
+## Time de Desenvolvimento
+
+Este projeto foi construído com muito esforço por essa galera incrível:
+
+![Rafael Moura](https://contrib.rocks/image?repo=RafaelMoura11/RafaelMoura11)
+![Amalia Nascimento](https://contrib.rocks/image?repo=amaliacnasc/amaliacnasc)
+![Luana Comin](https://contrib.rocks/image?repo=luanamcomin/luanamcomin)
+![Amanda Aguiar](https://contrib.rocks/image?repo=AmandaAguiarF/AmandaAguiarF)
+![Luiz Paulo](https://contrib.rocks/image?repo=Luizmachado87/Luizmachado87)
+![Abrão Saraiva](https://contrib.rocks/image?repo=Abrabarros/Abrabarros)
+
+
+
