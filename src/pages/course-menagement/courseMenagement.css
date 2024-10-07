@@ -23,7 +23,7 @@
     border: none;
   }
   /* Tornar a página mais espaçada e maior */
-.container-fluid {
+.coursePage {
   padding: 20px 40px;
   width: 70vw;
 }
