@@ -132,11 +132,6 @@ function CourseManagement() {
               <button className='btn btn-success me-2' onClick={handleOpenModal}>
                 Adicionar Disciplina
               </button>
-              <div>
-            <Link to='/detalhes'>
-            <button>Adicionar disciplina à turma</button>
-            </Link>
-          </div>
               <button className='btn btn-danger' onClick={excluirDisciplina}>
                 Excluir
               </button>
@@ -170,7 +165,8 @@ function CourseManagement() {
                     <th scope='col'>Disciplina</th>
                     <th scope='col'>Turma</th>
                     <th scope='col'>Carga Horária</th>
-                    <th scope='col'></th>
+                    <th scope='col'>Professor</th>
+                    <th scope='col'>Ação</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -191,6 +187,9 @@ function CourseManagement() {
                       <td>
                         <button className='btn' onClick={() => handleEditClick(course)}>
                           <i className="bi bi-pencil-square"></i> Editar
+                        </button>
+                        <button className='btn'>
+                        <i class="bi bi-person-add"></i>Add Professor e Turma
                         </button>
                       </td>
                     </tr>

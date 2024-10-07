@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../api';
 import './courseDetails.css'
+import { Navbar } from 'react-bootstrap';
 
 function DisciplinaPage() {
 const navigate = useNavigate();
@@ -70,10 +71,11 @@ if (!course) {
 }
 return (
   <div className='container-fluid bg-light'>
+    <Navbar></Navbar>
     {/* Renderização normal quando course está presente */}
-    <div className='row'>
+    <div className='row bloco-principal'>
       <div className='col-lg-12 d-flex justify-content-between bg-roxo'>
-        <h2 className='text-uppercase text-white'>{course.courseName}</h2>
+        <h2 className='text-uppercase text-white mt-2'>{course.courseName}</h2>
         <button className='btn roxo botao-ementa'>Cadastrar Conceitos</button>
       </div>
       <div className='col-lg-10 rounded pill p-2 roxo mt-4 d-flex justify-content-between'>

@@ -34,7 +34,7 @@
     background-color:#9747FF;
     display: inline-block;
     padding: 0.5rem 1rem;
-    border-radius: 0.9rem;
+    border-radius: 0;
     border: 1px solid transparent;
 
 }
@@ -46,4 +46,9 @@
 .modal-tamanho{
 height: 80vh;
 width: 100vh;
+}
+
+.bloco-principal{
+    display: flex;
+    justify-content: space-around
 }
