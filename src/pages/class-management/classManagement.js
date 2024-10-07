@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import api from '../../api';
 import ClassesModal from '../../components/ClassesModal';
+import Navbar from '../../components/navBar';
 
 const ClassManagement = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -47,78 +48,81 @@ const ClassManagement = () => {
     );
 
     return (
-        <Container className='container'>
-            <h1 className="mt-4">Gerenciamento de Turmas</h1>
-            <Form className="mb-4">
+        <main>
+            <Navbar />
+            <Container className='container'>
+                <h1 className="mt-4">Gerenciamento de Turmas</h1>
+                <Form className="mb-4">
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Procurar"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                            </Form.Group>
+                        </Col>
+                        <Col md={4}>
+                            <Form.Group>
+                                <Form.Select
+                                    value={selectedType}
+                                    onChange={(e) => setSelectedType(e.target.value)}
+                                    >
+                                    <option value="">Filtro</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={2}>
+                            <Button variant="primary" className="mt-2" onClick={() => handleClickOpen(null)}>Adicionar</Button>
+                        </Col>
+                    </Row>
+                </Form>
+
                 <Row>
-                    <Col md={6}>
-                        <Form.Group>
-                            <Form.Control
-                                type="text"
-                                placeholder="Procurar"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </Form.Group>
-                    </Col>
-                    <Col md={4}>
-                        <Form.Group>
-                            <Form.Select
-                                value={selectedType}
-                                onChange={(e) => setSelectedType(e.target.value)}
-                            >
-                                <option value="">Filtro</option>
-                                <option value="2024">2024</option>
-                                <option value="2023">2023</option>
-                                <option value="2022">2022</option>
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
-                    <Col md={2}>
-                        <Button variant="primary" className="mt-2" onClick={() => handleClickOpen(null)}>Adicionar</Button>
-                    </Col>
+                    {filteredClasses.map(cls => (
+                        <Col md={4} key={cls.classId} className="mb-4">
+                            <Card>
+                                <Card.Body>
+                                    <Card.Title>{cls.className}</Card.Title>
+                                    <Card.Text>{cls.year}</Card.Text>
+                                    <Nav variant="tabs">
+                                        <Nav.Item>
+                                            <Nav.Link as={Link} to="#">Alunos</Nav.Link>
+                                        </Nav.Item>
+                                        <Nav.Item>
+                                            <Nav.Link as={Link} to="#">Professores</Nav.Link>
+                                        </Nav.Item>
+                                    </Nav>
+                                    <div className="mt-3 d-flex justify-content-between">
+                                        <IconButton onClick={() => handleClickOpen(cls)}>
+                                            <EditIcon color="primary" />
+                                        </IconButton>
+                                        <IconButton onClick={() => handleDelete(cls.classId)}>
+                                            <DeleteIcon color="error" />
+                                        </IconButton>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
                 </Row>
-            </Form>
 
-            <Row>
-                {filteredClasses.map(cls => (
-                    <Col md={4} key={cls.classId} className="mb-4">
-                        <Card>
-                            <Card.Body>
-                                <Card.Title>{cls.className}</Card.Title>
-                                <Card.Text>{cls.year}</Card.Text>
-                                <Nav variant="tabs">
-                                    <Nav.Item>
-                                        <Nav.Link as={Link} to="#">Alunos</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link as={Link} to="#">Professores</Nav.Link>
-                                    </Nav.Item>
-                                </Nav>
-                                <div className="mt-3 d-flex justify-content-between">
-                                    <IconButton onClick={() => handleClickOpen(cls)}>
-                                        <EditIcon color="primary" />
-                                    </IconButton>
-                                    <IconButton onClick={() => handleDelete(cls.classId)}>
-                                        <DeleteIcon color="error" />
-                                    </IconButton>
-                                </div>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
-
-            {/* Modal for Adding/Editing Classes */}
-            <Dialog open={open} fullWidth onClose={handleClose}>
-                <DialogContent>
-                    <ClassesModal classData={selectedClass} handleClose={handleClose} />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancelar</Button>
-                </DialogActions>
-            </Dialog>
-        </Container>
+                {/* Modal for Adding/Editing Classes */}
+                <Dialog open={open} fullWidth onClose={handleClose}>
+                    <DialogContent>
+                        <ClassesModal classData={selectedClass} handleClose={handleClose} />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancelar</Button>
+                    </DialogActions>
+                </Dialog>
+            </Container>
+        </main>
     );
 };
 
