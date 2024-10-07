@@ -37,8 +37,8 @@ const ClassManagement = () => {
     return (
         <main>
             <Navbar></Navbar>
-            <Container className='container'>
-                <h1 className="mt-4">Gerenciamento de Turmas</h1>
+            <Container className='container mt-5'>
+                <h1 className="titulo">Gerenciamento de Turmas</h1>
                 <Form className="mb-4">
                     <Row>
                         <Col md={6}>

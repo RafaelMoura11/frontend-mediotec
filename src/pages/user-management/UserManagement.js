@@ -103,7 +103,7 @@ function UserManagement() {
     <main>
 
       <Navbar></Navbar>
-      <div className='container'>
+      <div className='container mt-5'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
         
         
