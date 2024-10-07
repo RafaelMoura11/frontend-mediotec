@@ -10,6 +10,11 @@ const courseApi = axios.create({
   baseURL: "https://api-mediotec.onrender.com/",
 });
 
+
+const classApi = axios.create({
+  baseURL: "https://api-mediotec.onrender.com/",
+});
+
 const notificationApi = axios.create({
   baseURL: "https://api-mediotec.onrender.com/"
 })

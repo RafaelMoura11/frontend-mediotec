@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Button, Form, Nav, Navbar } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import { Dialog, DialogContent, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import html2pdf from 'html2pdf.js'; // Importa a biblioteca html2pdf
-import api from '../../api';
+import { Link } from 'react-router-dom';
+import "./classManagement.css";
+import classApi from '../../api';
+import ClassesModal from '../../components/ClassesModal';
+import Navbar from '../../components/navBar';
+import html2pdf from 'html2pdf.js';
 import CreateClassModal from '../../components/CreateClassModal';
 import EditClassModal from '../../components/EditClassModal';
 
@@ -16,28 +20,33 @@ const ClassManagement = () => {
     const [openCreate, setOpenCreate] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null);
 
+    // Função para abrir o modal de edição
     const handleClickOpenEdit = (cls) => {
-        setSelectedClass(cls);  // Set the class to be edited
+        setSelectedClass(cls); // Define a turma que será editada
         setOpenEdit(true);
     };
 
+    // Função para abrir o modal de criação
     const handleClickOpenCreate = () => {
         setOpenCreate(true);
     };
 
+    // Função para fechar o modal de edição
     const handleCloseEdit = () => {
         setOpenEdit(false);
-        setSelectedClass(null);  // Reset after closing modal
+        setSelectedClass(null); // Reseta a turma selecionada
     };
 
+    // Função para fechar o modal de criação
     const handleCloseCreate = () => {
         setOpenCreate(false);
     };
 
+    // Função para salvar alterações de uma turma
     const handleSave = async (updatedClass) => {
         try {
             if (selectedClass) {
-                await api.put(`https://api-mediotec.onrender.com/mediotec/turmas/update/${selectedClass.classId}`, updatedClass);
+                await classApi.put(`/mediotec/turmas/update/${selectedClass.classId}`, updatedClass);
                 setClasses(classes.map(cls =>
                     cls.classId === selectedClass.classId ? { ...cls, ...updatedClass } : cls
                 ));
@@ -48,9 +57,10 @@ const ClassManagement = () => {
         }
     };
 
+    // Função para criar uma nova turma
     const handleCreate = async (newClass) => {
         try {
-            const { data } = await api.post('https://api-mediotec.onrender.com/mediotec/turmas/', newClass);
+            const { data } = await classApi.post('/mediotec/turmas/', newClass);
             setClasses([...classes, data]);  // Adiciona a nova turma à lista
             handleCloseCreate();  // Fecha o modal de criação
         } catch (error) {
@@ -58,26 +68,29 @@ const ClassManagement = () => {
         }
     };
 
+    // Função para excluir uma turma
     const handleDelete = async (classId) => {
-        const confirmed = window.confirm("Tem certeza de que deseja excluir esta turma?");
-        if (confirmed) {
-            try {
-                await api.delete(`https://api-mediotec.onrender.com/mediotec/turmas/delete/${classId}`);
-                setClasses(classes.filter(cls => cls.classId !== classId));  // Atualiza a lista removendo a turma deletada
-            } catch (error) {
-                console.error('Erro ao excluir a turma:', error);
-            }
+        const confirmed = window.confirm("Tem certeza que deseja excluir esta turma?");
+        if (!confirmed) return;
+
+        try {
+            await classApi.delete(`/mediotec/turmas/delete/${classId}`);
+            setClasses(classes.filter(cls => cls.classId !== classId));  // Atualiza a lista removendo a turma deletada
+        } catch (error) {
+            console.error('Erro ao excluir turma:', error);
         }
     };
 
+    // Carrega as turmas ao montar o componente
     useEffect(() => {
         const fetchClasses = async () => {
-            const { data } = await api.get('/mediotec/turmas/');
+            const { data } = await classApi.get('/mediotec/turmas/');
             setClasses(data);
         };
         fetchClasses();
     }, []);
 
+    // Filtra as turmas de acordo com o termo de pesquisa e ano selecionado
     const filteredClasses = classes.filter(cls =>
         cls.className.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedType ? cls.year === Number(selectedType) : true)
@@ -91,7 +104,7 @@ const ClassManagement = () => {
 
     return (
         <div>
-            <Navbar></Navbar>
+            <Navbar />
 
             <Container className='container'>
                 <h1 className="mt-4">Gerenciamento de Turmas</h1>
@@ -126,10 +139,8 @@ const ClassManagement = () => {
                     </Row>
                 </Form>
 
-                {/* Botão para exportar PDF */}
                 <Button variant="success" className="mb-4" onClick={handleExportPdf}>Exportar Turmas em PDF</Button>
 
-                {/* Lista de turmas que será exportada para o PDF */}
                 <Row id="class-list">
                     {filteredClasses.map(cls => (
                         <Col md={4} key={cls.classId} className="mb-4">
