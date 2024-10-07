@@ -5,7 +5,7 @@ Este projeto foi desenvolvido como parte do curso de **Análise e Desenvolviment
 
 É um sistema escolar desenvolvido para o gerenciamento acadêmico e administrativo do colégio técnico Mediotec. A aplicação foi criada utilizando **React** para o frontend, enquanto o backend foi implementado utilizando **Node.js** com **Express** e **PostgreSQL** como banco de dados relacional. O sistema permite o cadastro, edição e visualização de usuários, turmas, disciplinas e conceitos, além da emissão de comunicados.
 
-![Página de Login](https://github.com/RafaelMoura11/frontend-mediotec/blob/src/images/loginpage.png)
+![Página de Login](https://github.com/RafaelMoura11/frontend-mediotec/blob/master/src/images/loginpage.png)
 
 ## Funcionalidades Principais
 
@@ -33,11 +33,14 @@ Este projeto foi desenvolvido como parte do curso de **Análise e Desenvolviment
 ### Frontend:
 - **React**: Biblioteca JavaScript para construir interfaces de usuário.
 - **CSS** e **Framework de UI**: Para estilização (Bootstrap).
+<br><br> [![My Skills Front-end](https://skillicons.dev/icons?i=react,bootstrap,js,html,css)](https://skillicons.dev)
 
 ### Backend:
 - **Node.js**: Ambiente de execução para JavaScript no lado do servidor.
 - **Express**: Framework web para Node.js.
+- **Prisma**: ORM utilizado para facilitar o mapeamento de dados e as interações com o banco de dados.
 - **PostgreSQL**: Banco de dados relacional para armazenar as informações de usuários, turmas, disciplinas, conceitos e comunicados.
+<br><br> [![My Skills Front-end](https://skillicons.dev/icons?i=nodejs,js,express,prisma,postgresql)](https://skillicons.dev)
 
 ### Link para o repositório do Backend:
 - [Backend do Sistema Escolar](https://github.com/amaliacnasc/api-mediotec)
