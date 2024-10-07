@@ -91,7 +91,7 @@ function CourseManagement() {
   const excluirDisciplina = async () => {
     try {
       for (const courseId of selectedRows) {
-        await courseApi.delete(`/mediotec/disciplinas/coursedelete/${courseId}`);
+        await courseApi.delete(`https://api-mediotec.onrender.com/mediotec/disciplinas/coursedelete/${courseId}`);
       }
       fetchCourses();
       setSelectedRows([]);
