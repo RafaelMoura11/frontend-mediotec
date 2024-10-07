@@ -1,75 +1,91 @@
-// src/components/Login.js
 import React, { useState } from 'react';
-import loginImage from '../../images/imageLogin.jpg';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';  // Importação do Bootstrap Icons
+import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
-function Login() {
+import imageLogin from '../../images/imageLogin.png';
 
+function LoginPage() {
     const [userType, setUserType] = useState('Coordenador');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        console.log('Login info:', { userType, email, password });
-        // Adicionar lógica de autenticação
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
-
     return (
-        <div className="login-page">
+        <div className='login-page-main'>
+            <div className="login-page d-flex align-items-center">
+                <div className="image-section">
+                    <img src={imageLogin} alt="Login Illustration" className="img-fluid" />
+                </div>
+                <div className="form-section d-flex flex-column justify-content-center">
+                    <h2 className="text-center mb-4 h2-login">Login</h2>
 
-            <div className="login-image">
-                <img src={loginImage} alt="Login visual" />
-            </div>
+                    <Form className="login-form">
+                        {/* User Type */}
+                        <Form.Group className="mb-4">
+                            <InputGroup>
+                                <InputGroup.Text>
+                                    <i className="bi bi-person"></i>
+                                </InputGroup.Text>
+                                <Form.Select
+                                    aria-label="Selecione o tipo de usuário"
+                                    value={userType}
+                                    onChange={(e) => setUserType(e.target.value)}
+                                >
+                                    <option value="Coordenador">Coordenador</option>
+                                    <option value="Professor">Professor</option>
+                                    <option value="Aluno">Aluno</option>
+                                </Form.Select>
+                            </InputGroup>
+                        </Form.Group>
 
+                        {/* Email */}
+                        <Form.Group className="mb-4">
+                            <InputGroup>
+                                <InputGroup.Text>
+                                    <i className="bi bi-envelope"></i>
+                                </InputGroup.Text>
+                                <FormControl
+                                    type="email"
+                                    placeholder="seuemail@pe.edu.senac.br"
+                                    aria-label="Email"
+                                />
+                            </InputGroup>
+                        </Form.Group>
 
-            <div className="login-form">
+                        {/* Password */}
+                        <Form.Group className="mb-4">
+                            <InputGroup>
+                                <InputGroup.Text>
+                                    <i className="bi bi-lock"></i>
+                                </InputGroup.Text>
+                                <FormControl
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="Senha"
+                                    aria-label="Senha"
+                                />
+                                <InputGroup.Text onClick={togglePasswordVisibility} style={{ cursor: 'pointer' }}>
+                                    <i className="bi bi-eye"></i>
+                                </InputGroup.Text>
+                            </InputGroup>
+                        </Form.Group>
 
-                <h2 className='login-title'>Login</h2>
-
-                <form onSubmit={handleLogin}>
-                    <div className="input-group">
-                        <label htmlFor="userType">Tipo de usuário</label>
-                        <select
-                            id="userType"
-                            value={userType}
-                            onChange={(e) => setUserType(e.target.value)}
-                        >
-                            <option value="Coordenador">Coordenador</option>
-                            <option value="Professor">Professor</option>
-                            <option value="Aluno">Aluno</option>
-                        </select>
-                    </div>
-
-                    <div className="input-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="coordenador@pe.edu.senac.br"
-                            required
-                        />
-                    </div>
-
-                    <div className="input-group">
-                        <label htmlFor="password">Senha</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="********"
-                            required
-                        />
-                    </div>
-
-                    <button type="submit" className="login-button">Entrar</button>
-                </form>
+                        {/* Submit Button */}
+                        <div className="d-flex justify-content-center">
+                            <NavLink to="/">
+                                <Button variant="primary" type="button" className="btn btn-primary btn-lg btn-login">
+                                    Entrar
+                                </Button>
+                            </NavLink>
+                        </div>
+                    </Form>
+                </div>
             </div>
         </div>
     );
-};
+}
 
-export default Login;
+export default LoginPage;
