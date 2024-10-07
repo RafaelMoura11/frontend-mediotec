@@ -1,70 +1,104 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Sistema Escolar - Mediotec
 
-## Available Scripts
+Este projeto foi desenvolvido como parte do curso de **Análise e Desenvolvimento de Sistemas**, no **3º período**, da **Faculdade Senac**.
 
-In the project directory, you can run:
+É um sistema escolar desenvolvido para o gerenciamento acadêmico e administrativo do colégio técnico Mediotec. A aplicação foi criada utilizando **React** para o frontend, enquanto o backend foi implementado utilizando **Node.js** com **Express** e **PostgreSQL** como banco de dados relacional. O sistema permite o cadastro, edição e visualização de usuários, turmas, disciplinas e conceitos, além da emissão de comunicados.
 
-### `npm start`
+![Página de Login](https://github.com/RafaelMoura11/frontend-mediotec/blob/master/src/images/loginpage.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Funcionalidades Principais
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Gerenciamento de Usuários:
+- **Coordenadores**:
+  - Podem cadastrar, editar e remover alunos, professores, outros coordenadores.
+  - Gerenciam as permissões de acesso.
+- **Professores**:
+  - Visualizam informações de seus alunos e as disciplinas associadas.
 
-### `npm test`
+### Gerenciamento Acadêmico:
+- **Cadastro de Turmas e Disciplinas**:
+  - Coordenadores podem criar e organizar turmas e disciplinas.
+  - Podem associar professores e alunos conforme necessário.
+- **Registro de Conceitos**:
+  - Professores podem lançar, editar e visualizar os conceitos dos alunos em suas respectivas disciplinas.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Comunicações:
+- **Emissão de Comunicados**:
+  - Tanto coordenadores quanto professores podem criar e divulgar comunicados para alunos e turmas específicas.
+  - Os comunicados podem incluir informações sobre eventos, alterações no cronograma e outras notificações importantes.
 
-### `npm run build`
+## Tecnologias Utilizadas
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend:
+- **React**: Biblioteca JavaScript para construir interfaces de usuário.
+- **CSS** e **Framework de UI**: Para estilização (Bootstrap).
+<br><br> [![My Skills Front-end](https://skillicons.dev/icons?i=react,bootstrap,js,html,css)](https://skillicons.dev)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Backend:
+- **Node.js**: Ambiente de execução para JavaScript no lado do servidor.
+- **Express**: Framework web para Node.js.
+- **Prisma**: ORM utilizado para facilitar o mapeamento de dados e as interações com o banco de dados.
+- **PostgreSQL**: Banco de dados relacional para armazenar as informações de usuários, turmas, disciplinas, conceitos e comunicados.
+<br><br> [![My Skills Front-end](https://skillicons.dev/icons?i=nodejs,js,express,prisma,postgresql)](https://skillicons.dev)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Link para o repositório do Backend:
+- [Backend do Sistema Escolar](https://github.com/amaliacnasc/api-mediotec)
 
-### `npm run eject`
+## Instalação e Configuração
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone o repositório**:
+   ```bash
+   git clone https://github.com/RafaelMoura11/frontend-mediotec.git
+   ```
+   
+2. **Instale as dependências do frontend**:
+   ```bash
+   cd projeto-sistema-escolar
+   npm install
+   npm install bootstrap
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **Inicie o servidor de desenvolvimento do frontend**:
+   ```bash
+   npm start
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. **Backend**:
+   - Acesse o repositório do backend [aqui](https://github.com/amaliacnasc/api-mediotec) e siga as instruções para configurar o servidor com **Node.js**, **Express**, e **PostgreSQL**.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+5. **Acesse a aplicação**:
+   Abra seu navegador e vá até `http://localhost:3000` para ver a aplicação rodando localmente.
 
-## Learn More
+## Contribuindo
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Contribuições são bem-vindas! Se você tiver sugestões de melhoria, correções de bugs ou novas funcionalidades, abra um pull request ou uma issue.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. **Fork** o repositório.
+2. Crie um **branch** para sua feature:
+   ```bash
+   git checkout -b feature/nome-da-feature
+   ```
+3. Faça o **commit** das suas alterações:
+   ```bash
+   git commit -m "Adiciona nova feature"
+   ```
+4. **Push** para o branch:
+   ```bash
+   git push origin feature/nome-da-feature
+   ```
+5. Abra um **Pull Request**.
 
-### Code Splitting
+## Time de Desenvolvimento
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Este projeto foi construído com muito esforço por essa galera incrível:
 
-### Analyzing the Bundle Size
+![Rafael Moura](https://contrib.rocks/image?repo=RafaelMoura11/RafaelMoura11)
+![Amalia Nascimento](https://contrib.rocks/image?repo=amaliacnasc/amaliacnasc)
+![Luana Comin](https://contrib.rocks/image?repo=luanamcomin/luanamcomin)
+![Amanda Aguiar](https://contrib.rocks/image?repo=AmandaAguiarF/AmandaAguiarF)
+![Luiz Paulo](https://contrib.rocks/image?repo=Luizmachado87/Luizmachado87)
+![Abrão Saraiva](https://contrib.rocks/image?repo=Abrabarros/Abrabarros)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
