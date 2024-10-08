@@ -14,35 +14,53 @@ import {
   TextField,
   Dialog,
   DialogContent,
+  DialogTitle, // Importando o título do modal
+  Button, // Para fechar o modal
 } from '@mui/material';
 import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import html2pdf from 'html2pdf.js';
 
 import CreatePage from '../../components/CreateUser';
-import Navbar from '../../components/navBar'
+import Navbar from '../../components/navBar';
 
-// Componente principal
 function UserManagement() {
   const [filteredOptions] = useState([
-    { value: 'coordenador', viewValue: 'Coordenador' },
-    { value: 'professor', viewValue: 'Professor' },
-    { value: 'aluno', viewValue: 'Aluno' },
+    { value: 'ALL', viewValue: 'Todos' },
+    { value: 'COORDINATOR', viewValue: 'Coordenador' },
+    { value: 'TEACHER', viewValue: 'Professor' },
+    { value: 'STUDENT', viewValue: 'Aluno' },
   ]);
-  const [selectedOption1, setSelectedOption1] = useState('');
-  const [selectedOption2, setSelectedOption2] = useState('');
+  const [selectedOption1, setSelectedOption1] = useState('ALL');
   const [searchText, setSearchText] = useState('');
   const [selectedRows, setSelectedRows] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   const [open, setOpen] = useState(false);
 
+  // Novo estado para armazenar o usuário selecionado para o modal
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Função para buscar usuários com base no tipo selecionado
   useEffect(() => {
-    const fetchUsers = async () => {
-      const { data } = await usersApi.get('/mediotec/usuarios/');
-      setDataSource(data);
-    }
-    fetchUsers();
-  }, [])
+    const fetchUsersByRole = async () => {
+      try {
+        if (selectedOption1 === 'ALL') {
+          const { data } = await usersApi.get('/mediotec/usuarios/');
+          setDataSource(data);
+        } else {
+          const { data } = await usersApi.get(`/mediotec/usuarios/role/${selectedOption1}`);
+          setDataSource(data.length ? data : []);  // Se não encontrar resultados, define lista vazia
+        }
+      } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
+        setDataSource([]);
+      }
+    };
+
+    fetchUsersByRole();
+  }, [selectedOption1]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,12 +69,6 @@ function UserManagement() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  // Funções para manipular os eventos
-  // const adicionarUsuario = () => {
-  //   console.log('Adicionar usuário');
-  //   // Lógica para adicionar um novo usuário pode ser implementada aqui
-  // };
 
   const excluirUsuarios = () => {
     selectedRows.forEach(async (user) => {
@@ -74,8 +86,16 @@ function UserManagement() {
   };
 
   const exportarUsuarios = () => {
-    console.log('Exportar usuários');
-    // Lógica para exportar os usuários pode ser implementada aqui
+    const element = document.getElementById('user-table');
+    const opt = {
+      margin:       0.5,
+      filename:     'usuarios_exportados.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    html2pdf().from(element).set(opt).save();
   };
 
   const handleSearchChange = (event) => {
@@ -92,20 +112,28 @@ function UserManagement() {
 
   const isSelected = (row) => selectedRows.includes(row);
 
-  // Filtrar usuários com base no texto de pesquisa
   const filteredUsers = dataSource.filter((user) =>
     user.name.toLowerCase().includes(searchText.toLowerCase()) ||
     user.email.toLowerCase().includes(searchText.toLowerCase()) ||
     user.phone.includes(searchText)
   );
 
+  // Função para abrir o modal com informações do usuário
+  const handleUserClick = (user) => {
+    setSelectedUser(user);  // Armazena o usuário selecionado
+    setModalOpen(true);     // Abre o modal
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);    // Fecha o modal
+    setSelectedUser(null);  // Reseta o usuário selecionado
+  };
+
   return (
     <main>
-
       <Navbar></Navbar>
       <div className='container'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
-        
         
         <div className="button-row">
           <div className='button-crud'>
@@ -138,23 +166,6 @@ function UserManagement() {
             </Select>
           </FormControl>
 
-          <FormControl className='selecao_opcao'>
-            <InputLabel>Selecione uma opção</InputLabel>
-            <Select
-              value={selectedOption2}
-              onChange={(e) => setSelectedOption2(e.target.value)}
-            >
-              <MenuItem value="" disabled>
-                Selecione uma opção
-              </MenuItem>
-              {filteredOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.viewValue}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
           <TextField className='selecao_barra'
             label="Pesquisar"
             variant="outlined"
@@ -165,7 +176,7 @@ function UserManagement() {
         </div>
 
         <TableContainer>
-          <Table className='table'>
+          <Table className='table' id='user-table'>
             <TableHead className='tabela_topo'>
               <TableRow>
                 <TableCell padding="checkbox">
@@ -190,7 +201,13 @@ function UserManagement() {
                       onChange={() => handleRowToggle(row)}
                     />
                   </TableCell>
-                  <TableCell>{row.name}</TableCell>
+                  {/* Adicionando o evento onClick para abrir o modal */}
+                  <TableCell 
+                    style={{ cursor: 'pointer', color: 'blue' }} // Estilizando o nome como clicável
+                    onClick={() => handleUserClick(row)} // Abre o modal com os dados do usuário
+                  >
+                    {row.name}
+                  </TableCell>
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{formatPhone(row.phone)}</TableCell>
                   <TableCell>{formatDate(row.createdAt)}</TableCell>
@@ -199,14 +216,32 @@ function UserManagement() {
             </TableBody>
           </Table>
         </TableContainer>
-      <Dialog open={open} fullWidth>
-        <DialogContent>
-          <CreatePage handleClose={handleClose} user={selectedRows[0]} />
-        </DialogContent>
-      </Dialog>
-        </div>
+
+        {/* Modal para exibir informações detalhadas do usuário */}
+        <Dialog open={modalOpen} onClose={handleModalClose}>
+          <DialogTitle>Informações do Usuário</DialogTitle>
+          <DialogContent>
+            {selectedUser && (
+              <div>
+                <p><strong>Nome:</strong> {selectedUser.name}</p>
+                <p><strong>Email:</strong> {selectedUser.email}</p>
+                <p><strong>Telefone:</strong> {formatPhone(selectedUser.phone)}</p>
+                <p><strong>Data de Contratação:</strong> {formatDate(selectedUser.createdAt)}</p>
+                {/* Adicione mais detalhes aqui conforme necessário */}
+              </div>
+            )}
+            <Button onClick={handleModalClose} color="primary">Fechar</Button>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={open} fullWidth>
+          <DialogContent>
+            <CreatePage handleClose={handleClose} user={selectedRows[0]} />
+          </DialogContent>
+        </Dialog>
       </div>
-    </main>
+    </div>
+  </main>
   );
 }
 
