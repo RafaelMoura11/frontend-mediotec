@@ -40,7 +40,7 @@ function CourseManagement() {
 
   const fetchCourses = async () => {
     try {
-      const { data } = await courseApi.get('/mediotec/disciplinas/');
+      const { data } = await courseApi.get('/mediotec/disciplinas/todos');
       setDataSource(data);
     } catch (error) {
       console.error('Erro ao buscar disciplinas:', error);
@@ -179,17 +179,47 @@ function CourseManagement() {
                           onChange={() => handleCheckboxChange(course.courseId)}
                         />
                       </td>
-                      <td onClick={() => handleViewDetails(course)} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
-                        {course.courseName}
+                      <td>{course.courseName}</td>
+                      
+                      {/* Renderizar as turmas (pode haver várias por curso) */}
+                      <td>
+                        {course.classes.length > 0 ? (
+                          course.classes.map((classItem) => (
+                            <div key={classItem.classId}>
+                              {classItem.class.className} - {classItem.class.year}
+                            </div>
+                          ))
+                        ) : (
+                          'Turma não definida'
+                        )}
                       </td>
-                      <td>{course.className || 'Turma não definida'}</td>
                       <td>{course.workload}</td>
+                      {/* Renderizar os professores (usuários) associados às turmas */}
+                      <td>
+                        {course.classes.length > 0 ? (
+                          course.classes.map((classItem) => (
+                            <div key={classItem.classId}>
+                              {classItem.class.users.length > 0 ? (
+                                classItem.class.users.map((user) => (
+                                  <div key={user.userId}>{user.user.name}</div>
+                                ))
+                              ) : (
+                                'Sem professor'
+                              )}
+                            </div>
+                          ))
+                        ) : (
+                          'Sem professor'
+                        )}
+                      </td>
+
+
                       <td>
                         <button className='btn' onClick={() => handleEditClick(course)}>
                           <i className="bi bi-pencil-square"></i> Editar
                         </button>
-                        <button className='btn'>
-                        <i class="bi bi-person-add"></i>Add Professor e Turma
+                        <button className='btn' onClick={() => handleViewDetails(course)}>
+                          <i className="bi bi-person-add"></i> Add Professor e Turma
                         </button>
                       </td>
                     </tr>
