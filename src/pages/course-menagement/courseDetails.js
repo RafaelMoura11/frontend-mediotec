@@ -60,7 +60,7 @@ const postHandler = async () => {
     await api.post('/mediotec/usuarioDisc', userCourse);
     await api.post('/mediotec/turmaDisc', classCourse);
     await api.post('/mediotec/turmaUsuario', userClass);
-    navigate('/');
+    navigate('/course-management');
   } catch (error) {
       console.error(error);
   }
