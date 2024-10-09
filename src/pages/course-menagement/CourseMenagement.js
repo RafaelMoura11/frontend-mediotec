@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import '../course-menagement/courseMenagement.css';
-import Navbar from '../../components/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import html2pdf from 'html2pdf.js';
 import { useNavigate } from 'react-router-dom';
 import courseApi from '../../api';
+
+import Navbar from '../../components/navBar';
 
 function CourseManagement() {
   const [dataSource, setDataSource] = useState([]);

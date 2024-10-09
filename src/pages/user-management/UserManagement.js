@@ -142,18 +142,14 @@ function UserManagement() {
       <Navbar></Navbar>
       <div className='container mt-5'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
-        <Link to="/user-profile">PERFIL</Link>
 
         <div className="button-row">
-          <div className='button-crud'>
-            <button type="button" className="btn btn-success" onClick={handleClickOpen}>Adicionar Usuário</button>
-            <button className='btn btn-primary' disabled={!(selectedRows.length === 1)} variant="outlined" onClick={handleClickOpen}>Atualizar</button>
-            <button type="button" className="btn btn-danger" onClick={excluirUsuarios}>Excluir</button>
-          </div>
 
-          <div className='button-export'>
-            <button type="button" className="btn btn-secondary" onClick={exportarUsuarios}>Exportar</button>
-          </div>
+
+            <button type="button" className="btn btn-success me-2" onClick={handleClickOpen}>Adicionar Usuário</button>
+            <button className='btn btn-primary me-2' disabled={!(selectedRows.length === 1)} variant="outlined" onClick={handleClickOpen}>Atualizar</button>
+            <button type="button" className="btn btn-danger me-2" onClick={excluirUsuarios}>Excluir</button>
+            <button type="button" className="btn btn-outline-secondary" onClick={exportarUsuarios}>Exportar</button>
         </div>
 
         <div className='container-table'>
@@ -240,6 +236,7 @@ function UserManagement() {
           </Dialog>
         </div>
       </div>
+      <Link to="/user-profile">PERFIL</Link>
     </main>
   );
 }

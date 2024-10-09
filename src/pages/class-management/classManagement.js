@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Form, Card } from 'react-bootstrap'; // Adicionei Card aqui
 import { Dialog, DialogContent } from '@mui/material';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import classApi from '../../api';
 import html2pdf from 'html2pdf.js';
 
@@ -121,13 +123,11 @@ const ClassManagement = () => {
                             </Form.Group>
                         </Col>
                         <Col md={2}>
-                            <Button variant="primary" className="mt-2" onClick={handleClickOpenCreate}>Adicionar</Button>
+                            <Button variant="primary" className="btn-success" onClick={handleClickOpenCreate}>Adicionar</Button>
                         </Col>
                     </Row>
+                    <button className="btn btn-outline-secondary mt-4" onClick={handleExportPdf}>Relatório</button>
                 </Form>
-
-
-                <Button variant="success" className="mb-4" onClick={handleExportPdf}>Exportar Turmas em PDF</Button>
 
                 <Row id="class-list">
                     {filteredClasses.map(cls => (

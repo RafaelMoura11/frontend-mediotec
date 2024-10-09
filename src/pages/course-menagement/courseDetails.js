@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../api';
-import './courseDetails.css'
 import { Navbar } from 'react-bootstrap';
 
 function DisciplinaPage() {
