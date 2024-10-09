@@ -4,7 +4,7 @@ import Navbar from '../../components/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import html2pdf from 'html2pdf.js'; 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import courseApi from '../../api';
 
 function CourseManagement() {
@@ -75,6 +75,10 @@ function CourseManagement() {
       description: course.description,
     });
     setShowModal(true);
+  };
+
+  const handleViewDetails = (course) => {
+    navigate(`/detalhes/id/${course.courseId}`);
   };
 
   const handleCheckboxChange = (courseId) => {
@@ -218,6 +222,9 @@ function CourseManagement() {
                         <button className='btn' onClick={() => handleEditClick(course)}>
                           <i className="bi bi-pencil-square"></i> Editar
                         </button>
+                        <button className='btn' onClick={() => handleViewDetails(course)}>
+                          <i className="bi bi-person-add"></i> Ver Detalhes
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -257,20 +264,20 @@ function CourseManagement() {
                   rows="6"
                   value={newCourse.description}
                   onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
-                  />
-                </div>
-                <div className="modal-footer">
-                  <button className="btn btn-secondary" onClick={handleCloseModal}>Fechar</button>
-                  <button className="btn btn-primary" onClick={isEditing ? handleEditCourse : handleAddCourse}>
-                    {isEditing ? 'Salvar Alterações' : 'Adicionar'}
-                  </button>
-                </div>
+                />
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={handleCloseModal}>Fechar</button>
+                <button className="btn btn-primary" onClick={isEditing ? handleEditCourse : handleAddCourse}>
+                  {isEditing ? 'Salvar Alterações' : 'Adicionar'}
+                </button>
               </div>
             </div>
           </div>
-        )}
-      </main>
-    );
-  }
-  
-  export default CourseManagement;
+        </div>
+      )}
+    </main>
+  );
+}
+
+export default CourseManagement;
