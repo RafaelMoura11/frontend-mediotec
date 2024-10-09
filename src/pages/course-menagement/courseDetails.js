@@ -1,89 +1,115 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import api from '../../api';
 import './courseDetails.css'
-
-import Navbar from '../../components/navBar';
+import { Navbar } from 'react-bootstrap';
 
 function DisciplinaPage() {
-  /* const { id } = useParams(); // Pega o ID da rota
-   const [course, setCourse] = useState(null);
+const navigate = useNavigate();
+const [fields, setFields] = useState({
+  userId: '',
+  classId: ''
+});
+
  
-   const fetchCourseDetails = async () => {
-     try {
-       const { data } = await courseApi.get(`/mediotec/disciplinas/${id}`); // Altere a rota para corresponder à sua API
-       setCourse(data);
-     } catch (error) {
-       console.error('Erro ao buscar detalhes da disciplina:', error);
-     }
-   };
- 
-   useEffect(() => {
-     fetchCourseDetails();
-   }, [id]);
- 
-   if (!course) {
-     return <div>Loading...</div>; // Renderiza um carregando enquanto espera a resposta
-     <div>
-       <h1>{course.courseName}</h1>
-       <p>{course.description}</p>
-       <p>Carga Horária: {course.workload}</p>
-     
-     </div>
-   }
- */
-  return (
-    <div>
-      <Navbar></Navbar>
+const [course, setCourse] = useState( {
+  
+    courseId: '',
+    courseName: '',
+    description: '',
+    workload: ''
+  
 
-      <div className='container-fluid container-details'>
-        <div className='row'>
-          <div className='col-lg-12 d-flex justify-content-between bg-roxo'>
-            <h2 className='text-uppercase text-white '>Nome da Disciplina</h2>
-            <NavLink to="/conceitos">
-              <button className='btn roxo botao-ementa'>Cadastrar Conceitos</button>
-            </NavLink>
-          </div>
+})
 
-          <div className='form-course-detail'>
-            <div className='col-lg-10  rounded pill p-2  roxo mt-4 '>
-              <h5>Professor: </h5>
-              <select className='border rounded pill'>
-                <option value="" >Selecione um professor</option>
-                <option>Geraldo</option>
-                <option>Rafaela</option>
-              </select>
+const [teachers, setTeachers] = useState([])
+const [classes, setClasses] = useState([])
 
-            </div>
-            <div className='col-lg-10  rounded pill p-2  roxo mt-4 d-flex justify-content-between'>
-              <h5>Carga Horária: 160h</h5>
-            </div>
-            <div className='col-lg-10  rounded pill p-2 roxo mt-4 d-flex justify-content-between'>
-              <h5>Turma: </h5>
-              <select className='ml-2 border rounded pill' >
-                <option value="" >Selecione uma turma</option>
-                <option>3A</option>
-                <option>3B</option>
-              </select>
-            </div>
+const { courseId } = useParams();
 
-            <div className='col-lg-10  rounded pill p-2 roxo mt-4 '>
-              <h6>Ementa</h6>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla gravida orci a odio, et dictum libero tincidunt nec.
+const handleChange = (e) => {
+  const { id, value } = e.target;
+  setFields({
+      ...fields,
+      [id]: value,
+  });
+};
 
-              </p>
-            </div>
-          </div>
-          <div className='d-flex justify-content-end'>
-            <NavLink to="/course-management">
-              <button className='btn btn-secondary'>Voltar</button>
-            </NavLink>
-          </div>
-        </div>
+useEffect(() => {
+  const fetchCourseById = async (id) => {
+    try {
+      const { data: disciplina } = await api.get(`/mediotec/disciplinas/id/${id}`);
+      const { data: professores } = await api.get("/mediotec/usuarios/role/TEACHER");
+      const { data: turmas } = await api.get("/mediotec/turmas");
+      setCourse(disciplina);
+      setTeachers(professores);
+      setClasses(turmas);
+    } catch (error) {
+      console.error('Erro ao buscar detalhes da disciplina:', error);
+    }
+  };
 
-      </div>
-    </div>
+  fetchCourseById(courseId);
+}, [courseId]);
 
-  );
+const postHandler = async () => {
+  try {
+    const userCourse = { userId: fields.userId, courseId };
+    const classCourse = { classId: fields.classId, courseId };
+    const userClass = { userId: fields.userId, classId: fields.classId };
+    await api.post('/mediotec/usuarioDisc', userCourse);
+    await api.post('/mediotec/turmaDisc', classCourse);
+    await api.post('/mediotec/turmaUsuario', userClass);
+    navigate('/course-management');
+  } catch (error) {
+      console.error(error);
+  }
 }
 
+if (!course) {
+  return <div>Loading...</div>;
+}
+return (
+  <div className='container-fluid bg-light'>
+    <Navbar></Navbar>
+    {/* Renderização normal quando course está presente */}
+    <div className='row bloco-principal'>
+      <div className='col-lg-12 d-flex justify-content-between bg-roxo'>
+        <h2 className='text-uppercase text-white mt-2'>{course.courseName}</h2>
+        <button className='btn roxo botao-ementa'>Cadastrar Conceitos</button>
+      </div>
+      <div className='col-lg-10 rounded pill p-2 roxo mt-4 d-flex justify-content-between'>
+        <h5>Professor: </h5>
+        <select className='border rounded pill' id="userId" onChange={handleChange}>
+          <option value="">Selecione um professor</option>
+          {
+            teachers.map((teacher) => <option value={ teacher.userId }>{ teacher.name }</option>)
+          }
+        </select>
+      </div>
+      <div className='col-lg-10 rounded pill p-2 roxo mt-4 d-flex justify-content-between'>
+        <h5>{course.workload}</h5>
+      </div>
+      <div className='col-lg-10 rounded pill p-2 roxo mt-4 d-flex justify-content-between'>
+        <h5>Turma:</h5>
+        <select className='ml-2 border rounded pill' id="classId" onChange={handleChange}>
+          <option value="">Selecione uma turma</option>
+          {
+            classes.map((cls) => <option value={ cls.classId }>{ cls.className } - { cls.year }</option>)
+          }
+        </select>
+      </div>
+      <div className='col-lg-10 rounded pill p-2 roxo mt-4'>
+        <h6>Ementa</h6>
+        <p>
+        {course.description}
+        </p>
+      </div>
+      <div className='d-flex justify-content-end'>
+        <button className='btn btn-secondary' onClick={ () => navigate('/course-management') }>Voltar</button>
+        <button className='btn btn-primary' onClick={ postHandler }>Atribuir</button>
+      </div>
+    </div>
+  </div>
+);}
 export default DisciplinaPage;

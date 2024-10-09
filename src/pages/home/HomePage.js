@@ -64,9 +64,9 @@ function HomePage() {
                   <h5 className='mt-2 text-uppercase'>Disciplinas</h5>
                 </Link>
               </div>
-              <div className='col-lg-6 background-roxo d-flex flex-column align-items-center '>
-                <Link className="text-white" to="/class-management">
-                  <img src={classes} alt="Turmas" className='img-fluid' />
+              <div className='col-lg-4 background-roxo d-flex flex-column align-items-center'>
+                <Link className="text-white" to="/class">
+                  <img src={classes} alt="turmas" className='img-fluid' />
                   <h5 className='mt-2 text-uppercase'>Turmas</h5>
                 </Link>
               </div>

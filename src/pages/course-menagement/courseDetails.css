@@ -1,5 +1,21 @@
+.header h2 {
+    color: #6c63ff;
+}
+
+.edit-btn {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 .edit-btn:hover {
     background-color: #ddd;
+}
+
+.form-actions {
+    text-align: right;
 }
 
 .btn-primary {
@@ -9,23 +25,30 @@
 .btn-primary:hover {
     background-color: #574fcc;
 }
+
+.roxo{
+    background-color: #ffffff;
+    border: 1px solid #7326BF;
+}
 .bg-roxo{
     background-color:#9747FF;
     display: inline-block;
     padding: 0.5rem 1rem;
-    border-radius: 0.7rem;
+    border-radius: 0;
     border: 1px solid transparent;
+
 }
 .botao-ementa:hover{
     background-color: #c09ce5;
     color:#ffffff
 }
 
-.container-details{
-    padding: 20px 40px;
-    width: 70vw;
+.modal-tamanho{
+height: 80vh;
+width: 100vh;
 }
 
-.form-course-detail{
-    display: ruby;
+.bloco-principal{
+    display: flex;
+    justify-content: space-around
 }
