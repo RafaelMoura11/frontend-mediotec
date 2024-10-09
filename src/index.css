@@ -1,6 +1,6 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
 }
 
@@ -29,7 +29,7 @@ img {
 /*--------------------NAVBAR--------------------*/
 /* Customização da navbar */
 .navbar {
-  background-color: #7326BF !important;
+  background-color: #7326bf !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -42,7 +42,7 @@ img {
   padding: 10px 20px;
 }
 
-.navbar-container-fluid{
+.navbar-container-fluid {
   width: 100%;
 }
 
@@ -53,12 +53,12 @@ img {
 }
 
 .navbar .nav-link:hover {
-  color: #64D0EA;
+  color: #64d0ea;
   font-weight: bold;
 }
 
 .navbar .nav-link.active-link {
-  color: #E33BD0 !important;
+  color: #e33bd0 !important;
   font-weight: bold;
 }
 
@@ -90,7 +90,7 @@ img {
   width: auto;
 }
 
-.tipo-usuario{
+.tipo-usuario {
   color: #ffffff;
 }
 
@@ -113,7 +113,7 @@ img {
 }
 
 .title {
-  background: linear-gradient(90deg, #E33BD0 0%, #9747FF 87%);
+  background: linear-gradient(90deg, #e33bd0 0%, #9747ff 87%);
   color: #fff;
   padding: 15px;
   font-size: 24px;
@@ -162,11 +162,12 @@ label {
   margin-bottom: 5px;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 10px;
   border: 1px solid;
-  border-image: linear-gradient(90deg, #E33BD0 0%, #9747FF 87%) 1;
+  border-image: linear-gradient(90deg, #e33bd0 0%, #9747ff 87%) 1;
   border-radius: 4px;
   font-size: 16px;
   color: #333;
@@ -177,7 +178,8 @@ input::placeholder {
 }
 
 /* Botões */
-.btn-cancelar, .btn-salvar {
+.btn-cancelar,
+.btn-salvar {
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
@@ -212,8 +214,8 @@ input::placeholder {
   margin-top: 20px;
 }
 
-.btn-roxo{
-  background-color: #9747FF !important;
+.btn-roxo {
+  background-color: #9747ff !important;
   color: #ffffff !important;
 }
 
@@ -246,15 +248,14 @@ input::placeholder {
   }
 }
 
-
 /*----------------HOME----------------*/
 
-.HomePage{
+.HomePage {
   justify-content: center;
 }
 
-.back-roxo{
-  background-color: #AF52DE;
+.back-roxo {
+  background-color: #af52de;
   border-radius: 5px;
   padding: 10px;
 }
@@ -262,7 +263,7 @@ input::placeholder {
 .custom-row {
   margin-top: 20px !important;
   margin-right: 100px !important;
-  margin-left: 100px !important; 
+  margin-left: 100px !important;
 }
 
 .background-roxo {
@@ -282,72 +283,68 @@ input::placeholder {
   max-height: 60px;
 }
 
-.background-roxo-quadrado{
+.background-roxo-quadrado {
   background-color: #6a1b9a;
   width: 100%;
   height: 8vh;
 }
 
-.comunicados{
+.comunicados {
   height: 100%;
   overflow-y: auto;
 }
 
-.calendario{
+.calendario {
   height: auto;
   width: 80%;
 }
 
-.fonte-calendario{
+.fonte-calendario {
   color: #6a1b9a;
-
 }
 
-.container-calendario{
+.container-calendario {
   width: 100%;
   height: auto;
   text-align: center;
 }
 
-.quadrados{
+.quadrados {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-
 /*-------------------------MODAL CLASS---------------------------*/
 
 .custom-modal-title {
-  background-color: #7326BF; /* Cor de fundo */
-  color: #FFFFFF; /* Cor da fonte */
-  padding: 10px; /* Adiciona um pouco de espaço interno */    
+  background-color: #7326bf; /* Cor de fundo */
+  color: #ffffff; /* Cor da fonte */
+  padding: 10px; /* Adiciona um pouco de espaço interno */
 }
-  
+
 .custom-close-button {
-  color: #FFFFFF; /* Cor da fonte do botão de fechar */
+  color: #ffffff; /* Cor da fonte do botão de fechar */
 }
 
 .custom-save-button {
-  background-color: #00CD0F; /* Cor de fundo do botão Salvar */
-  color: #FFFFFF; /* Cor da fonte */
+  background-color: #00cd0f; /* Cor de fundo do botão Salvar */
+  color: #ffffff; /* Cor da fonte */
   border: none; /* Remove a borda padrão */
 }
 
 .custom-cancel-button {
   background-color: #808080; /* Cor de fundo do botão Cancelar (grays/gray) */
-  color: #FFFFFF; /* Cor da fonte */
+  color: #ffffff; /* Cor da fonte */
   border: none; /* Remove a borda padrão */
 }
-
-
 
 /*-------------------USER MANAGEMENT-------------------*/
 .titulo {
   margin-top: 20px;
   margin-left: 20px;
   font-weight: bold;
-  font-size: 28px; 
+  font-size: 28px;
 }
 
 .button-row {
@@ -358,7 +355,7 @@ input::placeholder {
   gap: 10px;
 }
 
-.botao1 { 
+.botao1 {
   background-color: #1ebe2b;
   color: #000;
   width: 150px;
@@ -366,7 +363,7 @@ input::placeholder {
   border-radius: 4px;
 }
 
-.botao2 { 
+.botao2 {
   background-color: #2f83e4;
   color: #000;
   width: 150px;
@@ -375,16 +372,16 @@ input::placeholder {
 }
 
 .botao3 {
-  background-color: #F35752;
+  background-color: #f35752;
   color: #000;
   width: 80px;
   padding: 4px;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 .botao4 {
   background-color: #837a7a;
-  color: #000;    
+  color: #000;
   width: 80px;
   padding: 4px;
   border-radius: 4px;
@@ -392,7 +389,7 @@ input::placeholder {
 
 .button-crud {
   display: flex;
-  gap: 10px; 
+  gap: 10px;
   height: 56px;
 }
 
@@ -403,7 +400,7 @@ input::placeholder {
 }
 
 .container-table {
-  background-color: #F2F2F7;
+  background-color: #f2f2f7;
   padding: 10px;
   border-radius: 5px;
 }
@@ -438,13 +435,12 @@ input::placeholder {
   text-align: left;
 }
 
-
 /*--------------------LOGIN PAGE--------------------*/
-.login-page-main{
+.login-page-main {
   height: 100%;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background-color: #9747FF;
+  font-family: "Poppins", sans-serif;
+  background-color: #9747ff;
 }
 
 .login-page {
@@ -452,7 +448,6 @@ input::placeholder {
 }
 
 .image-section {
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -469,7 +464,7 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #9747FF;
+  background-color: #9747ff;
 }
 
 .h2-login {
@@ -494,7 +489,7 @@ input::placeholder {
 
 .btn-login {
   background-color: #ffffff !important;
-  color: #9747FF !important;
+  color: #9747ff !important;
   transition: background-color 0.3s ease;
   border: none !important;
   width: 200px;
@@ -502,4 +497,25 @@ input::placeholder {
 
 .btn-login:hover {
   background-color: #574fcc;
+}
+
+/*--------------------CONCEITOS TABLE--------------------*/
+table {
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  text-align: center;
+  padding: 8px;
+}
+
+thead {
+  background-color: #f7f7f7;
+}
+
+.btn {
+  min-width: 100px;
+  padding: 10px 20px;
 }

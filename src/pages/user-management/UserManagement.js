@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   FormControl,
   InputLabel,
@@ -132,9 +133,9 @@ function UserManagement() {
   return (
     <main>
       <Navbar></Navbar>
-      <div className='container'>
+      <div className='container mt-5'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
-        
+        <Link to ="/user-profile">PERFIL</Link>
         <div className="button-row">
           <div className='button-crud'>
             <button type="button" className="btn btn-success" onClick={handleClickOpen}>Adicionar Usuário</button>
