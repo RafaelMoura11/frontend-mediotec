@@ -94,7 +94,7 @@ img {
   color: #ffffff;
 }
 
-/*--------------------CREATE USER--------------------*/
+/*--------------------MODAL USER--------------------*/
 
 .profile-picture {
   display: flex;
@@ -112,15 +112,7 @@ img {
   border-radius: 50%;
 }
 
-.title {
-  background: linear-gradient(90deg, #e33bd0 0%, #9747ff 87%);
-  color: #fff;
-  padding: 15px;
-  font-size: 24px;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 20px;
-}
+
 
 .edit-icon-user {
   position: absolute;
