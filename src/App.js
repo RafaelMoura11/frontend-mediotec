@@ -9,6 +9,8 @@ import Login from './pages/login/Login';
 import HomePage from './pages/home/HomePage'
 import CourseManagement from './pages/course-menagement/CourseMenagement';
 import DisciplinaPage from './pages/course-menagement/courseDetails';
+import ClassDetails from './pages/class-details/class-details';
+
 
 function App() {
   return (
@@ -37,8 +39,10 @@ function App() {
         <Route path="/modal-class" element={<ModalClass />} />
         <Route path="/course-management" element={<CourseManagement />} />
         <Route path="/detalhes/id/:courseId" element={<DisciplinaPage/>} />
+        <Route path="/class-details" element={<ClassDetails/>} />
       </Routes>
     </Router>
+    
   );
 }
 
