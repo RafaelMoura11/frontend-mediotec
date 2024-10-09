@@ -3,15 +3,15 @@ import '../course-menagement/courseMenagement.css';
 import Navbar from '../../components/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import html2pdf from 'html2pdf.js'; // Importação da biblioteca html2pdf
+import html2pdf from 'html2pdf.js'; 
 import { Link, useNavigate } from 'react-router-dom';
 import courseApi from '../../api';
-import DisciplinaPage from './courseDetails';
 
 function CourseManagement() {
   const [dataSource, setDataSource] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOption, setSortOption] = useState('alphabetic');
   const [showModal, setShowModal] = useState(false);
-  const [showDetailModal, setShowDetailModal] = useState(false); // Novo estado para o modal de detalhes
   const [isEditing, setIsEditing] = useState(false);
   const [currentCourseId, setCurrentCourseId] = useState(null);
   const [newCourse, setNewCourse] = useState({
@@ -20,8 +20,21 @@ function CourseManagement() {
     description: '',
   });
   const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState(null); // Novo estado para os detalhes da disciplina
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const fetchCourses = async () => {
+    try {
+      const { data } = await courseApi.get('/mediotec/disciplinas/todos');
+      setDataSource(data);
+    } catch (error) {
+      console.error('Erro ao buscar disciplinas:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
   const handleOpenModal = () => {
     setShowModal(true);
     setIsEditing(false);
@@ -31,20 +44,6 @@ function CourseManagement() {
   const handleCloseModal = () => {
     setShowModal(false);
     setNewCourse({ courseName: '', workload: '', description: '' });
-  };
-
-  const handleCloseDetailModal = () => {
-    setShowDetailModal(false);
-    setSelectedCourse(null);
-  };
-
-  const fetchCourses = async () => {
-    try {
-      const { data } = await courseApi.get('/mediotec/disciplinas/todos');
-      setDataSource(data);
-    } catch (error) {
-      console.error('Erro ao buscar disciplinas:', error);
-    }
   };
 
   const handleAddCourse = async () => {
@@ -78,15 +77,11 @@ function CourseManagement() {
     setShowModal(true);
   };
 
-  const handleViewDetails = (course) => {
-    setSelectedCourse(course);
-    navigate(`/detalhes/id/${course.courseId}`)
- 
+  const handleCheckboxChange = (courseId) => {
+    setSelectedRows((prev) =>
+      prev.includes(courseId) ? prev.filter((id) => id !== courseId) : [...prev, courseId]
+    );
   };
-
-  useEffect(() => {
-    fetchCourses();
-  }, []);
 
   const excluirDisciplina = async () => {
     try {
@@ -100,15 +95,8 @@ function CourseManagement() {
     }
   };
 
-  const handleCheckboxChange = (courseId) => {
-    setSelectedRows((prev) =>
-      prev.includes(courseId) ? prev.filter((id) => id !== courseId) : [...prev, courseId]
-    );
-  };
-
-  // Função para exportar o conteúdo como PDF
   const handleExportPDF = () => {
-    const element = document.getElementById('exportTable'); // Seleciona o conteúdo que será exportado
+    const element = document.getElementById('exportTable');
     const opt = {
       margin: 0.5,
       filename: 'disciplinas.pdf',
@@ -116,8 +104,17 @@ function CourseManagement() {
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
-    html2pdf().from(element).set(opt).save(); // Gera o PDF a partir do conteúdo
+    html2pdf().from(element).set(opt).save();
   };
+
+  const filteredCourses = dataSource
+    .filter(course => course.courseName.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      if (sortOption === 'alphabetic') return a.courseName.localeCompare(b.courseName);
+      if (sortOption === 'mais_novo') return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sortOption === 'mais_antigo') return new Date(a.createdAt) - new Date(b.createdAt);
+      return 0;
+    });
 
   return (
     <main>
@@ -135,19 +132,27 @@ function CourseManagement() {
               <button className='btn btn-danger' onClick={excluirDisciplina}>
                 Excluir
               </button>
-              
             </div>
             <button className='btn btn-primary' onClick={handleExportPDF}>Exportar</button>
           </div>
-         
         </div>
 
         <div className='row mt-3'>
           <div className='col-12 col-md-6'>
-            <input type='text' className='form-control' placeholder='Pesquisar' />
+            <input
+              type='text'
+              className='form-control'
+              placeholder='Pesquisar'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           <div className='col-12 col-md-3 mt-2 mt-md-0'>
-            <select className='form-control'>
+            <select
+              className='form-control'
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
               <option value="alphabetic">A-Z</option>
               <option value="mais_novo">Mais Novo</option>
               <option value="mais_antigo">Mais Antigo</option>
@@ -155,7 +160,7 @@ function CourseManagement() {
           </div>
         </div>
 
-        <div className='row mt-5' id="exportTable"> {/* Este ID vai encapsular a tabela para exportação */}
+        <div className='row mt-5' id="exportTable">
           <div className='col-12'>
             <div className='table-responsive'>
               <table className='table table-bordered'>
@@ -170,7 +175,7 @@ function CourseManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {dataSource.map((course) => (
+                  {filteredCourses.map((course) => (
                     <tr key={course.courseId}>
                       <td>
                         <input
@@ -180,8 +185,6 @@ function CourseManagement() {
                         />
                       </td>
                       <td>{course.courseName}</td>
-                      
-                      {/* Renderizar as turmas (pode haver várias por curso) */}
                       <td>
                         {course.classes.length > 0 ? (
                           course.classes.map((classItem) => (
@@ -194,7 +197,6 @@ function CourseManagement() {
                         )}
                       </td>
                       <td>{course.workload}</td>
-                      {/* Renderizar os professores (usuários) associados às turmas */}
                       <td>
                         {course.classes.length > 0 ? (
                           course.classes.map((classItem) => (
@@ -212,14 +214,9 @@ function CourseManagement() {
                           'Sem professor'
                         )}
                       </td>
-
-
                       <td>
                         <button className='btn' onClick={() => handleEditClick(course)}>
                           <i className="bi bi-pencil-square"></i> Editar
-                        </button>
-                        <button className='btn' onClick={() => handleViewDetails(course)}>
-                          <i className="bi bi-person-add"></i> Add Professor e Turma
                         </button>
                       </td>
                     </tr>
@@ -260,22 +257,20 @@ function CourseManagement() {
                   rows="6"
                   value={newCourse.description}
                   onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
-                />
-              </div>
-              <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={handleCloseModal}>Fechar</button>
-                <button className="btn btn-primary" onClick={isEditing ? handleEditCourse : handleAddCourse}>
-                  {isEditing ? 'Salvar Alterações' : 'Adicionar'}
-                </button>
+                  />
+                </div>
+                <div className="modal-footer">
+                  <button className="btn btn-secondary" onClick={handleCloseModal}>Fechar</button>
+                  <button className="btn btn-primary" onClick={isEditing ? handleEditCourse : handleAddCourse}>
+                    {isEditing ? 'Salvar Alterações' : 'Adicionar'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-
-   
-    </main>
-  );
-}
-
-export default CourseManagement;
+        )}
+      </main>
+    );
+  }
+  
+  export default CourseManagement;
