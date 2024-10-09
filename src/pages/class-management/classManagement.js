@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Form, Card } from 'react-bootstrap'; // Adicionei Card aqui
 import { Dialog, DialogContent } from '@mui/material';
-import { Link } from 'react-router-dom'; // Adicionei o Link do react-router-dom
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material'; // Adicionei os ícones de edição e exclusão
-import { IconButton } from '@mui/material'; // Adicionei IconButton
 import classApi from '../../api';
-import Navbar from '../../components/navBar';
 import html2pdf from 'html2pdf.js';
+
+import Navbar from '../../components/navBar';
 import CreateClassModal from '../../components/CreateClassModal';
 import EditClassModal from '../../components/EditClassModal';
+import ClassCard from '../../components/ClassCard';
 
 const ClassManagement = () => {
-    // Seu código existente
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedType, setSelectedType] = useState('');
     const [classes, setClasses] = useState([]);
@@ -128,32 +126,18 @@ const ClassManagement = () => {
                     </Row>
                 </Form>
 
-                <Button variant="success" className="mb-4" onClick={handleExportPdf}>Exportar Turmas em PDF</Button>
 
-                {/* Link para adicionar alunos */}
-                <Link to={'/class-details'}>
-                    <Button>Adicionar Alunos à turma</Button>
-                </Link>
+                <Button variant="success" className="mb-4" onClick={handleExportPdf}>Exportar Turmas em PDF</Button>
 
                 <Row id="class-list">
                     {filteredClasses.map(cls => (
-                        <Col md={4} key={cls.classId} className="mb-4">
-                            <Card>
-                                <Card.Body>
-                                    <div className='d-flex justify-content-between back-roxo'>
-                                        <Card.Title className='text-white text-uppercase'>{cls.className}</Card.Title>
-                                    </div>
-                                    <Card.Text>{cls.year}</Card.Text>
-                                    <div className="mt-3 d-flex justify-content-between">
-                                        <IconButton onClick={() => handleClickOpenEdit(cls)}>
-                                            <EditIcon color="primary" />
-                                        </IconButton>
-                                        <IconButton onClick={() => handleDelete(cls.classId)}>
-                                            <DeleteIcon color="error" />
-                                        </IconButton>
-                                    </div>
-                                </Card.Body>
-                            </Card>
+                        <Col md={4} key={cls.classId}>
+                            <ClassCard
+                                className={cls.className}
+                                year={cls.year}
+                                onEdit={() => handleClickOpenEdit(cls)}
+                                onDelete={() => handleDelete(cls.classId)}
+                            />
                         </Col>
                     ))}
                 </Row>

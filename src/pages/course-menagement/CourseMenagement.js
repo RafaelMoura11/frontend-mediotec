@@ -35,35 +35,26 @@ function CourseManagement() {
     fetchCourses();
   }, []);
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-    setIsEditing(false);
-    setNewCourse({ courseName: '', workload: '', description: '' });
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setNewCourse({ courseName: '', workload: '', description: '' });
-  };
-
-  const handleAddCourse = async () => {
+  const excluirDisciplina = async () => {
     try {
-      await courseApi.post('/mediotec/disciplinas/', newCourse);
+      for (const courseId of selectedRows) {
+        await courseApi.delete(`/mediotec/disciplinas/coursedelete/${courseId}`);
+      }
       fetchCourses();
-      handleCloseModal();
+      setSelectedRows([]);
     } catch (error) {
-      console.error('Erro ao adicionar curso:', error);
+      console.error('Erro ao excluir disciplina:', error);
     }
   };
 
-  const handleEditCourse = async () => {
-    try {
-      await courseApi.put(`/mediotec/disciplinas/courseupdate/${currentCourseId}`, newCourse);
-      fetchCourses();
-      handleCloseModal();
-    } catch (error) {
-      console.error('Erro ao editar curso:', error);
-    }
+  const handleCheckboxChange = (courseId) => {
+    setSelectedRows((prev) =>
+      prev.includes(courseId) ? prev.filter((id) => id !== courseId) : [...prev, courseId]
+    );
+  };
+
+  const handleViewDetails = (course) => {
+    navigate(`/detalhes/id/${course.courseId}`);
   };
 
   const handleEditClick = (course) => {
@@ -77,30 +68,35 @@ function CourseManagement() {
     setShowModal(true);
   };
 
-  const handleViewDetails = (course) => {
-    navigate(`/detalhes/id/${course.courseId}`);
-  };
-
-  const handleCheckboxChange = (courseId) => {
-    setSelectedRows((prev) =>
-      prev.includes(courseId) ? prev.filter((id) => id !== courseId) : [...prev, courseId]
-    );
-  };
-
-  const excluirDisciplina = async () => {
+  const handleEditCourse = async () => {
     try {
-      for (const courseId of selectedRows) {
-        await courseApi.delete(`https://api-mediotec.onrender.com/mediotec/disciplinas/coursedelete/${courseId}`);
-      }
+      await courseApi.put(`/mediotec/disciplinas/courseupdate/${currentCourseId}`, newCourse);
       fetchCourses();
-      setSelectedRows([]);
+      handleCloseModal();
     } catch (error) {
-      console.error('Erro ao excluir disciplina:', error);
+      console.error('Erro ao editar curso:', error);
     }
   };
 
+  const handleAddCourse = async () => {
+    try {
+      await courseApi.post('/mediotec/disciplinas/', newCourse);
+      fetchCourses();
+      handleCloseModal();
+    } catch (error) {
+      console.error('Erro ao adicionar curso:', error);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setNewCourse({ courseName: '', workload: '', description: '' });
+    setIsEditing(false);
+  };
+
+  // Função para exportar o PDF
   const handleExportPDF = () => {
-    const element = document.getElementById('exportTable');
+    const element = document.getElementById('course-report');  // Elemento a ser exportado
     const opt = {
       margin: 0.5,
       filename: 'disciplinas.pdf',
@@ -124,19 +120,21 @@ function CourseManagement() {
     <main>
       <Navbar />
 
-      <div className='container  mt-5 '>
+      <div className='container mt-5'>
         <h1 className='titulo'>Gerenciamento de Disciplinas</h1>
 
         <div className="d-flex justify-content-between align-items-center mt-4">
           <div>
-            <button className="btn btn-success me-2" onClick={handleOpenModal}>
+            <button className="btn btn-success me-2" onClick={() => setShowModal(true)}>
               Adicionar
             </button>
             <button className="btn btn-danger" onClick={excluirDisciplina}>
               Excluir
             </button>
           </div>
-          <button className="btn btn-outline-secondary">Relatório</button>
+          <button className="btn btn-outline-secondary" onClick={handleExportPDF}>
+            Relatório
+          </button>
         </div>
 
         <div className='row mt-3'>
@@ -162,7 +160,7 @@ function CourseManagement() {
           </div>
         </div>
 
-        {/* Linhas */}
+        {/* Conteúdo das Disciplinas */}
         <div className="row mt-4">
           {filteredCourses.map((course) => (
             <div className="col-12 mb-2" key={course.courseId}>
@@ -182,7 +180,6 @@ function CourseManagement() {
                       Professor: {course.classes[0]?.class.users[0]?.user.name || 'Sem professor'}
                     </p>
                   </div>
-
                 </div>
                 <div className="d-flex mt-2">
                   <button className="btn btn-outline-secondary me-2" onClick={() => handleViewDetails(course)}>
@@ -197,6 +194,31 @@ function CourseManagement() {
           ))}
         </div>
 
+        {/* Tabela Invisível para Relatório */}
+        <div id="course-report" style={{ display: 'none' }}>
+          <h1>Relatório de Disciplinas</h1>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Nome da Disciplina</th>
+                <th>Carga Horária</th>
+                <th>Professor</th>
+                <th>Ano da Turma</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredCourses.map((course) => (
+                <tr key={course.courseId}>
+                  <td>{course.courseName}</td>
+                  <td>{course.workload}</td>
+                  <td>{course.classes[0]?.class.users[0]?.user.name || 'Sem professor'}</td>
+                  <td>{course.classes[0]?.class.year || 'Ano não definido'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
       </div>
 
       {showModal && (
@@ -205,7 +227,7 @@ function CourseManagement() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{isEditing ? 'Editar Disciplina' : 'Adicionar Disciplina'}</h5>
-                <button type="button" className="btn-close" onClick={handleCloseModal}></button>
+                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
               </div>
               <div className="modal-body">
                 <input
@@ -231,7 +253,7 @@ function CourseManagement() {
                 />
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={handleCloseModal}>Fechar</button>
+                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Fechar</button>
                 <button className="btn btn-primary" onClick={isEditing ? handleEditCourse : handleAddCourse}>
                   {isEditing ? 'Salvar Alterações' : 'Adicionar'}
                 </button>
