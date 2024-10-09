@@ -9,6 +9,7 @@ import Navbar from '../../components/navBar';
 import html2pdf from 'html2pdf.js';
 import CreateClassModal from '../../components/CreateClassModal';
 import EditClassModal from '../../components/EditClassModal';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const ClassManagement = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -138,7 +139,9 @@ const ClassManagement = () => {
                 </Form>
 
                 <Button variant="success" className="mb-4" onClick={handleExportPdf}>Exportar Turmas em PDF</Button>
-
+                <Link to={'/class-details'}>
+                    <Button>Adicionar Alunos à turma</Button>
+                </Link>
                 <Row id="class-list">
                     {filteredClasses.map(cls => (
                         <Col md={4} key={cls.classId} className="mb-4">
@@ -146,6 +149,10 @@ const ClassManagement = () => {
                                 <Card.Body>
                                     <div className='d-flex justify-content-between back-roxo'>
                                         <Card.Title className='text-white text-uppercase'>{cls.className}</Card.Title>
+                                        <Link to={'/class-details'}>
+                                            <Button><i class="bi bi-plus-lg">  Add Alunos</i></Button>
+                                        </Link>
+
                                     </div>
                                     <Card.Text>{cls.year}</Card.Text>
                                     <div className="mt-3 d-flex justify-content-between">

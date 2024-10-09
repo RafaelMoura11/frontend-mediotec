@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Button, Modal } from 'react-bootstrap'; // Mantendo os componentes essenciais do modal
+import React, { useEffect, useState, useRef } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import Navbar from '../../components/navBar';
+import notificationApi from '../../api';  
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import notificationApi from '../../api';
-import html2pdf from 'html2pdf.js'; // Importando a biblioteca html2pdf.js
+import html2pdf from 'html2pdf.js'; // Para exportar PDF
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
-const NotificationPage = () => {
+const NotificationManagement = () => {
   const [dataSource, setDataSource] = useState([]);
   const [selectedComunicado, setSelectedComunicado] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openAdd, setOpenAdd] = useState(false); // Estado para abrir o modal de adição
+  const [openAdd, setOpenAdd] = useState(false); // Modal de adição
   const [editedComunicado, setEditedComunicado] = useState({ title: '', content: '' });
-  const [newComunicado, setNewComunicado] = useState({ title: '', content: '' }); // Estado para novo comunicado
-
-  const pdfRef = useRef(); // Referência para a seção a ser exportada como PDF
+  const [newComunicado, setNewComunicado] = useState({ title: '', content: '' });
+  const pdfRef = useRef(); // Para exportar como PDF
 
   // Função para buscar os comunicados
   const fetchComunicados = async () => {
@@ -24,28 +26,28 @@ const NotificationPage = () => {
       const { data } = await notificationApi.get('/mediotec/notificacoes/');
       setDataSource(data);
     } catch (error) {
-      console.error('Erro ao buscar comunicados:', error);
+      console.error('Erro ao buscar notificações:', error);
     }
   };
 
   useEffect(() => {
-    fetchComunicados(); // Chama o fetch ao montar o componente
+    fetchComunicados();
   }, []);
 
   // Função para abrir o modal de edição
   const handleClickOpenEdit = (comunicado) => {
-    setSelectedComunicado(comunicado); // Define o comunicado a ser editado
-    setEditedComunicado({ title: comunicado.title, content: comunicado.content }); // Popula o estado com os dados do comunicado
+    setSelectedComunicado(comunicado);
+    setEditedComunicado({ title: comunicado.title, content: comunicado.content });
     setOpenEdit(true);
   };
 
   // Função para fechar o modal de edição
   const handleCloseEdit = () => {
     setOpenEdit(false);
-    setEditedComunicado({ title: '', content: '' }); // Limpa o estado
+    setEditedComunicado({ title: '', content: '' });
   };
 
-  // Função para salvar alterações
+  // Função para salvar as alterações
   const handleSave = async () => {
     try {
       if (selectedComunicado && selectedComunicado.announcementId) {
@@ -54,38 +56,36 @@ const NotificationPage = () => {
           content: editedComunicado.content,
         });
 
-        // Atualiza apenas o comunicado editado
         const updatedDataSource = dataSource.map(comunicado =>
           comunicado.announcementId === selectedComunicado.announcementId
             ? { ...comunicado, title: editedComunicado.title, content: editedComunicado.content }
             : comunicado
         );
 
-        setDataSource(updatedDataSource); // Atualiza o estado com a nova lista
+        setDataSource(updatedDataSource);
       }
-      handleCloseEdit(); // Fecha o modal após salvar
+      handleCloseEdit();
     } catch (error) {
       console.error('Erro ao salvar as alterações:', error);
     }
   };
 
-  // Função para deletar comunicado
+  // Função para deletar um comunicado
   const handleDelete = async (comunicadoId) => {
     try {
       await notificationApi.delete(`/mediotec/notificacoes/notification/${comunicadoId}`);
       
-      // Filtra os comunicados, removendo o comunicado deletado
       const updatedDataSource = dataSource.filter(
         (comunicado) => comunicado.announcementId !== comunicadoId
       );
       
-      setDataSource(updatedDataSource); // Atualiza o estado com a nova lista
+      setDataSource(updatedDataSource);
     } catch (error) {
       console.error('Erro ao deletar o comunicado:', error);
     }
   };
 
-  // Função para exibir o modal com o comunicado selecionado
+  // Função para abrir o modal de visualização "Ler Mais"
   const handleShowModal = (comunicado) => {
     setSelectedComunicado(comunicado);
     setShowModal(true);
@@ -99,7 +99,7 @@ const NotificationPage = () => {
 
   // Função para abrir o modal de adição
   const handleOpenAdd = () => {
-    setNewComunicado({ title: '', content: '' }); // Limpa o estado do novo comunicado
+    setNewComunicado({ title: '', content: '' }); // Limpa o estado
     setOpenAdd(true);
   };
 
@@ -116,9 +116,8 @@ const NotificationPage = () => {
         content: newComunicado.content,
       });
 
-      // Adiciona o novo comunicado ao estado
-      setDataSource([...dataSource, response.data]);
-      handleCloseAdd(); // Fecha o modal após adicionar
+      setDataSource([...dataSource, response.data]); // Atualiza a lista com o novo comunicado
+      handleCloseAdd();
     } catch (error) {
       console.error('Erro ao adicionar o comunicado:', error);
     }
@@ -126,60 +125,62 @@ const NotificationPage = () => {
 
   // Função para exportar os comunicados como PDF
   const handleExportPDF = () => {
-    const element = pdfRef.current; // Captura o elemento que será exportado
-    html2pdf()
-      .from(element)
-      .save('comunicados.pdf'); // Nome do arquivo PDF gerado
+    const element = pdfRef.current;
+    html2pdf().from(element).save('comunicados.pdf');
   };
 
   return (
-    <div>
-      <h1>Página de Notificações</h1>
+    <main>
+      <Navbar />
+      <div className="notification-management-container">
+        <h1 className="notification-management-title">Gerenciamento de Notificações</h1>
 
-      {/* Botão para exportar PDF */}
-      <Button variant="success" onClick={handleExportPDF}>
-        Exportar PDF
-      </Button>
-
-      {/* Botão para adicionar novo comunicado */}
-      <Button variant="primary" onClick={handleOpenAdd} startIcon={<AddIcon />}>
-        Adicionar Comunicado
-      </Button>
-
-      {/* Seção de Comunicados */}
-      <div className='col-lg-4' ref={pdfRef}> {/* Referência para a seção a ser exportada */}
-        <div className='background-roxo-quadrado d-flex align-items-center justify-content-center'>
-          <h3 className='text-white text-center'>Comunicados</h3>
+        {/* Botão para exportar PDF e adicionar nova notificação */}
+        <div className="d-flex justify-content-end mb-4">
+          <Button variant="secondary" className="me-2" onClick={handleExportPDF}>
+            Exportar PDF
+          </Button>
+          <Button variant="success" onClick={handleOpenAdd} startIcon={<AddIcon />}>
+            Adicionar Notificação
+          </Button>
         </div>
-        <div className='bg-light comunicados'>
-          {dataSource.length > 0 ? (
-            dataSource.map((comunicado, index) => (
-              <div className='back-branco mt-3' key={index}>
-                {/* Título clicável para abrir o modal */}
-                <p className='back-roxo text-white text-center p-2' onClick={() => handleShowModal(comunicado)} style={{ cursor: 'pointer' }}>
-                  {comunicado.title}
-                </p>
-                <p className='text-justify'>{comunicado.content}</p>
-                <div className="mt-3 d-flex justify-content-between">
-                  <IconButton onClick={() => handleClickOpenEdit(comunicado)}>
-                    <EditIcon color="primary" />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(comunicado.announcementId)}>
-                    <DeleteIcon color="error" />
-                  </IconButton>
+
+        <div ref={pdfRef}>
+          <div className="notification-management-list">
+            {dataSource.length > 0 ? (
+              dataSource.map((comunicado) => (
+                <div key={comunicado.announcementId} className="notification-item">
+                  {/* Título do comunicado */}
+                  <h3 className="text-uppercase">{comunicado.title}</h3>
+                  
+                  {/* Conteúdo e Botões */}
+                  <div className="d-flex flex-column">
+                    <div className="d-flex justify-content-between mb-2">
+                      <div>
+                        {/* Botões de editar e deletar */}
+                        <IconButton onClick={() => handleClickOpenEdit(comunicado)} className="me-2">
+                          <EditIcon color="primary" />
+                        </IconButton>
+                        <IconButton onClick={() => handleDelete(comunicado.announcementId)}>
+                          <DeleteIcon color="error" />
+                        </IconButton>
+                      </div>
+                    </div>
+                    {/* Botão de "Ler Mais" ocupando a largura total */}
+                    <Button className="btn btn-purple w-100" onClick={() => handleShowModal(comunicado)}>
+                      Ler Mais
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p>Não há comunicados disponíveis.</p>
-          )}
-          <div className='d-flex justify-content-end'>
-            <Button className='btn-roxo'>Ver mais</Button>
+              ))
+            ) : (
+              <p>Não há notificações disponíveis.</p>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Modal de Visualização */}
+      {/* Modal de visualização "Ler Mais" */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>{selectedComunicado?.title}</Modal.Title>
@@ -197,7 +198,7 @@ const NotificationPage = () => {
       {/* Modal de Edição */}
       <Modal show={openEdit} onHide={handleCloseEdit}>
         <Modal.Header closeButton>
-          <Modal.Title>Editar Comunicado</Modal.Title>
+          <Modal.Title>Editar Notificação</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
@@ -235,7 +236,7 @@ const NotificationPage = () => {
       {/* Modal de Adição */}
       <Modal show={openAdd} onHide={handleCloseAdd}>
         <Modal.Header closeButton>
-          <Modal.Title>Adicionar Comunicado</Modal.Title>
+          <Modal.Title>Adicionar Notificação</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
@@ -269,8 +270,8 @@ const NotificationPage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </main>
   );
 };
 
-export default NotificationPage;
+export default NotificationManagement;
