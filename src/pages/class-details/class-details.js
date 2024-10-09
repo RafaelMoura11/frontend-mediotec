@@ -7,7 +7,7 @@ import Navbar from '../../components/navBar';
 // Componente para a lista de disciplinas
 const Disciplinas = ({ disciplinas }) => (
   <div className="mb-4">
-    <h5>Disciplinas</h5>
+    <h5 className='classh5'>Disciplinas</h5>
     <Table className='tabela-disciplinas' bordered hover>
       <tbody>
         {disciplinas.map((discipline, index) => (
@@ -34,7 +34,7 @@ const Students = ({ students, onAdd, onDelete, onToggleSelect, selectedStudents,
 
   return (
     <div>
-      <h5>Alunos</h5>
+      <h5 className='classh5'>Alunos</h5>
       <div className='procurar-mb-3'>
         <Form className="mb-3">
           <Row>
@@ -142,7 +142,7 @@ const ClassDetails = () => {
     <main className="main">
       <Navbar />
       <Container fluid>
-        <h2>
+        <h2 className='.class-title'>
           Turma 1º A - 2024
         </h2>
         <Disciplinas disciplinas={disciplinas} />
