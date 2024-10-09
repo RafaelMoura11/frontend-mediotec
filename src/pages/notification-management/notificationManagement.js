@@ -196,4 +196,4 @@ const NotificationPage = () => {
   );
 };
 
-export default NotificationManagement;
+export default NotificationPage;

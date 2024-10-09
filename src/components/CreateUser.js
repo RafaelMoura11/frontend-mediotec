@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
 import usersApi from '../api';
 
 

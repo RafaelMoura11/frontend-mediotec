@@ -11,7 +11,6 @@ import CourseManagement from './pages/course-menagement/CourseMenagement';
 import DisciplinaPage from './pages/course-menagement/courseDetails';
 import ClassDetails from './pages/class-details/class-details';
 import NotificationPage from './pages/notification-management/notificationManagement';
-import ConceptTable from './pages/concepts-management/ConceptsManagement';
 
 
 function App() {
@@ -42,7 +41,7 @@ function App() {
         <Route path="/course-management" element={<CourseManagement />} />
         <Route path="/detalhes/id/:courseId" element={<DisciplinaPage/>} />
         <Route path="/class-details" element={<ClassDetails/>} />
-        <Route path="/notification-management" element={<NotificationManagement/>} />
+        <Route path="/notification-management" element={<NotificationPage/>} />
       </Routes>
     </Router>
     
