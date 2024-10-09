@@ -1,16 +1,10 @@
-/* Remover margens laterais e usar toda a largura disponível */
-.main {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
+
 
 /* Ajustar o título para ocupar toda a largura */
-h2 {
+.class-title {
     font-weight: bold;
     text-align: justify;
-    background: linear-gradient(90deg, #E33BD0 0%, #9747FF 87%);
-    color: #fff;
+    color: #000000;
     border-radius: 5px;
     padding-left: 10px;
     padding: 10px;  
@@ -20,7 +14,7 @@ h2 {
     width: 90%;
 }
 
-h5 {
+.classh5 {
     font-weight: bold;
     padding-left: 10px;
     padding: 10px;
@@ -31,9 +25,8 @@ h5 {
 
 /* Ajustar a largura do container */
 .container {
-    width: 90%; /* Reduzir a largura do container */
-    padding: 0 20px;
-    margin: 0 auto; /* Centralizar o container */
+    padding: 20px 40px;
+    width: 70vw;
 }
 
 .dropdown {

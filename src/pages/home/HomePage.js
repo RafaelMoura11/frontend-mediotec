@@ -44,10 +44,9 @@ function HomePage() {
   return (
     <div className="HomePage">
       <Navbar />
-      <div className='container-fluid container'>
+      <div className='container mt-5'>
         <div className='row custom-row'>
           
-          {/* Coluna principal com ícones e calendário */}
           <div className='col-lg-8'>
 
             {/* Seção de Ícones */}
@@ -64,7 +63,7 @@ function HomePage() {
                   <h5 className='mt-2 text-uppercase'>Disciplinas</h5>
                 </Link>
               </div>
-              <div className='col-lg-4 background-roxo d-flex flex-column align-items-center'>
+              <div className='col-lg-6 background-roxo d-flex flex-column align-items-center'>
                 <Link className="text-white" to="/class">
                   <img src={classes} alt="turmas" className='img-fluid' />
                   <h5 className='mt-2 text-uppercase'>Turmas</h5>
@@ -108,7 +107,9 @@ function HomePage() {
                 <p>Não há comunicados disponíveis.</p>
               )}
               <div className='d-flex justify-content-end'>
+                <Link to="/notifications">
                 <button className='btn btn-roxo'>Ver mais</button>
+                </Link>
               </div>
             </div>
           </div>

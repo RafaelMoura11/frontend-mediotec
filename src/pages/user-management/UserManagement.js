@@ -15,8 +15,8 @@ import {
   TextField,
   Dialog,
   DialogContent,
-  DialogTitle, // Importando o título do modal
-  Button, // Para fechar o modal
+  DialogTitle,
+  Button,
 } from '@mui/material';
 import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
@@ -63,6 +63,20 @@ function UserManagement() {
     fetchUsersByRole();
   }, [selectedOption1]);
 
+  function getRoleName(role) {
+    switch (role) {
+      case 'STUDENT':
+        return 'Aluno';
+      case 'TEACHER':
+        return 'Professor';
+      case 'COORDINATOR':
+        return 'Coordenador';
+      default:
+        return 'Desconhecido'; // Caso algum role não mapeado apareça
+    }
+  }
+
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -89,11 +103,11 @@ function UserManagement() {
   const exportarUsuarios = () => {
     const element = document.getElementById('user-table');
     const opt = {
-      margin:       0.5,
-      filename:     'usuarios_exportados.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      margin: 0.5,
+      filename: 'usuarios_exportados.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
     html2pdf().from(element).set(opt).save();
@@ -135,7 +149,8 @@ function UserManagement() {
       <Navbar></Navbar>
       <div className='container mt-5'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
-        <Link to ="/user-profile">PERFIL</Link>
+        <Link to="/user-profile">PERFIL</Link>
+
         <div className="button-row">
           <div className='button-crud'>
             <button type="button" className="btn btn-success" onClick={handleClickOpen}>Adicionar Usuário</button>
@@ -149,100 +164,90 @@ function UserManagement() {
         </div>
 
         <div className='container-table'>
-        <div className="selecao">
-          <FormControl className='selecao_opcao'>
-            <InputLabel>Selecione uma opção</InputLabel>
-            <Select
-              value={selectedOption1}
-              onChange={(e) => setSelectedOption1(e.target.value)}
-            >
-              <MenuItem value="" disabled>
-                Selecione uma opção
-              </MenuItem>
-              {filteredOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.viewValue}
+          <div className="selecao">
+            <FormControl className='selecao_opcao'>
+              <InputLabel>Selecione uma opção</InputLabel>
+              <Select
+                value={selectedOption1}
+                onChange={(e) => setSelectedOption1(e.target.value)}
+              >
+                <MenuItem value="" disabled>
+                  Selecione uma opção
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                {filteredOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.viewValue}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          <TextField className='selecao_barra'
-            label="Pesquisar"
-            variant="outlined"
-            value={searchText}
-            onChange={handleSearchChange}
-            placeholder="Digite para pesquisar..."
-          />
-        </div>
+            <TextField className='selecao_barra'
+              label="Pesquisar"
+              variant="outlined"
+              value={searchText}
+              onChange={handleSearchChange}
+              placeholder="Digite para pesquisar..."
+            />
+          </div>
 
-        <TableContainer>
-          <Table className='table' id='user-table'>
-            <TableHead className='tabela_topo'>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    indeterminate={selectedRows.length > 0 && selectedRows.length < dataSource.length}
-                    checked={dataSource.length > 0 && selectedRows.length === dataSource.length}
-                    onChange={(e) => setSelectedRows(e.target.checked ? dataSource : [])}
-                  />
-                </TableCell>
-                <TableCell>Nome</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Telefone</TableCell>
-                <TableCell>Data de Contratação</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredUsers.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={isSelected(row)}
-                      onChange={() => handleRowToggle(row)}
+          <div className="row mt-4">
+            {filteredUsers.map((user) => (
+              <div className="col-12 mb-2" key={user.userId}>
+                <div className="border rounded p-3 course-card w-100">
+                  <div className="d-flex align-items-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(user)}
+                      onChange={() => handleRowToggle(user)}
+                      className="me-3 checkbox"
                     />
-                  </TableCell>
-                  {/* Adicionando o evento onClick para abrir o modal */}
-                  <TableCell 
-                    style={{ cursor: 'pointer', color: 'blue' }} // Estilizando o nome como clicável
-                    onClick={() => handleUserClick(row)} // Abre o modal com os dados do usuário
-                  >
-                    {row.name}
-                  </TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>{formatPhone(row.phone)}</TableCell>
-                  <TableCell>{formatDate(row.createdAt)}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        {/* Modal para exibir informações detalhadas do usuário */}
-        <Dialog open={modalOpen} onClose={handleModalClose}>
-          <DialogTitle>Informações do Usuário</DialogTitle>
-          <DialogContent>
-            {selectedUser && (
-              <div>
-                <p><strong>Nome:</strong> {selectedUser.name}</p>
-                <p><strong>Email:</strong> {selectedUser.email}</p>
-                <p><strong>Telefone:</strong> {formatPhone(selectedUser.phone)}</p>
-                <p><strong>Data de Contratação:</strong> {formatDate(selectedUser.createdAt)}</p>
-                {/* Adicione mais detalhes aqui conforme necessário */}
+                    <div className="w-100">
+                      <strong className="d-block">
+                        {user.name} | {user.email}
+                      </strong>
+                      <p className="mb-0 text-muted">
+                        {getRoleName(user.role)} {/* Tipo de usuário formatado */}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="d-flex mt-2">
+                    <button className="btn btn-outline-secondary me-2" onClick={() => handleUserClick(user)}>
+                      <i className="bi bi-eye"></i> Ver Detalhes
+                    </button>
+                    <button className="btn btn-outline-primary" onClick={handleClickOpen}>
+                      <i className="bi bi-pencil-square"></i> Editar
+                    </button>
+                  </div>
+                </div>
               </div>
-            )}
-            <Button onClick={handleModalClose} color="primary">Fechar</Button>
-          </DialogContent>
-        </Dialog>
+            ))}
+          </div>
 
-        <Dialog open={open} fullWidth>
-          <DialogContent>
-            <CreatePage handleClose={handleClose} user={selectedRows[0]} />
-          </DialogContent>
-        </Dialog>
+          {/* Modal para exibir informações detalhadas do usuário */}
+          <Dialog open={modalOpen} onClose={handleModalClose}>
+            <DialogTitle>Informações do Usuário</DialogTitle>
+            <DialogContent>
+              {selectedUser && (
+                <div>
+                  <p><strong>Nome:</strong> {selectedUser.name}</p>
+                  <p><strong>Email:</strong> {selectedUser.email}</p>
+                  <p><strong>Telefone:</strong> {formatPhone(selectedUser.phone)}</p>
+                  <p><strong>Data de Contratação:</strong> {formatDate(selectedUser.createdAt)}</p>
+                </div>
+              )}
+              <Button onClick={handleModalClose} color="primary">Fechar</Button>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={open} fullWidth>
+            <DialogContent>
+              <CreatePage handleClose={handleClose} user={selectedRows[0]} />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
   );
 }
 

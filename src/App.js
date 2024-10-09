@@ -10,7 +10,8 @@ import HomePage from './pages/home/HomePage'
 import CourseManagement from './pages/course-menagement/CourseMenagement';
 import DisciplinaPage from './pages/course-menagement/courseDetails';
 import ClassDetails from './pages/class-details/class-details';
-import NotificationManagement from './pages/notification-management/notificationManagement';
+import NotificationPage from './pages/notification-management/notificationManagement';
+import ConceptTable from './pages/concepts-management/ConceptsManagement';
 
 
 function App() {

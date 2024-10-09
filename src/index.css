@@ -16,9 +16,9 @@ body {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  width: 1200px;
   border: 1px solid #ddd;
+  padding: 20px 40px;
+  width: 70vw;
 }
 
 img {
@@ -94,7 +94,7 @@ img {
   color: #ffffff;
 }
 
-/*--------------------CREATE USER--------------------*/
+/*--------------------MODAL USER--------------------*/
 
 .profile-picture {
   display: flex;
@@ -112,26 +112,15 @@ img {
   border-radius: 50%;
 }
 
-.title {
-  background: linear-gradient(90deg, #e33bd0 0%, #9747ff 87%);
-  color: #fff;
-  padding: 15px;
-  font-size: 24px;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 20px;
-}
 
-.edit-icon {
+
+.edit-icon-user {
   position: absolute;
   top: 70px;
-  right: -10px;
+  left: 50px;
   font-size: 18px;
-  background-color: white;
   padding: 5px;
-  border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .form-user {
@@ -290,7 +279,6 @@ input::placeholder {
 }
 
 .comunicados {
-  height: 100%;
   overflow-y: auto;
 }
 
@@ -519,3 +507,106 @@ thead {
   min-width: 100px;
   padding: 10px 20px;
 }
+
+/*-------------------------CARD TURMAS---------------------------*/
+.class-card {
+  width: 200px; /* Largura fixa do card */
+  height: 120px; /* Altura fixa do card */
+  border-radius: 10px; /* Bordas arredondadas */
+  overflow: hidden; /* Garantir que nada saia do card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+.card-content {
+  background-color: white; /* Fundo branco na parte de cima */
+  flex-grow: 1;
+}
+
+.class-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: black;
+}
+
+.class-year {
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.action-bar {
+  background-color: #a74ac7; /* Fundo roxo */
+  height: 40px; /* Altura fixa para os ícones */
+}
+
+.edit-icon, .delete-icon {
+  font-size: 1.2rem; /* Tamanho maior para os ícones */
+  color: white; /* Ícones brancos */
+  cursor: pointer; /* Ícones clicáveis */
+}
+
+.edit-icon:hover, .delete-icon:hover {
+  opacity: 0.8; /* Efeito hover ao passar o mouse */
+}
+
+/*-------------------------CARD NOTIFICAÇÕES---------------------------*/
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.titulo {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  flex-grow: 1;
+}
+
+.comunicados-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.comunicado-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comunicado-content {
+  flex-grow: 1;
+}
+
+.comunicado-title {
+  font-weight: bold;
+}
+
+.comunicado-description {
+  color: #6c757d;
+}
+
+.comunicado-actions {
+  display: flex;
+  align-items: center;
+}
+
+.comunicado-actions button {
+  margin-left: 10px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-container button {
+  margin: 0 5px;
+}
+
