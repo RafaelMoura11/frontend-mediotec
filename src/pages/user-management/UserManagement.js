@@ -15,8 +15,8 @@ import {
   TextField,
   Dialog,
   DialogContent,
-  DialogTitle, // Importando o título do modal
-  Button, // Para fechar o modal
+  DialogTitle,
+  Button,
 } from '@mui/material';
 import usersApi from '../../api';
 import { formatDate, formatPhone } from '../../utils/formatFields';
@@ -136,6 +136,7 @@ function UserManagement() {
       <div className='container mt-5'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
         <Link to ="/user-profile">PERFIL</Link>
+
         <div className="button-row">
           <div className='button-crud'>
             <button type="button" className="btn btn-success" onClick={handleClickOpen}>Adicionar Usuário</button>
@@ -228,7 +229,6 @@ function UserManagement() {
                 <p><strong>Email:</strong> {selectedUser.email}</p>
                 <p><strong>Telefone:</strong> {formatPhone(selectedUser.phone)}</p>
                 <p><strong>Data de Contratação:</strong> {formatDate(selectedUser.createdAt)}</p>
-                {/* Adicione mais detalhes aqui conforme necessário */}
               </div>
             )}
             <Button onClick={handleModalClose} color="primary">Fechar</Button>

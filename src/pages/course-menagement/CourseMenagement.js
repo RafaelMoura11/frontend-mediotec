@@ -124,8 +124,8 @@ function CourseManagement() {
     <main>
       <Navbar />
 
-      <div className='container-fluid bg-white mt-5 coursePage'>
-        <h1 className='display-6 text-center'>Gerenciamento de Disciplinas</h1>
+      <div className='container-fluid bg-white mt-5 container'>
+        <h1 className='titulo'>Gerenciamento de Disciplinas</h1>
        
         <div className='row mt-4'>
           <div className='col-12 d-flex justify-content-between'>
