@@ -1,7 +1,3 @@
-.header h2 {
-    color: #6c63ff;
-}
-
 .edit-btn {
     background-color: #f0f0f0;
     border: none;
@@ -26,10 +22,7 @@
     background-color: #574fcc;
 }
 
-.roxo{
-    background-color: #ffffff;
-    border: 1px solid #7326BF;
-}
+
 .bg-roxo{
     background-color:#9747FF;
     display: inline-block;
@@ -43,10 +36,6 @@
     color:#ffffff
 }
 
-.modal-tamanho{
-height: 80vh;
-width: 100vh;
-}
 
 .bloco-principal{
     display: flex;

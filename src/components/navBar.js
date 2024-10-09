@@ -8,8 +8,8 @@ import logo from '../images/logo-mediotec.png';
 function Navbar() {
 
   const user = {
-    name: 'João Silva',
-    role: 'Coordenador',
+    name: 'Heloisa',
+    role: 'Coordenador(a)',
     profilePic: profilePic
   };
 
@@ -56,7 +56,7 @@ function Navbar() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/notification-management" activeClassName="active-link">
+                <NavLink className="nav-link" to="/notifications" activeClassName="active-link">
                   Comunicados
                 </NavLink>
               </li>
