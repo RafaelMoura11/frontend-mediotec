@@ -3,7 +3,7 @@ import '../course-menagement/courseMenagement.css';
 import Navbar from '../../components/navBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import html2pdf from 'html2pdf.js'; 
+import html2pdf from 'html2pdf.js';
 import { useNavigate } from 'react-router-dom';
 import courseApi from '../../api';
 
@@ -124,34 +124,32 @@ function CourseManagement() {
     <main>
       <Navbar />
 
-      <div className='container-fluid bg-white mt-5 container'>
+      <div className='container  mt-5 '>
         <h1 className='titulo'>Gerenciamento de Disciplinas</h1>
-       
-        <div className='row mt-4'>
-          <div className='col-12 d-flex justify-content-between'>
-            <div>
-              <button className='btn btn-success me-2' onClick={handleOpenModal}>
-                Adicionar Disciplina
-              </button>
-              <button className='btn btn-danger' onClick={excluirDisciplina}>
-                Excluir
-              </button>
-            </div>
-            <button className='btn btn-primary' onClick={handleExportPDF}>Exportar</button>
+
+        <div className="d-flex justify-content-between align-items-center mt-4">
+          <div>
+            <button className="btn btn-success me-2" onClick={handleOpenModal}>
+              Adicionar
+            </button>
+            <button className="btn btn-danger" onClick={excluirDisciplina}>
+              Excluir
+            </button>
           </div>
+          <button className="btn btn-outline-secondary">Relatório</button>
         </div>
 
         <div className='row mt-3'>
-          <div className='col-12 col-md-6'>
+          <div className='col-md-6'>
             <input
               type='text'
               className='form-control'
-              placeholder='Pesquisar'
+              placeholder='Procurar'
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className='col-12 col-md-3 mt-2 mt-md-0'>
+          <div className='col-md-3 mt-2 mt-md-0'>
             <select
               className='form-control'
               value={sortOption}
@@ -164,75 +162,41 @@ function CourseManagement() {
           </div>
         </div>
 
-        <div className='row mt-5' id="exportTable">
-          <div className='col-12'>
-            <div className='table-responsive'>
-              <table className='table table-bordered'>
-                <thead>
-                  <tr>
-                    <th scope='col'></th>
-                    <th scope='col'>Disciplina</th>
-                    <th scope='col'>Turma</th>
-                    <th scope='col'>Carga Horária</th>
-                    <th scope='col'>Professor</th>
-                    <th scope='col'>Ação</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCourses.map((course) => (
-                    <tr key={course.courseId}>
-                      <td>
-                        <input
-                          type='checkbox'
-                          checked={selectedRows.includes(course.courseId)}
-                          onChange={() => handleCheckboxChange(course.courseId)}
-                        />
-                      </td>
-                      <td>{course.courseName}</td>
-                      <td>
-                        {course.classes.length > 0 ? (
-                          course.classes.map((classItem) => (
-                            <div key={classItem.classId}>
-                              {classItem.class.className} - {classItem.class.year}
-                            </div>
-                          ))
-                        ) : (
-                          'Turma não definida'
-                        )}
-                      </td>
-                      <td>{course.workload}</td>
-                      <td>
-                        {course.classes.length > 0 ? (
-                          course.classes.map((classItem) => (
-                            <div key={classItem.classId}>
-                              {classItem.class.users.length > 0 ? (
-                                classItem.class.users.map((user) => (
-                                  <div key={user.userId}>{user.user.name}</div>
-                                ))
-                              ) : (
-                                'Sem professor'
-                              )}
-                            </div>
-                          ))
-                        ) : (
-                          'Sem professor'
-                        )}
-                      </td>
-                      <td>
-                        <button className='btn' onClick={() => handleEditClick(course)}>
-                          <i className="bi bi-pencil-square"></i> Editar
-                        </button>
-                        <button className='btn' onClick={() => handleViewDetails(course)}>
-                          <i className="bi bi-person-add"></i> Adicionar Professor e Turma
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* Linhas */}
+        <div className="row mt-4">
+          {filteredCourses.map((course) => (
+            <div className="col-12 mb-2" key={course.courseId}>
+              <div className="border rounded p-3 course-card w-100">
+                <div className="d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(course.courseId)}
+                    onChange={() => handleCheckboxChange(course.courseId)}
+                    className="me-3 checkbox"
+                  />
+                  <div className="w-100">
+                    <strong className="d-block">
+                      {course.courseName} | {course.classes[0]?.class.className} - {course.classes[0]?.class.year || 'Ano não definido'}
+                    </strong>
+                    <p className="mb-0 text-muted">
+                      Professor: {course.classes[0]?.class.users[0]?.user.name || 'Sem professor'}
+                    </p>
+                  </div>
+
+                </div>
+                <div className="d-flex mt-2">
+                  <button className="btn btn-outline-secondary me-2" onClick={() => handleViewDetails(course)}>
+                    <i className="bi bi-person-add"></i> Adicionar Professor e Turma
+                  </button>
+                  <button className="btn btn-outline-primary" onClick={() => handleEditClick(course)}>
+                    <i className="bi bi-pencil-square"></i> Editar
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
+
       </div>
 
       {showModal && (

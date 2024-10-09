@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Modal } from 'react-bootstrap'; // Mantendo os componentes essenciais do modal
+import { Button, Modal } from 'react-bootstrap'
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import notificationApi from '../../api';
-import html2pdf from 'html2pdf.js'; // Importando a biblioteca html2pdf.js
+import html2pdf from 'html2pdf.js';
+
+import Navbar from '../../components/navBar';
 
 const NotificationPage = () => {
   const [dataSource, setDataSource] = useState([]);
@@ -134,7 +136,9 @@ const NotificationPage = () => {
 
   return (
     <div>
-      <h1>Página de Notificações</h1>
+      <Navbar></Navbar>
+      <div className='container mt-5'>
+      <h1 className='titulo'>Página de Notificações</h1>
 
       {/* Botão para exportar PDF */}
       <Button variant="success" onClick={handleExportPDF}>
@@ -269,6 +273,7 @@ const NotificationPage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+    </div>
     </div>
   );
 };

@@ -44,10 +44,9 @@ function HomePage() {
   return (
     <div className="HomePage">
       <Navbar />
-      <div className='container'>
+      <div className='container mt-5'>
         <div className='row custom-row'>
           
-          {/* Coluna principal com ícones e calendário */}
           <div className='col-lg-8'>
 
             {/* Seção de Ícones */}
@@ -108,7 +107,9 @@ function HomePage() {
                 <p>Não há comunicados disponíveis.</p>
               )}
               <div className='d-flex justify-content-end'>
+                <Link to="/notifications">
                 <button className='btn btn-roxo'>Ver mais</button>
+                </Link>
               </div>
             </div>
           </div>
