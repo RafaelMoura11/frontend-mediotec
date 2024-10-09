@@ -223,7 +223,7 @@ function CourseManagement() {
                           <i className="bi bi-pencil-square"></i> Editar
                         </button>
                         <button className='btn' onClick={() => handleViewDetails(course)}>
-                          <i className="bi bi-person-add"></i> Ver Detalhes
+                          <i className="bi bi-person-add"></i> Adicionar Professor e Turma
                         </button>
                       </td>
                     </tr>

@@ -133,7 +133,7 @@ function UserManagement() {
   return (
     <main>
       <Navbar></Navbar>
-      <div className='container'>
+      <div className='container mt-5'>
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
         <Link to ="/user-profile">PERFIL</Link>
         <div className="button-row">

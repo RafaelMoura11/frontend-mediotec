@@ -44,7 +44,7 @@ function HomePage() {
   return (
     <div className="HomePage">
       <Navbar />
-      <div className='container-fluid '>
+      <div className='container-fluid container'>
         <div className='row custom-row'>
           
           {/* Coluna principal com ícones e calendário */}
