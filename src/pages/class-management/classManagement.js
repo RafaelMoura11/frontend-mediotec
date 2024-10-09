@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
-import { Dialog, DialogContent, IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from 'react-router-dom';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Dialog, DialogContent } from '@mui/material';
 import classApi from '../../api';
 import Navbar from '../../components/navBar';
 import html2pdf from 'html2pdf.js';
 import CreateClassModal from '../../components/CreateClassModal';
 import EditClassModal from '../../components/EditClassModal';
+import ClassCard from '../../components/ClassCard'; // Importe o novo componente
 
 const ClassManagement = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -18,29 +16,24 @@ const ClassManagement = () => {
     const [openCreate, setOpenCreate] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null);
 
-    // Função para abrir o modal de edição
     const handleClickOpenEdit = (cls) => {
         setSelectedClass(cls); // Define a turma que será editada
         setOpenEdit(true);
     };
 
-    // Função para abrir o modal de criação
     const handleClickOpenCreate = () => {
         setOpenCreate(true);
     };
 
-    // Função para fechar o modal de edição
     const handleCloseEdit = () => {
         setOpenEdit(false);
         setSelectedClass(null); // Reseta a turma selecionada
     };
 
-    // Função para fechar o modal de criação
     const handleCloseCreate = () => {
         setOpenCreate(false);
     };
 
-    // Função para salvar alterações de uma turma
     const handleSave = async (updatedClass) => {
         try {
             if (selectedClass) {
@@ -55,7 +48,6 @@ const ClassManagement = () => {
         }
     };
 
-    // Função para criar uma nova turma
     const handleCreate = async (newClass) => {
         try {
             const { data } = await classApi.post('/mediotec/turmas/', newClass);
@@ -66,7 +58,6 @@ const ClassManagement = () => {
         }
     };
 
-    // Função para excluir uma turma
     const handleDelete = async (classId) => {
         const confirmed = window.confirm("Tem certeza que deseja excluir esta turma?");
         if (!confirmed) return;
@@ -79,7 +70,6 @@ const ClassManagement = () => {
         }
     };
 
-    // Carrega as turmas ao montar o componente
     useEffect(() => {
         const fetchClasses = async () => {
             const { data } = await classApi.get('/mediotec/turmas/');
@@ -88,13 +78,11 @@ const ClassManagement = () => {
         fetchClasses();
     }, []);
 
-    // Filtra as turmas de acordo com o termo de pesquisa e ano selecionado
     const filteredClasses = classes.filter(cls =>
         cls.className.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedType ? cls.year === Number(selectedType) : true)
     );
 
-    // Função para exportar as turmas em PDF
     const handleExportPdf = () => {
         const element = document.getElementById('class-list');
         html2pdf().from(element).save('turmas.pdf');
@@ -137,27 +125,18 @@ const ClassManagement = () => {
                     </Row>
                 </Form>
 
+
                 <Button variant="success" className="mb-4" onClick={handleExportPdf}>Exportar Turmas em PDF</Button>
 
                 <Row id="class-list">
                     {filteredClasses.map(cls => (
-                        <Col md={4} key={cls.classId} className="mb-4">
-                            <Card>
-                                <Card.Body>
-                                    <div className='d-flex justify-content-between back-roxo'>
-                                        <Card.Title className='text-white text-uppercase'>{cls.className}</Card.Title>
-                                    </div>
-                                    <Card.Text>{cls.year}</Card.Text>
-                                    <div className="mt-3 d-flex justify-content-between">
-                                        <IconButton onClick={() => handleClickOpenEdit(cls)}>
-                                            <EditIcon color="primary" />
-                                        </IconButton>
-                                        <IconButton onClick={() => handleDelete(cls.classId)}>
-                                            <DeleteIcon color="error" />
-                                        </IconButton>
-                                    </div>
-                                </Card.Body>
-                            </Card>
+                        <Col md={4} key={cls.classId}>
+                            <ClassCard
+                                className={cls.className}
+                                year={cls.year}
+                                onEdit={() => handleClickOpenEdit(cls)}
+                                onDelete={() => handleDelete(cls.classId)}
+                            />
                         </Col>
                     ))}
                 </Row>

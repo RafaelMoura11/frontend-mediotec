@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Modal } from 'react-bootstrap'
-import { IconButton } from '@mui/material';
+import { Button, Form, Row, Col } from 'react-bootstrap'; // Usando componentes do Bootstrap
+import { IconButton } from '@mui/material'; // IconButton do Material UI
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -8,23 +8,25 @@ import notificationApi from '../../api';
 import html2pdf from 'html2pdf.js';
 
 import Navbar from '../../components/navBar';
+import NotificationModal from '../../components/NotificationModal'; // Modal para editar/adicionar comunicado
 
 const NotificationPage = () => {
-  const [dataSource, setDataSource] = useState([]);
+  const [dataSource, setDataSource] = useState([]); // Dados dos comunicados
+  const [filteredComunicados, setFilteredComunicados] = useState([]); // Comunicados filtrados
   const [selectedComunicado, setSelectedComunicado] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openAdd, setOpenAdd] = useState(false); // Estado para abrir o modal de adição
   const [editedComunicado, setEditedComunicado] = useState({ title: '', content: '' });
   const [newComunicado, setNewComunicado] = useState({ title: '', content: '' }); // Estado para novo comunicado
-
-  const pdfRef = useRef(); // Referência para a seção a ser exportada como PDF
+  const [searchTerm, setSearchTerm] = useState(''); // Campo de busca
+  const pdfRef = useRef(); // Referência para exportar o PDF
 
   // Função para buscar os comunicados
   const fetchComunicados = async () => {
     try {
       const { data } = await notificationApi.get('/mediotec/notificacoes/');
       setDataSource(data);
+      setFilteredComunicados(data); // Inicialmente, todos os comunicados são mostrados
     } catch (error) {
       console.error('Erro ao buscar comunicados:', error);
     }
@@ -34,6 +36,15 @@ const NotificationPage = () => {
     fetchComunicados(); // Chama o fetch ao montar o componente
   }, []);
 
+  // Função para filtrar comunicados
+  useEffect(() => {
+    const filtered = dataSource.filter(comunicado =>
+      comunicado.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      comunicado.content.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredComunicados(filtered); // Atualiza a lista de comunicados filtrados
+  }, [searchTerm, dataSource]);
+
   // Função para abrir o modal de edição
   const handleClickOpenEdit = (comunicado) => {
     setSelectedComunicado(comunicado); // Define o comunicado a ser editado
@@ -41,14 +52,8 @@ const NotificationPage = () => {
     setOpenEdit(true);
   };
 
-  // Função para fechar o modal de edição
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
-    setEditedComunicado({ title: '', content: '' }); // Limpa o estado
-  };
-
-  // Função para salvar alterações
-  const handleSave = async () => {
+  // Função para salvar alterações no comunicado
+  const handleSaveEdit = async () => {
     try {
       if (selectedComunicado && selectedComunicado.announcementId) {
         await notificationApi.put(`/mediotec/notificacoes/notification/${selectedComunicado.announcementId}`, {
@@ -65,49 +70,16 @@ const NotificationPage = () => {
 
         setDataSource(updatedDataSource); // Atualiza o estado com a nova lista
       }
-      handleCloseEdit(); // Fecha o modal após salvar
+      setOpenEdit(false); // Fecha o modal após salvar
     } catch (error) {
       console.error('Erro ao salvar as alterações:', error);
     }
   };
 
-  // Função para deletar comunicado
-  const handleDelete = async (comunicadoId) => {
-    try {
-      await notificationApi.delete(`/mediotec/notificacoes/notification/${comunicadoId}`);
-      
-      // Filtra os comunicados, removendo o comunicado deletado
-      const updatedDataSource = dataSource.filter(
-        (comunicado) => comunicado.announcementId !== comunicadoId
-      );
-      
-      setDataSource(updatedDataSource); // Atualiza o estado com a nova lista
-    } catch (error) {
-      console.error('Erro ao deletar o comunicado:', error);
-    }
-  };
-
-  // Função para exibir o modal com o comunicado selecionado
-  const handleShowModal = (comunicado) => {
-    setSelectedComunicado(comunicado);
-    setShowModal(true);
-  };
-
-  // Função para fechar o modal de visualização
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedComunicado(null);
-  };
-
-  // Função para abrir o modal de adição
-  const handleOpenAdd = () => {
-    setNewComunicado({ title: '', content: '' }); // Limpa o estado do novo comunicado
-    setOpenAdd(true);
-  };
-
-  // Função para fechar o modal de adição
-  const handleCloseAdd = () => {
-    setOpenAdd(false);
+  // Função para abrir o modal de visualização ao clicar no card
+  const handleShowNotification = (comunicado) => {
+    setSelectedComunicado(comunicado); // Define o comunicado selecionado
+    setOpenEdit(true); // Abre o modal de edição como visualização
   };
 
   // Função para adicionar um novo comunicado
@@ -120,51 +92,73 @@ const NotificationPage = () => {
 
       // Adiciona o novo comunicado ao estado
       setDataSource([...dataSource, response.data]);
-      handleCloseAdd(); // Fecha o modal após adicionar
+      setOpenAdd(false); // Fecha o modal após adicionar
     } catch (error) {
       console.error('Erro ao adicionar o comunicado:', error);
     }
   };
 
-  // Função para exportar os comunicados como PDF
+  // Função para deletar comunicado
+  const handleDelete = async (comunicadoId) => {
+    try {
+      await notificationApi.delete(`/mediotec/notificacoes/notification/${comunicadoId}`);
+      const updatedDataSource = dataSource.filter(
+        (comunicado) => comunicado.announcementId !== comunicadoId
+      );
+      setDataSource(updatedDataSource);
+    } catch (error) {
+      console.error('Erro ao deletar o comunicado:', error);
+    }
+  };
+
+  // Função para exportar PDF dos comunicados
   const handleExportPDF = () => {
-    const element = pdfRef.current; // Captura o elemento que será exportado
+    const element = pdfRef.current;
     html2pdf()
       .from(element)
-      .save('comunicados.pdf'); // Nome do arquivo PDF gerado
+      .save('comunicados.pdf');
   };
 
   return (
     <div>
-      <Navbar></Navbar>
-      <div className='container mt-5'>
-      <h1 className='titulo'>Página de Notificações</h1>
+      <Navbar />
+      <div className="container mt-5">
+        <h1 className="titulo">Comunicados</h1>
 
-      {/* Botão para exportar PDF */}
-      <Button variant="success" onClick={handleExportPDF}>
-        Exportar PDF
-      </Button>
+        {/* Campo de busca e botão adicionar */}
+        <Form className="mb-4">
+          <Row>
+            <Col md={10}>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder="Procurar"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={2}>
+              <Button
+                variant="success"
+                onClick={() => setOpenAdd(true)}
+              >
+                <AddIcon /> Adicionar
+              </Button>
+            </Col>
+          </Row>
+        </Form>
 
-      {/* Botão para adicionar novo comunicado */}
-      <Button variant="primary" onClick={handleOpenAdd} startIcon={<AddIcon />}>
-        Adicionar Comunicado
-      </Button>
-
-      {/* Seção de Comunicados */}
-      <div className='col-lg-4' ref={pdfRef}> {/* Referência para a seção a ser exportada */}
-        <div className='background-roxo-quadrado d-flex align-items-center justify-content-center'>
-          <h3 className='text-white text-center'>Comunicados</h3>
-        </div>
-        <div className='bg-light comunicados'>
-          {dataSource.length > 0 ? (
-            dataSource.map((comunicado, index) => (
-              <div className='back-branco mt-3' key={index}>
-                {/* Título clicável para abrir o modal */}
-                <p className='back-roxo text-white text-center p-2' onClick={() => handleShowModal(comunicado)} style={{ cursor: 'pointer' }}>
-                  {comunicado.title}
-                </p>
-                <p className='text-justify'>{comunicado.content}</p>
-                <div className="mt-3 d-flex justify-content-between">
+        {/* Seção de Comunicados */}
+        <div className="comunicados-list" ref={pdfRef}>
+          {filteredComunicados.length > 0 ? (
+            filteredComunicados.map((comunicado, index) => (
+              <div className="comunicado-item" key={index}>
+                <div className="comunicado-content" onClick={() => handleShowNotification(comunicado)}>
+                  <strong className="comunicado-title">{comunicado.title}</strong>
+                  <p className="comunicado-description">{comunicado.content}</p>
+                </div>
+                <div className="comunicado-actions">
                   <IconButton onClick={() => handleClickOpenEdit(comunicado)}>
                     <EditIcon color="primary" />
                   </IconButton>
@@ -177,103 +171,28 @@ const NotificationPage = () => {
           ) : (
             <p>Não há comunicados disponíveis.</p>
           )}
-          <div className='d-flex justify-content-end'>
-            <Button className='btn-roxo'>Ver mais</Button>
-          </div>
         </div>
+
+        {/* Modal de Edição */}
+        <NotificationModal
+          show={openEdit}
+          handleClose={() => setOpenEdit(false)}
+          comunicado={editedComunicado}
+          setComunicado={setEditedComunicado}
+          handleSave={handleSaveEdit}
+          isEditing={true}
+        />
+
+        {/* Modal de Adição */}
+        <NotificationModal
+          show={openAdd}
+          handleClose={() => setOpenAdd(false)}
+          comunicado={newComunicado}
+          setComunicado={setNewComunicado}
+          handleSave={handleAdd}
+          isEditing={false}
+        />
       </div>
-
-      {/* Modal de Visualização */}
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{selectedComunicado?.title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>{selectedComunicado?.content}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Fechar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Modal de Edição */}
-      <Modal show={openEdit} onHide={handleCloseEdit}>
-        <Modal.Header closeButton>
-          <Modal.Title>Editar Comunicado</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
-            <div className="form-group">
-              <label htmlFor="title">Título</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                value={editedComunicado.title}
-                onChange={(e) => setEditedComunicado({ ...editedComunicado, title: e.target.value })}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="content">Conteúdo</label>
-              <textarea
-                className="form-control"
-                id="content"
-                value={editedComunicado.content}
-                onChange={(e) => setEditedComunicado({ ...editedComunicado, content: e.target.value })}
-              />
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseEdit}>
-            Cancelar
-          </Button>
-          <Button variant="primary" onClick={handleSave}>
-            Salvar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Modal de Adição */}
-      <Modal show={openAdd} onHide={handleCloseAdd}>
-        <Modal.Header closeButton>
-          <Modal.Title>Adicionar Comunicado</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
-            <div className="form-group">
-              <label htmlFor="newTitle">Título</label>
-              <input
-                type="text"
-                className="form-control"
-                id="newTitle"
-                value={newComunicado.title}
-                onChange={(e) => setNewComunicado({ ...newComunicado, title: e.target.value })}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="newContent">Conteúdo</label>
-              <textarea
-                className="form-control"
-                id="newContent"
-                value={newComunicado.content}
-                onChange={(e) => setNewComunicado({ ...newComunicado, content: e.target.value })}
-              />
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseAdd}>
-            Cancelar
-          </Button>
-          <Button variant="primary" onClick={handleAdd}>
-            Adicionar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
     </div>
   );
 };
