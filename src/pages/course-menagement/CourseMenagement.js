@@ -94,9 +94,8 @@ function CourseManagement() {
     setIsEditing(false);
   };
 
-  // Função para exportar o PDF
   const handleExportPDF = () => {
-    const element = document.getElementById('course-report');  // Elemento a ser exportado
+    const element = document.getElementById('course-report');
     const opt = {
       margin: 0.5,
       filename: 'disciplinas.pdf',
@@ -132,7 +131,7 @@ function CourseManagement() {
               Excluir
             </button>
           </div>
-          <button className="btn btn-outline-secondary ">Relatório</button>
+          <button className="btn btn-outline-secondary">Relatório</button>
         </div>
 
         <div className='row mt-3'>
@@ -158,7 +157,6 @@ function CourseManagement() {
           </div>
         </div>
 
-        {/* Conteúdo das Disciplinas */}
         <div className="row mt-4">
           {filteredCourses.map((course) => (
             <div className="col-12 mb-2" key={course.courseId}>
@@ -192,7 +190,6 @@ function CourseManagement() {
           ))}
         </div>
 
-        {/* Tabela Invisível para Relatório */}
         <div id="course-report" style={{ display: 'none' }}>
           <h1>Relatório de Disciplinas</h1>
           <table className="table">
@@ -225,7 +222,7 @@ function CourseManagement() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{isEditing ? 'Editar Disciplina' : 'Adicionar Disciplina'}</h5>
-                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                <button type="button" className="btn-close" onClick={handleCloseModal}></button>
               </div>
               <div className="modal-body">
                 <input
@@ -243,17 +240,22 @@ function CourseManagement() {
                   onChange={(e) => setNewCourse({ ...newCourse, workload: parseInt(e.target.value) })}
                 />
                 <textarea
-                  className="form-control"
-                  placeholder="Ementa"
-                  rows="6"
+                  className="form-control mb-2"
+                  placeholder="Descrição"
                   value={newCourse.description}
                   onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
-                />
+                ></textarea>
               </div>
               <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Fechar</button>
-                <button className="btn btn-primary" onClick={isEditing ? handleEditCourse : handleAddCourse}>
-                  {isEditing ? 'Salvar Alterações' : 'Adicionar'}
+                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
+                  Fechar
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={isEditing ? handleEditCourse : handleAddCourse}
+                >
+                  {isEditing ? 'Salvar' : 'Adicionar'}
                 </button>
               </div>
             </div>

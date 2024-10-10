@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Button, Form, Card } from 'react-bootstrap'; // Adicionei Card aqui
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { Dialog, DialogContent } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import classApi from '../../api';
-import EditIcon from '@mui/icons-material/Edit'; // Importando 'EditIcon'
-import DeleteIcon from '@mui/icons-material/Delete'; // Importando 'DeleteIcon'
-import { Link } from 'react-router-dom';
 import Navbar from '../../components/navBar';
 import html2pdf from 'html2pdf.js';
 import CreateClassModal from '../../components/CreateClassModal';
@@ -22,7 +19,7 @@ const ClassManagement = () => {
     const [selectedClass, setSelectedClass] = useState(null);
 
     const handleClickOpenEdit = (cls) => {
-        setSelectedClass(cls); // Define a turma que será editada
+        setSelectedClass(cls);
         setOpenEdit(true);
     };
 
@@ -32,7 +29,7 @@ const ClassManagement = () => {
 
     const handleCloseEdit = () => {
         setOpenEdit(false);
-        setSelectedClass(null); // Reseta a turma selecionada
+        setSelectedClass(null);
     };
 
     const handleCloseCreate = () => {
@@ -47,7 +44,7 @@ const ClassManagement = () => {
                     cls.classId === selectedClass.classId ? { ...cls, ...updatedClass } : cls
                 ));
             }
-            handleCloseEdit(); // Fecha o modal após salvar
+            handleCloseEdit();
         } catch (error) {
             console.error('Erro ao atualizar turma:', error);
         }
@@ -56,8 +53,8 @@ const ClassManagement = () => {
     const handleCreate = async (newClass) => {
         try {
             const { data } = await classApi.post('/mediotec/turmas/', newClass);
-            setClasses([...classes, data]);  // Adiciona a nova turma à lista
-            handleCloseCreate();  // Fecha o modal de criação
+            setClasses([...classes, data]);
+            handleCloseCreate();
         } catch (error) {
             console.error('Erro ao criar nova turma:', error);
         }
@@ -69,10 +66,27 @@ const ClassManagement = () => {
 
         try {
             await classApi.delete(`/mediotec/turmas/delete/${classId}`);
-            setClasses(classes.filter(cls => cls.classId !== classId));  // Atualiza a lista removendo a turma deletada
+            setClasses(classes.filter(cls => cls.classId !== classId));
         } catch (error) {
             console.error('Erro ao excluir turma:', error);
         }
+    };
+
+    const handleExportPdf = () => {
+        const element = document.getElementById('exportTable');
+        if (!element) {
+            console.error('Elemento exportTable não encontrado.');
+            return;
+        }
+
+        const opt = {
+            margin: 0.5,
+            filename: 'disciplinas.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().from(element).set(opt).save();
     };
 
     useEffect(() => {
@@ -88,16 +102,11 @@ const ClassManagement = () => {
         (selectedType ? cls.year === Number(selectedType) : true)
     );
 
-    const handleExportPdf = () => {
-        const element = document.getElementById('class-list');
-        html2pdf().from(element).save('turmas.pdf');
-    };
-
     return (
         <div>
             <Navbar />
 
-            <Container className='container mt-5'>
+            <Container className='mt-5' id='exportTable'>
                 <h1 className="titulo">Gerenciamento de Turmas</h1>
                 <Form className="mb-4">
                     <Row>
@@ -128,7 +137,7 @@ const ClassManagement = () => {
                             <Button variant="primary" className="btn-success" onClick={handleClickOpenCreate}>Adicionar</Button>
                         </Col>
                     </Row>
-                    <button className="btn btn-outline-secondary mt-4" onClick={handleExportPdf}>Relatório</button>
+                    <Button className="btn btn-roxo mt-4" onClick={handleExportPdf}>Relatório</Button>
                 </Form>
 
                 <Row id="class-list">
@@ -144,14 +153,12 @@ const ClassManagement = () => {
                     ))}
                 </Row>
 
-                {/* Modal de Criação */}
                 <Dialog open={openCreate} onClose={handleCloseCreate}>
                     <DialogContent>
                         <CreateClassModal handleClose={handleCloseCreate} handleCreate={handleCreate} />
                     </DialogContent>
                 </Dialog>
 
-                {/* Modal de Edição */}
                 <Dialog open={openEdit} onClose={handleCloseEdit}>
                     <DialogContent>
                         <EditClassModal classData={selectedClass} handleClose={handleCloseEdit} handleSave={handleSave} />

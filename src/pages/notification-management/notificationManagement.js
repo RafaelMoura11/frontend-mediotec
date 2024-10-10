@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import Navbar from '../../components/navBar';
-import notificationApi from '../../api';  
+import notificationApi from '../../api';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -73,11 +73,11 @@ const NotificationPage = () => {
   const handleDelete = async (comunicadoId) => {
     try {
       await notificationApi.delete(`/mediotec/notificacoes/notification/${comunicadoId}`);
-      
+
       const updatedDataSource = dataSource.filter(
         (comunicado) => comunicado.announcementId !== comunicadoId
       );
-      
+
       setDataSource(updatedDataSource);
     } catch (error) {
       console.error('Erro ao deletar o comunicado:', error);
@@ -132,7 +132,7 @@ const NotificationPage = () => {
     <main>
       <Navbar />
       <div className="notification-management-container">
-        <h1 className="notification-management-title">Gerenciamento de Notificações</h1>
+        <h1 className="notification-management-title">Gerenciamento de Comunicações</h1>
 
         {/* Botão para exportar PDF e adicionar nova notificação */}
         <div className="d-flex justify-content-end mb-4">
@@ -151,7 +151,7 @@ const NotificationPage = () => {
                 <div key={comunicado.announcementId} className="notification-item">
                   {/* Título do comunicado */}
                   <h3 className="text-uppercase">{comunicado.title}</h3>
-                  
+
                   {/* Conteúdo e Botões */}
                   <div className="d-flex flex-column">
                     <div className="d-flex justify-content-between mb-2">
@@ -166,10 +166,13 @@ const NotificationPage = () => {
                       </div>
                     </div>
                     {/* Botão de "Ler Mais" ocupando a largura total */}
-                    <Button className="btn btn-purple w-100" onClick={() => handleShowModal(comunicado)}>
-                      Ler Mais
-                    </Button>
-                  </div>
+                    <button
+                      className='btn text-white text-uppercase'
+                      style={{ backgroundColor: '#7326BF' }}
+                      onClick={() => handleShowModal(comunicado)}
+                    >
+                      Ler mais
+                    </button>                  </div>
                 </div>
               ))
             ) : (
