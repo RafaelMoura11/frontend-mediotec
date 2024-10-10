@@ -131,8 +131,11 @@ const NotificationPage = () => {
   return (
     <main>
       <Navbar />
+      <div className='container mt-5'>
+
+      
       <div className="notification-management-container">
-        <h1 className="notification-management-title">Gerenciamento de Comunicações</h1>
+        <h1 className="notification-management-title titulo">Gerenciamento de Comunicações</h1>
 
         {/* Botão para exportar PDF e adicionar nova notificação */}
         <div className="d-flex justify-content-end mb-4">
@@ -272,6 +275,7 @@ const NotificationPage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      </div>
     </main>
   );
 };
