@@ -725,3 +725,9 @@ thead {
   justify-content: space-between;
   display: flex;
 }
+
+/* Estilo para o tela de comunicados */
+
+.botao-roxo-comunicados{
+  background-color:  #7326BF;
+}

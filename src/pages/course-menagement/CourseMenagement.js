@@ -4,7 +4,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import html2pdf from 'html2pdf.js';
 import { useNavigate } from 'react-router-dom';
 import courseApi from '../../api';
-
 import Navbar from '../../components/navBar';
 
 function CourseManagement() {
@@ -49,7 +48,7 @@ function CourseManagement() {
 
   const handleCheckboxChange = (courseId) => {
     setSelectedRows((prev) =>
-      prev.includes(courseId) ? prev.filter((id) => id !== courseId) : [...prev, courseId]
+      prev.includes(courseId) ? prev.filter(id => id !== courseId) : [...prev, courseId]
     );
   };
 
@@ -94,9 +93,8 @@ function CourseManagement() {
     setIsEditing(false);
   };
 
-  // Função para exportar o PDF
   const handleExportPDF = () => {
-    const element = document.getElementById('course-report');  // Elemento a ser exportado
+    const element = document.getElementById('exportTable');
     const opt = {
       margin: 0.5,
       filename: 'disciplinas.pdf',
@@ -110,14 +108,20 @@ function CourseManagement() {
   const filteredCourses = dataSource
     .filter(course => course.courseName.toLowerCase().includes(searchTerm.toLowerCase()))
     .sort((a, b) => {
-      if (sortOption === 'alphabetic') return a.courseName.localeCompare(b.courseName);
-      if (sortOption === 'mais_novo') return new Date(b.createdAt) - new Date(a.createdAt);
-      if (sortOption === 'mais_antigo') return new Date(a.createdAt) - new Date(b.createdAt);
-      return 0;
+      switch (sortOption) {
+        case 'alphabetic':
+          return a.courseName.localeCompare(b.courseName);
+        case 'mais_novo':
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        case 'mais_antigo':
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        default:
+          return 0;
+      }
     });
 
   return (
-    <main>
+    <main id='exportTable'>
       <Navbar />
 
       <div className='container mt-5'>
@@ -132,7 +136,7 @@ function CourseManagement() {
               Excluir
             </button>
           </div>
-          <button className="btn btn-outline-secondary ">Relatório</button>
+          <button className="btn btn-outline-secondary" onClick={handleExportPDF}>Relatório</button>
         </div>
 
         <div className='row mt-3'>
@@ -151,48 +155,75 @@ function CourseManagement() {
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
             >
-              <option value="alphabetic">A-Z</option>
+              <option value="alphabetic">Todo</option>
               <option value="mais_novo">Mais Novo</option>
               <option value="mais_antigo">Mais Antigo</option>
             </select>
           </div>
         </div>
 
-        {/* Conteúdo das Disciplinas */}
         <div className="row mt-4">
-          {filteredCourses.map((course) => (
-            <div className="col-12 mb-2" key={course.courseId}>
-              <div className="border rounded p-3 course-card w-100">
-                <div className="d-flex align-items-center">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>
                   <input
                     type="checkbox"
-                    checked={selectedRows.includes(course.courseId)}
-                    onChange={() => handleCheckboxChange(course.courseId)}
-                    className="me-3 checkbox"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows(filteredCourses.map(course => course.courseId));
+                      } else {
+                        setSelectedRows([]);
+                      }
+                    }}
+                    checked={selectedRows.length === filteredCourses.length}
                   />
-                  <div className="w-100">
-                    <strong className="d-block">
-                      {course.courseName} | {course.classes[0]?.class.className} - {course.classes[0]?.class.year || 'Ano não definido'}
-                    </strong>
-                    <p className="mb-0 text-muted">
-                      Professor: {course.classes[0]?.class.users[0]?.user.name || 'Sem professor'}
-                    </p>
-                  </div>
-                </div>
-                <div className="d-flex mt-2">
-                  <button className="btn btn-outline-secondary me-2" onClick={() => handleViewDetails(course)}>
-                    <i className="bi bi-person-add"></i> Adicionar Professor e Turma
-                  </button>
-                  <button className="btn btn-outline-primary" onClick={() => handleEditClick(course)}>
-                    <i className="bi bi-pencil-square"></i> Editar
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+                </th>
+                <th>Nome da Disciplina</th>
+                <th>Carga Horária</th>
+                <th>Professor</th>
+                <th>Turma</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredCourses.map((course) => (
+                <tr key={course.courseId}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(course.courseId)}
+                      onChange={() => handleCheckboxChange(course.courseId)}
+                    />
+                  </td>
+                  <td>{course.courseName}</td>
+                  <td>{course.workload}</td>
+                  <td>
+                    {course.classes[0]?.class.users.length > 0
+                      ? course.classes[0].class.users.map(user => user.user.name).join(', ')
+                      : 'Sem professor'}
+                  </td>
+                  <td>
+                    {course.classes.length > 0 && course.classes[0]?.class.users.length > 0
+                      ? course.classes.map(classItem => `${classItem.class.className} - ${classItem.class.year || 'Ano não definido'}`).join(', ')
+                      : 'Sem turma'}
+                  </td>
+                  <td>
+                    <div className="d-flex">
+                      <button className="btn btn-outline-secondary me-2" onClick={() => handleViewDetails(course)}>
+                        <i className="bi bi-person-add"></i> Adicionar Professor e Turma
+                      </button>
+                      <button className="btn btn-outline-primary" onClick={() => handleEditClick(course)}>
+                        <i className="bi bi-pencil-square"></i> Editar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
-        {/* Tabela Invisível para Relatório */}
         <div id="course-report" style={{ display: 'none' }}>
           <h1>Relatório de Disciplinas</h1>
           <table className="table">
@@ -218,7 +249,6 @@ function CourseManagement() {
         </div>
 
       </div>
-
       {showModal && (
         <div className="modal show" style={{ display: 'block' }}>
           <div className="modal-dialog modal-lg">

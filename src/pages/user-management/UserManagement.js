@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+
 import {
   FormControl,
   InputLabel,
@@ -70,7 +70,6 @@ function UserManagement() {
     }
   }
 
-
   const handleClickOpen = (user) => {
     setUserToUpdate(user)
     setOpen(true);
@@ -95,11 +94,38 @@ function UserManagement() {
     setSelectedRows([]);
   };
 
-  const exportarUsuarios = () => {
-    const element = document.getElementById('user-table');
+  // Função para exportar relatório em PDF
+  const exportarRelatorio = () => {
+    const element = document.createElement('div');
+    element.innerHTML = `
+      <h2>Relatório de Usuários</h2>
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th style="border: 1px solid black; padding: 8px;">Nome</th>
+            <th style="border: 1px solid black; padding: 8px;">Email</th>
+            <th style="border: 1px solid black; padding: 8px;">Função</th>
+            <th style="border: 1px solid black; padding: 8px;">Telefone</th>
+            <th style="border: 1px solid black; padding: 8px;">Data de Cadastro</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filteredUsers.map(user => `
+            <tr>
+              <td style="border: 1px solid black; padding: 8px;">${user.name}</td>
+              <td style="border: 1px solid black; padding: 8px;">${user.email}</td>
+              <td style="border: 1px solid black; padding: 8px;">${getRoleName(user.role)}</td>
+              <td style="border: 1px solid black; padding: 8px;">${formatPhone(user.phone)}</td>
+              <td style="border: 1px solid black; padding: 8px;">${formatDate(user.createdAt)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+    
     const opt = {
       margin: 0.5,
-      filename: 'usuarios_exportados.pdf',
+      filename: 'relatorio_usuarios.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -146,11 +172,9 @@ function UserManagement() {
         <h1 className='titulo'>Gerenciamento de Usuários</h1>
 
         <div className="button-row">
-
-
-            <button type="button" className="btn btn-success me-2" onClick={() => handleClickOpen(null)}>Adicionar Usuário</button>
-            <button type="button" className="btn btn-danger me-2" onClick={excluirUsuarios}>Excluir</button>
-            <button type="button" className="btn btn-outline-secondary" onClick={exportarUsuarios}>Exportar</button>
+          <button type="button" className="btn btn-success me-2" onClick={() => handleClickOpen(null)}>Adicionar Usuário</button>
+          <button type="button" className="btn btn-danger me-2" onClick={excluirUsuarios}>Excluir</button>
+          <button type="button" className="btn btn-outline-secondary" onClick={exportarRelatorio}>Relatório</button>
         </div>
 
         <div className='container-table'>
@@ -223,7 +247,7 @@ function UserManagement() {
                   <p><strong>Nome:</strong> {selectedUser.name}</p>
                   <p><strong>Email:</strong> {selectedUser.email}</p>
                   <p><strong>Telefone:</strong> {formatPhone(selectedUser.phone)}</p>
-                  <p><strong>Data de Contratação:</strong> {formatDate(selectedUser.createdAt)}</p>
+                  <p><strong>Data de Cadastro:</strong> {formatDate(selectedUser.createdAt)}</p>
                 </div>
               )}
               <Button onClick={handleModalClose} color="primary">Fechar</Button>
@@ -237,7 +261,7 @@ function UserManagement() {
           </Dialog>
         </div>
       </div>
-      <Link to="/user-profile">PERFIL</Link>
+
     </main>
   );
 }
