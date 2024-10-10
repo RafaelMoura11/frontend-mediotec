@@ -94,8 +94,9 @@ function CourseManagement() {
     setIsEditing(false);
   };
 
+  // Função para exportar o PDF
   const handleExportPDF = () => {
-    const element = document.getElementById('course-report');
+    const element = document.getElementById('exportTable');
     const opt = {
       margin: 0.5,
       filename: 'disciplinas.pdf',
@@ -103,8 +104,7 @@ function CourseManagement() {
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
-    html2pdf().from(element).set(opt).save();
-  };
+    html2pdf().from(element).set(opt).save();}
 
   const filteredCourses = dataSource
     .filter(course => course.courseName.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -116,7 +116,7 @@ function CourseManagement() {
     });
 
   return (
-    <main>
+    <main id='exportTable'>
       <Navbar />
 
       <div className='container mt-5'>
@@ -131,7 +131,7 @@ function CourseManagement() {
               Excluir
             </button>
           </div>
-          <button className="btn btn-outline-secondary">Relatório</button>
+          <button className="btn btn-outline-secondary " onClick={handleExportPDF}>Relatório</button>
         </div>
 
         <div className='row mt-3'>
