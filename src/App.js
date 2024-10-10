@@ -11,7 +11,7 @@ import CourseManagement from './pages/course-menagement/CourseMenagement';
 import DisciplinaPage from './pages/course-menagement/courseDetails';
 import ClassDetails from './pages/class-details/class-details';
 import NotificationPage from './pages/notification-management/notificationManagement';
-import ConceptTable from './pages/concepts-management/ConceptsManagement';
+import ConceptTable from './pages/concepts-management/ConceptsManagement'
 
 
 function App() {

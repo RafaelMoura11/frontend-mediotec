@@ -4,9 +4,11 @@ import { Dialog, DialogContent } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import classApi from '../../api';
-import html2pdf from 'html2pdf.js';
-
+import EditIcon from '@mui/icons-material/Edit'; // Importando 'EditIcon'
+import DeleteIcon from '@mui/icons-material/Delete'; // Importando 'DeleteIcon'
+import { Link } from 'react-router-dom';
 import Navbar from '../../components/navBar';
+import html2pdf from 'html2pdf.js';
 import CreateClassModal from '../../components/CreateClassModal';
 import EditClassModal from '../../components/EditClassModal';
 import ClassCard from '../../components/ClassCard';

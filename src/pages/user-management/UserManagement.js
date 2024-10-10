@@ -31,6 +31,7 @@ function UserManagement() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   const [open, setOpen] = useState(false);
+  const [userToUpdate, setUserToUpdate] = useState(null);
 
   // Novo estado para armazenar o usuário selecionado para o modal
   const [selectedUser, setSelectedUser] = useState(null);
@@ -70,7 +71,8 @@ function UserManagement() {
   }
 
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (user) => {
+    setUserToUpdate(user)
     setOpen(true);
   };
 
@@ -146,8 +148,7 @@ function UserManagement() {
         <div className="button-row">
 
 
-            <button type="button" className="btn btn-success me-2" onClick={handleClickOpen}>Adicionar Usuário</button>
-            <button className='btn btn-primary me-2' disabled={!(selectedRows.length === 1)} variant="outlined" onClick={handleClickOpen}>Atualizar</button>
+            <button type="button" className="btn btn-success me-2" onClick={() => handleClickOpen(null)}>Adicionar Usuário</button>
             <button type="button" className="btn btn-danger me-2" onClick={excluirUsuarios}>Excluir</button>
             <button type="button" className="btn btn-outline-secondary" onClick={exportarUsuarios}>Exportar</button>
         </div>
@@ -204,7 +205,7 @@ function UserManagement() {
                     <button className="btn btn-outline-secondary me-2" onClick={() => handleUserClick(user)}>
                       <i className="bi bi-eye"></i> Ver Detalhes
                     </button>
-                    <button className="btn btn-outline-primary" onClick={handleClickOpen}>
+                    <button className="btn btn-outline-primary" onClick={() => handleClickOpen(user)}>
                       <i className="bi bi-pencil-square"></i> Editar
                     </button>
                   </div>
@@ -231,7 +232,7 @@ function UserManagement() {
 
           <Dialog open={open} fullWidth>
             <DialogContent>
-              <CreatePage handleClose={handleClose} user={selectedRows[0]} />
+              <CreatePage handleClose={handleClose} user={userToUpdate} />
             </DialogContent>
           </Dialog>
         </div>
