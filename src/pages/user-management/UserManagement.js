@@ -232,7 +232,7 @@ function UserManagement() {
 
           <Dialog open={open} fullWidth>
             <DialogContent>
-              <CreatePage handleClose={handleClose} user={userToUpdate} />
+              <CreatePage handleClose={handleClose} user={userToUpdate} setDataSource={setDataSource} />
             </DialogContent>
           </Dialog>
         </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import usersApi from '../api';
 
 
-export default function CreateUser({ handleClose, user }) {
+export default function CreateUser({ handleClose, user, setDataSource }) {
     const [formData, setFormData] = useState({
         name: '',
         role: '',
@@ -50,8 +50,9 @@ export default function CreateUser({ handleClose, user }) {
                 const response = await usersApi.post('/mediotec/usuarios', reqBody)
                 console.log('Usuário criado com sucesso:', response.data);
             }
-
             handleClose();
+            const { data } = await usersApi.get('/mediotec/usuarios/');
+            setDataSource(data);
         } catch (error) {
             console.error(formData);
         }
