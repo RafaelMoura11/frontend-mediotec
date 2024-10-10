@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import { Dialog, DialogContent } from '@mui/material';
+import { Container, Row, Col, Button, Form, Card } from 'react-bootstrap'; // Importando 'Card' do React-Bootstrap
+import { Dialog, DialogContent, IconButton } from '@mui/material'; // Importando 'IconButton' e 'Dialog' do Material-UI
+import EditIcon from '@mui/icons-material/Edit'; // Importando 'EditIcon'
+import DeleteIcon from '@mui/icons-material/Delete'; // Importando 'DeleteIcon'
 import classApi from '../../api';
+import { Link } from 'react-router-dom';
 import Navbar from '../../components/navBar';
 import html2pdf from 'html2pdf.js';
 import CreateClassModal from '../../components/CreateClassModal';
 import EditClassModal from '../../components/EditClassModal';
-
 const ClassManagement = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedType, setSelectedType] = useState('');

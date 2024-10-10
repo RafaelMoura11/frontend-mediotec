@@ -136,7 +136,7 @@ function CourseManagement() {
               Excluir
             </button>
           </div>
-          <button className="btn btn-outline-secondary">Relatório</button>
+          <button className="btn btn-outline-secondary ">Relatório</button>
         </div>
 
         <div className='row mt-3'>
